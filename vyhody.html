@@ -1,8 +1,11 @@
-<!DOCTYPE html>
+
+# Create the updated vyhody.html with responsive design matching index.html
+vyhody_html = '''<!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#2563eb">
     <title>Výhody — Doupě géniů</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -24,6 +27,7 @@
 
         html {
             font-size: 16px;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -32,6 +36,7 @@
             color: var(--text);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
         }
 
@@ -46,11 +51,12 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(250, 250, 250, 0.95);
+            background: rgba(250, 250, 250, 0.98);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             z-index: 100;
-            padding: 1rem 1.5rem;
+            padding: 0.75rem 1rem;
         }
 
         .nav-container {
@@ -59,43 +65,110 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 0.5rem;
         }
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             white-space: nowrap;
+            flex-shrink: 0;
+            z-index: 102;
+        }
+
+        .logo span {
+            font-size: 1rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 102;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Mobile Navigation Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(250, 250, 250, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 5rem 2rem 2rem;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         .nav-links {
             display: flex;
+            flex-direction: column;
             gap: 1.5rem;
             list-style: none;
             align-items: center;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .nav-links::-webkit-scrollbar {
-            display: none;
+            margin-bottom: 2rem;
         }
 
         .nav-links a {
             text-decoration: none;
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 1.5rem;
             font-weight: 500;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             position: relative;
-            white-space: nowrap;
-            flex-shrink: 0;
+            padding: 0.5rem 1rem;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -105,39 +178,50 @@
         .nav-links a.active::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
             background: var(--accent);
+            border-radius: 2px;
         }
 
-        .nav-cta {
+        .nav-cta-mobile {
             background: var(--text);
             color: var(--bg);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
+            padding: 1rem 2rem;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 500;
-            transition: all 0.2s;
-            white-space: nowrap;
-            flex-shrink: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
         }
 
-        .nav-cta:hover {
+        .nav-cta-mobile:hover {
             background: var(--accent);
+        }
+
+        /* Desktop Navigation (hidden on mobile) */
+        .desktop-nav {
+            display: none;
+        }
+
+        .nav-cta-desktop {
+            display: none;
         }
 
         /* Page Header */
         .page-header {
-            min-height: 40vh;
+            min-height: auto;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 6rem 1.5rem 3rem;
+            padding: 6rem 1rem 2rem;
+            gap: 0.5rem;
         }
 
         .page-badge {
@@ -151,14 +235,16 @@
             font-size: 0.75rem;
             font-weight: 500;
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .page-header h1 {
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            max-width: 800px;
-            margin-bottom: 1rem;
-            line-height: 1.1;
+            font-size: clamp(1.75rem, 7vw, 3.5rem);
+            max-width: 900px;
+            margin-bottom: 0.5rem;
+            line-height: 1.15;
+            padding: 0 0.5rem;
         }
 
         .page-header h1 span {
@@ -168,28 +254,29 @@
         .page-description {
             max-width: 600px;
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 3vw, 1.15rem);
             line-height: 1.7;
+            padding: 0 0.5rem;
         }
 
         /* Benefits Section */
         .benefits-section {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 1.5rem 4rem;
+            padding: 2rem 1rem 4rem;
         }
 
         .benefits-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .benefit-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 2rem;
+            padding: 1.5rem;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -202,32 +289,32 @@
         }
 
         .benefit-icon {
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
             background: linear-gradient(135deg, var(--accent), #3b82f6);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
         }
 
         .benefit-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
             color: var(--text);
         }
 
         .benefit-card p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.7;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
         .benefit-features {
-            margin-top: 1.25rem;
-            padding-top: 1.25rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
             border-top: 1px solid var(--border);
         }
 
@@ -235,9 +322,9 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         .benefit-feature::before {
@@ -250,17 +337,17 @@
         .cta-section {
             max-width: 800px;
             margin: 0 auto;
-            padding: 4rem 1.5rem;
-            text-align: center;
+            padding: 2rem 1rem 4rem;
         }
 
         .cta-box {
             background: var(--text);
             color: var(--bg);
             border-radius: 24px;
-            padding: 3rem 2rem;
+            padding: 2rem 1.5rem;
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
 
         .cta-box::before {
@@ -275,15 +362,16 @@
         }
 
         .cta-box h2 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            margin-bottom: 1rem;
+            font-size: clamp(1.25rem, 5vw, 2rem);
+            margin-bottom: 0.75rem;
             position: relative;
             z-index: 1;
         }
 
         .cta-box p {
             color: rgba(250, 250, 250, 0.8);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
             position: relative;
             z-index: 1;
         }
@@ -294,25 +382,30 @@
             gap: 0.5rem;
             background: var(--accent);
             color: white;
-            padding: 1rem 2rem;
+            padding: 0.875rem 1.5rem;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.2s;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
             position: relative;
             z-index: 1;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
         }
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
         }
 
         /* Footer */
         footer {
             border-top: 1px solid var(--border);
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
             background: var(--surface);
         }
 
@@ -321,7 +414,7 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1rem;
             text-align: center;
         }
 
@@ -329,7 +422,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .footer-links a {
@@ -338,6 +431,7 @@
             font-size: 0.85rem;
             font-weight: 500;
             transition: color 0.2s;
+            padding: 0.25rem 0.5rem;
         }
 
         .footer-links a:hover {
@@ -346,38 +440,295 @@
 
         .copyright {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
-        @media (min-width: 640px) {
-            .nav-links {
-                gap: 2rem;
+        /* Tablet (768px+) */
+        @media (min-width: 768px) {
+            .menu-toggle {
+                display: none;
             }
 
-            .nav-links a {
+            .nav-overlay {
+                display: none;
+            }
+
+            .desktop-nav {
+                display: flex;
+                gap: 1.5rem;
+                list-style: none;
+                align-items: center;
+            }
+
+            .desktop-nav li {
+                flex-shrink: 0;
+            }
+
+            .desktop-nav a {
+                text-decoration: none;
+                color: var(--text-secondary);
                 font-size: 0.9rem;
+                font-weight: 500;
+                transition: all 0.2s ease;
+                position: relative;
+                white-space: nowrap;
+                padding: 0.25rem 0;
+            }
+
+            .desktop-nav a:hover, .desktop-nav a.active {
+                color: var(--text);
+            }
+
+            .desktop-nav a.active::after {
+                content: '';
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: var(--accent);
+                border-radius: 1px;
+            }
+
+            .nav-cta-desktop {
+                display: inline-flex;
+                background: var(--text);
+                color: var(--bg);
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                text-decoration: none;
+                font-size: 0.85rem;
+                font-weight: 600;
+                transition: all 0.2s ease;
+                white-space: nowrap;
+                flex-shrink: 0;
+                border: none;
+                cursor: pointer;
+            }
+
+            .nav-cta-desktop:hover {
+                background: var(--accent);
+                transform: translateY(-1px);
+            }
+
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .logo span {
+                font-size: 1.25rem;
+            }
+
+            .page-header {
+                padding: 7rem 2rem 3rem;
+                min-height: 50vh;
+            }
+
+            .page-header h1 {
+                font-size: 3rem;
+            }
+
+            .benefits-section {
+                padding: 3rem 1.5rem 5rem;
             }
 
             .benefits-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .benefit-card {
+                padding: 2rem;
+            }
+
+            .benefit-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .benefit-card h3 {
+                font-size: 1.25rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .benefit-card p {
+                font-size: 0.95rem;
+                line-height: 1.7;
+            }
+
+            .benefit-features {
+                margin-top: 1.25rem;
+                padding-top: 1.25rem;
+            }
+
+            .benefit-feature {
+                font-size: 0.85rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .cta-section {
+                padding: 3rem 1.5rem 5rem;
+            }
+
+            .cta-box {
+                padding: 3rem 2rem;
+            }
+
+            .cta-box h2 {
+                font-size: 2rem;
+            }
+
+            .cta-box p {
+                font-size: 1.1rem;
+            }
+
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            footer {
+                padding: 2rem 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+            }
+
+            .footer-links {
+                gap: 1.5rem;
             }
         }
 
+        /* Desktop (1024px+) */
         @media (min-width: 1024px) {
+            nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-container {
+                gap: 2rem;
+            }
+
+            .desktop-nav {
+                gap: 2rem;
+            }
+
+            .desktop-nav a {
+                font-size: 0.95rem;
+            }
+
+            .nav-cta-desktop {
+                padding: 0.625rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            .page-header {
+                padding: 6rem 2rem 4rem;
+            }
+
+            .page-header h1 {
+                font-size: 3.5rem;
+            }
+
             .benefits-grid {
                 grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
             }
+
+            .benefits-section {
+                padding: 4rem 2rem 6rem;
+            }
+
+            .footer-links {
+                gap: 2rem;
+            }
+        }
+
+        /* Large Desktop (1440px+) */
+        @media (min-width: 1440px) {
+            .page-header h1 {
+                font-size: 4rem;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .desktop-nav a:hover {
+                color: var(--text-secondary);
+            }
+
+            .desktop-nav a:active {
+                color: var(--text);
+            }
+
+            .benefit-card:hover {
+                transform: none;
+                box-shadow: none;
+                border-color: var(--border);
+            }
+
+            .benefit-card:active {
+                transform: scale(0.98);
+            }
+
+            .cta-button:hover {
+                transform: none;
+            }
+
+            .cta-button:active {
+                transform: scale(0.98);
+            }
+
+            .nav-cta-desktop:hover {
+                transform: none;
+            }
+        }
+
+        /* Reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .benefit-card, .cta-button, .nav-cta-desktop, .menu-toggle span {
+                transition: none;
+            }
+        }
+
+        /* Prevent scroll when menu is open */
+        body.menu-open {
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
     <nav>
         <div class="nav-container">
+            <!-- Logo - internal link, same tab -->
             <a href="index.html" class="logo">
                 <span>◆</span>
                 Doupě géniů
             </a>
-            <ul class="nav-links">
+
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Otevřít menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Desktop Navigation -->
+            <ul class="desktop-nav">
                 <a href="index.html">Domů</a>
                 <a href="oprojektu.html">O projektu</a>
                 <a href="vyhody.html" class="active">Výhody</a>
@@ -385,9 +736,25 @@
                 <a href="pravidla.html">Pravidla</a>
                 <a href="kontakt.html">Kontakt</a>
             </ul>
-            <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a>
+            <!-- Desktop Discord CTA - external link, new tab -->
+            <a href="https://discord.gg/fUKmXtpaE" class="nav-cta-desktop" target="_blank" rel="noopener noreferrer">Připojit se</a>
         </div>
     </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay">
+        <ul class="nav-links">
+            <!-- All internal links - same tab -->
+            <a href="index.html">Domů</a>
+            <a href="oprojektu.html">O projektu</a>
+            <a href="vyhody.html" class="active">Výhody</a>
+            <a href="tym.html">Tým</a>
+            <a href="pravidla.html">Pravidla</a>
+            <a href="kontakt.html">Kontakt</a>
+        </ul>
+        <!-- Mobile Discord CTA - external link, new tab -->
+        <a href="https://discord.gg/fUKmXtpaE" class="nav-cta-mobile" target="_blank" rel="noopener noreferrer">Připojit se na Discord</a>
+    </div>
 
     <main>
         <div class="page-header">
@@ -476,9 +843,9 @@
             <div class="cta-box">
                 <h2>Připoj se ještě dnes</h2>
                 <p>Staň se součástí rostoucí komunity studentů, kteří se navzájem podporují a inspirují.</p>
-                <a href="https://discord.gg/fUKmXtpaE" class="cta-button" target="_blank">
+                <a href="https://discord.gg/fUKmXtpaE" class="cta-button" target="_blank" rel="noopener noreferrer">
                     Vstoupit na Discord
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                         <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </a>
@@ -489,14 +856,76 @@
     <footer>
         <div class="footer-content">
             <div class="footer-links">
+                <!-- All internal links - same tab -->
                 <a href="index.html">Domů</a>
                 <a href="oprojektu.html">O projektu</a>
                 <a href="pravidla.html">Pravidla</a>
                 <a href="kontakt.html">Kontakt</a>
-                <a href="https://discord.gg/fUKmXtpaE" target="_blank">Discord</a>
+                <!-- External link - new tab -->
+                <a href="https://discord.gg/fUKmXtpaE" target="_blank" rel="noopener noreferrer">Discord</a>
             </div>
             <div class="copyright">© 2026 Doupě géniů</div>
         </div>
     </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navOverlay = document.getElementById('navOverlay');
+        const body = document.body;
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            body.classList.toggle('menu-open');
+
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        // Close menu when clicking on a link
+        const navLinks = navOverlay.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Close menu when clicking outside
+        navOverlay.addEventListener('click', (e) => {
+            if (e.target === navOverlay) {
+                menuToggle.classList.remove('active');
+                navOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navOverlay.classList.contains('active')) {
+                menuToggle.classList.remove('active');
+                navOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    </script>
 </body>
-</html>
+</html>'''
+
+# Save to output directory
+with open('/mnt/kimi/output/vyhody.html', 'w', encoding='utf-8') as f:
+    f.write(vyhody_html)
+
+print("vyhody.html byl úspěšně vytvořen s responzivním designem!")
+print("\nKlíčové změny:")
+print("- Přidán mobilní hamburger menu (stejné jako index.html)")
+print("- Responzivní navigace pro mobil (768px+)")
+print("- Responzivní grid: 1 sloupec (mobil) → 2 sloupce (tablet) → 3 sloupce (desktop)")
+print("- Přizpůsobené velikosti písma a paddingy pro všechna zařízení")
+print("- Touch optimalizace a reduced motion support")
+print("- Stejný footer layout jako index.html")
