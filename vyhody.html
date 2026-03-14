@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O projektu — Doupě géniů</title>
+    <title>Výhody — Doupě géniů</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -14,20 +14,16 @@
             --accent: #2563eb;
             --border: #e5e5e5;
             --surface: #ffffff;
-            --owner: #f59e0b;
-            --owner-light: #fef3c7;
-            --admin: #7c3aed;
-            --admin-light: #ede9fe;
-            --mod: #059669;
-            --mod-light: #d1fae5;
-            --dev: #ec4899;
-            --dev-light: #fce7f3;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
         }
 
         body {
@@ -39,7 +35,7 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4 {
+        h1, h2, h3 {
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 600;
             letter-spacing: -0.02em;
@@ -74,6 +70,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            white-space: nowrap;
         }
 
         .nav-links {
@@ -82,6 +79,7 @@
             list-style: none;
             align-items: center;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
 
@@ -95,7 +93,9 @@
             font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
+            position: relative;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -122,373 +122,191 @@
             font-weight: 500;
             transition: all 0.2s;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-cta:hover {
             background: var(--accent);
         }
 
-        /* Content */
-        main {
-            padding-top: 70px;
-        }
-
-        .content-section {
-            padding: 2rem 1rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            margin-bottom: 2rem;
+        /* Page Header */
+        .page-header {
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 6rem 1.5rem 3rem;
         }
 
-        .section-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent);
-            margin-bottom: 0.75rem;
-            display: block;
+        .page-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
         }
 
-        .section-title {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-        }
-
-        /* Intro */
-        .about-intro {
+        .page-header h1 {
+            font-size: clamp(2rem, 6vw, 3.5rem);
             max-width: 800px;
-            margin: 0 auto 3rem;
-            text-align: center;
+            margin-bottom: 1rem;
+            line-height: 1.1;
         }
 
-        .lead-text {
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-        }
-
-        /* Blocks */
-        .about-block {
-            margin-bottom: 3rem;
-        }
-
-        .block-title {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid var(--border);
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 1.5rem;
-            border-left: 2px solid var(--border);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -1.5rem;
-            top: 0.25rem;
-            width: 12px;
-            height: 12px;
-            background: var(--accent);
-            border-radius: 50%;
-            transform: translateX(-5px);
-        }
-
-        .timeline-date {
-            font-size: 0.85rem;
-            font-weight: 600;
+        .page-header h1 span {
             color: var(--accent);
-            margin-bottom: 0.25rem;
         }
 
-        .timeline-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-content p {
+        .page-description {
+            max-width: 600px;
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            line-height: 1.7;
         }
 
-        /* Grid */
-        .about-grid {
+        /* Benefits Section */
+        .benefits-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        .benefits-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
-        @media (min-width: 640px) {
-            .about-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .about-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            position: relative;
-        }
-
-        .card-number {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent);
-            opacity: 0.2;
-        }
-
-        .about-card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .about-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        @media (min-width: 640px) {
-            .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .stat-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        /* Features detailed */
-        .features-detailed {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .feature-detailed {
-            display: flex;
-            gap: 1rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.25rem;
-        }
-
-        .feature-icon-large {
-            width: 48px;
-            height: 48px;
-            background: var(--bg);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .feature-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .feature-content p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Audience */
-        .audience-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        @media (min-width: 640px) {
-            .audience-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .audience-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .audience-icon {
-            font-size: 2rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .audience-card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .audience-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Values */
-        .values-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        @media (min-width: 640px) {
-            .values-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .value-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-
-        .value-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--bg);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .value-card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .value-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Future */
-        .future-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .future-item {
-            display: flex;
-            gap: 1rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.25rem;
-        }
-
-        .future-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--bg);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .future-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .future-content p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* CTA */
-        .about-cta {
-            text-align: center;
-            padding: 2rem;
+        .benefit-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 16px;
-            margin-top: 2rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .cta-text {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
+        .benefit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+
+        .benefit-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent), #3b82f6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 1.5rem;
+            font-size: 1.5rem;
         }
 
-        .hero-cta {
+        .benefit-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .benefit-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .benefit-features {
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .benefit-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-feature::before {
+            content: '→';
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            text-align: center;
+        }
+
+        .cta-box {
+            background: var(--text);
+            color: var(--bg);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+
+        .cta-box h2 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-box p {
+            color: rgba(250, 250, 250, 0.8);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             background: var(--accent);
             color: white;
-            padding: 0.875rem 1.5rem;
+            padding: 1rem 2rem;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
         }
 
         /* Footer */
@@ -519,6 +337,11 @@
             color: var(--text-secondary);
             font-size: 0.85rem;
             font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text);
         }
 
         .copyright {
@@ -535,22 +358,18 @@
                 font-size: 0.9rem;
             }
 
-            .content-section {
-                padding: 3rem 2rem;
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
+        }
 
-            .footer-content {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                text-align: left;
-            }
-
-            .footer-links {
-                gap: 2rem;
+        @media (min-width: 1024px) {
+            .benefits-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <nav>
@@ -561,8 +380,8 @@
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Domů</a></li>
-                <li><a href="oprojektu.html" class="active">O projektu</a></li>
-                <li><a href="vyhody.html">Výhody</a></li>
+                <li><a href="oprojektu.html">O projektu</a></li>
+                <li><a href="vyhody.html" class="active">Výhody</a></li>
                 <li><a href="tym.html">Tým</a></li>
                 <li><a href="pravidla.html">Pravidla</a></li>
                 <li><a href="kontakt.html">Kontakt</a></li>
@@ -572,287 +391,100 @@
     </nav>
 
     <main>
-        <div class="content-section">
-            <div class="section-header">
-                <span class="section-label">O projektu</span>
-                <h2 class="section-title">Vzdělávání je silnější ve společenství</h2>
-            </div>
+        <div class="page-header">
+            <div class="page-badge">Proč se připojit</div>
+            <h1>
+                Výhody členství v<br>
+                <span>Doupěti géniů</span>
+            </h1>
+            <p class="page-description">
+                Objev všechny benefity, které získáš při vstupu do naší komunity. 
+                Společně tvoříme prostředí, kde každý student může růst a uspět.
+            </p>
+        </div>
 
-            <div class="about-intro">
-                <p class="lead-text">
-                    Doupě géniů vzniklo v roce 2024 z jednoduché myšlenky: studenti si navzájem mohou pomáhat 
-                    efektivněji než jakákoli učebnice. Co začalo jako malá skupina spolužáků, dnes roste 
-                    do největší studentské komunity v České republice.
-                </p>
-            </div>
+        <section class="benefits-section">
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📚</div>
+                    <h3>Pomoc se studiem</h3>
+                    <p>Získáš přístup k databázi studijních materiálů, poznámek a zkušeností od studentů z celé republiky.</p>
+                    <div class="benefit-features">
+                        <div class="benefit-feature">Materiály k maturitě</div>
+                        <div class="benefit-feature">Poznámky z přednášek</div>
+                        <div class="benefit-feature">Vysvětlení složitých témat</div>
+                    </div>
+                </div>
 
-            <div class="about-block">
-                <h3 class="block-title">📖 Naše cesta</h3>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-date">Září 2024</div>
-                        <div class="timeline-content">
-                            <h4>Založení projektu</h4>
-                            <p>Petr zakládá první Discord server pro svou třídu. Rychle si uvědomuje potenciál 
-                            a rozhoduje se myšlenku rozšířit.</p>
-                        </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🤝</div>
+                    <h3>Spolupráce na projektech</h3>
+                    <p>Najdi spolužáky nebo parťáky na týmové projekty, soutěže a vědecké práce napříč obory.</p>
+                    <div class="benefit-features">
+                        <div class="benefit-feature">Nalezení týmových spoluhráčů</div>
+                        <div class="benefit-feature">Sdílení nápadů a zkušeností</div>
+                        <div class="benefit-feature">Podpora při realizaci</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Listopad 2024</div>
-                        <div class="timeline-content">
-                            <h4>První spolupráce</h4>
-                            <p>Přichází první školy a učitelé, kteří chtějí využít platformu pro své studenty. 
-                            Komunita roste na 500 členů.</p>
-                        </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌐</div>
+                    <h3>Síť kontaktů</h3>
+                    <p>Propoj se se studenty z různých škol, oborů a měst. Rozšiř své obzory a poznej nové přátele.</p>
+                    <div class="benefit-features">
+                        <div class="benefit-feature">Studenti z celé ČR</div>
+                        <div class="benefit-feature">Různé obory studia</div>
+                        <div class="benefit-feature">Budoucí spolupráce</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Leden 2025</div>
-                        <div class="timeline-content">
-                            <h4>Rozšíření týmu</h4>
-                            <p>Přicházejí první administrátoři a moderátoři. Server se profesionalizuje 
-                            a přidávají se strukturované kanály pro jednotlivé předměty.</p>
-                        </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Kariérní příležitosti</h3>
+                    <p>Sdílíme nabídky stáží, praxí a brigád vhodných pro studenty. Rozvíjej své dovednosti již během studia.</p>
+                    <div class="benefit-features">
+                        <div class="benefit-feature">Stáže a praxe</div>
+                        <div class="benefit-feature">Brigády pro studenty</div>
+                        <div class="benefit-feature">Kariérní poradenství</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Březen 2026</div>
-                        <div class="timeline-content">
-                            <h4>Současnost</h4>
-                            <p>Komunita čítá přes 2 000 aktivních členů ze 40+ škol. Denně probíhá stovky 
-                            diskuzí, pomoc s úkoly a spolupráce na projektech.</p>
-                        </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧠</div>
+                    <h3>Osobní rozvoj</h3>
+                    <p>Účastni se workshopů, diskuzí a mentoringu. Rozvíjej měkké dovednosti a připrav se na budoucnost.</p>
+                    <div class="benefit-features">
+                        <div class="benefit-feature">Workshopy a webináře</div>
+                        <div class="benefit-feature">Mentoring od starších studentů</div>
+                        <div class="benefit-feature">Tipy na produktivitu</div>
+                    </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛡️</div>
+                    <h3>Bezpečné prostředí</h3>
+                    <p>Komunita moderovaná studenty pro studenty. Respekt a podpora jsou naší prioritou.</p>
+                    <div class="benefit-features">
+                        <div class="benefit-feature">Aktivní moderace</div>
+                        <div class="benefit-feature">Přátelská atmosféra</div>
+                        <div class="benefit-feature">Řešení konfliktů</div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="about-block">
-                <h3 class="block-title">⚙️ Jak to funguje</h3>
-                <div class="about-grid">
-                    <div class="about-card">
-                        <div class="card-number">01</div>
-                        <h4>Připoj se</h4>
-                        <p>Založ si Discord účet a připoj se na náš server jedním kliknutím. 
-                        Registrace trvá méně než minutu.</p>
-                    </div>
-                    <div class="about-card">
-                        <div class="card-number">02</div>
-                        <h4>Vyber si kanál</h4>
-                        <p>Najdi si kanál podle svého oboru, předmětu nebo zájmu. 
-                        Od matematiky po umění, od maturit po vysoké školy.</p>
-                    </div>
-                    <div class="about-card">
-                        <div class="card-number">03</div>
-                        <h4>Ptej se a pomáhej</h4>
-                        <p>Máš otázku? Zeptej se. Znáš odpověď? Pomoz ostatním. 
-                        Čím více přispíváš, tím více získáváš.</p>
-                    </div>
-                    <div class="about-card">
-                        <div class="card-number">04</div>
-                        <h4>Spolupracuj</h4>
-                        <p>Najdi parťáky na projekt, vytvoř studijní skupinu 
-                        nebo se zapoj do komunitních aktivit.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-block">
-                <h3 class="block-title">📊 Naše komunita v číslech</h3>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">2,000+</div>
-                        <div class="stat-label">Aktivních členů</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">40+</div>
-                        <div class="stat-label">Škol zapojených</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Specializovaných kanálů</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label">Denních zpráv</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">98%</div>
-                        <div class="stat-label">Spokojených uživatelů</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Online podpora</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-block">
-                <h3 class="block-title">🎯 Co přesně nabízíme</h3>
-                <div class="features-detailed">
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">📚</div>
-                        <div class="feature-content">
-                            <h4>Studijní pomoc</h4>
-                            <p>Základní i střední školy, gymnázia, učiliště i vysoké školy. 
-                            Pomáháme s matematikou, češtinou, fyzikou, chemií, biologií, 
-                            dějepisem, zeměpisem, cizími jazyky i programováním.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">🎓</div>
-                        <div class="feature-content">
-                            <h4>Příprava na maturity</h4>
-                            <p>Specializované kanály pro maturitní ročníky. Přístup k 
-                            maturitním otázkám, testům z minulých let, vzorovým řešením 
-                            a konzultacím s úspěšnými maturanty.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">🤝</div>
-                        <div class="feature-content">
-                            <h4>Spolupráce na projektech</h4>
-                            <p>Najdi spolužáky nebo parťáky z jiných škol na týmové projekty, 
-                            SOČ, olimpiády, hackathony nebo studentské firmy.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">💡</div>
-                        <div class="feature-content">
-                            <h4>Kariérní rady</h4>
-                            <p>Poradenství při výběru střední školy, oboru na VŠ, 
-                            brigád, stáží i prvního zaměstnání. Setkání s absolventy 
-                            a profesionály z praxe.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">🌈</div>
-                        <div class="feature-content">
-                            <h4>Mentoring</h4>
-                            <p>Program párování zkušenějších studentů s těmi novějšími. 
-                            Osobní přístup, pravidelné konzultace a dlouhodobá podpora.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">🎉</div>
-                        <div class="feature-content">
-                            <h4>Komunitní život</h4>
-                            <p>Online i offline eventy: studijní streamy, kvízy, 
-                            soutěže, herní večery, setkání v různých městech 
-                            a letní studentský tábor.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-block">
-                <h3 class="block-title">👥 Pro koho je to určeno</h3>
-                <div class="audience-grid">
-                    <div class="audience-card">
-                        <div class="audience-icon">🎒</div>
-                        <h4>Žáci 2. stupně ZŠ</h4>
-                        <p>Příprava na přijímačky, pomoc s domácími úkoly, 
-                        objevování zájmů a budoucího směřování.</p>
-                    </div>
-                    <div class="audience-card">
-                        <div class="audience-icon">📖</div>
-                        <h4>Středoškoláci</h4>
-                        <p>Podpora ve všech předmětech, příprava na maturitu, 
-                        výběr vysoké školy, řešení SOČ a olimpiád.</p>
-                    </div>
-                    <div class="audience-card">
-                        <div class="audience-icon">🎓</div>
-                        <h4>Vysokoškoláci</h4>
-                        <p>Pomoc s náročnými předměty, spolupráce na projektech, 
-                        sdílení zkušeností ze stáží a prvních zaměstnání.</p>
-                    </div>
-                    <div class="audience-card">
-                        <div class="audience-icon">👨‍🏫</div>
-                        <h4>Učitelé & Školy</h4>
-                        <p>Možnost využít platformu pro své třídy, 
-                        doporučení studentům, spolupráce na projektech mezi školami.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-block">
-                <h3 class="block-title">💎 Naše hodnoty</h3>
-                <div class="values-grid">
-                    <div class="value-card">
-                        <div class="value-icon">🤲</div>
-                        <h4>Dobrovolnost & Otevřenost</h4>
-                        <p>Pomáháme si navzájem bez nároku na odměnu. 
-                        Každý může přispět svým know-how, bez ohledu na věk nebo zkušenosti.</p>
-                    </div>
-                    <div class="value-card">
-                        <div class="value-icon">🛡️</div>
-                        <h4>Bezpečí & Respekt</h4>
-                        <p>Striktní pravidla proti šikaně, diskriminaci a toxickému chování. 
-                        Moderátoři online 24/7, rychlá řešení problémů.</p>
-                    </div>
-                    <div class="value-card">
-                        <div class="value-icon">🌱</div>
-                        <h4>Růst & Rozvoj</h4>
-                        <p>Nejde jen o známky. Podporujeme kritické myšlení, 
-                        kreativitu, týmovou spolupráci a přípravu na reálný život.</p>
-                    </div>
-                    <div class="value-card">
-                        <div class="value-icon">🤝</div>
-                        <h4>Inkluze & Přístupnost</h4>
-                        <p>Vše zdarma. Žádné platby, žádné prémiové funkce. 
-                        Všichni mají stejné příležitosti bez ohledu na socioekonomický status.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-block">
-                <h3 class="block-title">🚀 Kam směřujeme</h3>
-                <div class="future-list">
-                    <div class="future-item">
-                        <div class="future-icon">📱</div>
-                        <div class="future-content">
-                            <h4>Vlastní mobilní aplikace</h4>
-                            <p>Plánujeme vývoj nativní aplikace pro iOS a Android 
-                            pro ještě pohodlnější přístup ke komunitě.</p>
-                        </div>
-                    </div>
-                    <div class="future-item">
-                        <div class="future-icon">🤖</div>
-                        <div class="future-content">
-                            <h4>AI studijní asistent</h4>
-                            <p>Chytrý bot pro okamžité odpovědi na časté otázky 
-                            a doporučení studijních materiálů.</p>
-                        </div>
-                    </div>
-                    <div class="future-item">
-                        <div class="future-icon">🏢</div>
-                        <div class="future-content">
-                            <h4>Partnerský program</h4>
-                            <p>Spolupráce s firmami pro stáže, mentoring 
-                            a přednášky ze světa profesionálů.</p>
-                        </div>
-                    </div>
-                    <div class="future-item">
-                        <div class="future-icon">🌍</div>
-                        <div class="future-content">
-                            <h4>Mezinárodní rozšíření</h4>
-                            <p>Plány na spolupráci se slovenskými a polskými studenty, 
-                            výměnné programy a mezinárodní projekty.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-cta">
-                <p class="cta-text">
-                    Přesvědčil tě náš příběh? Přidej se k nám a staň se součástí 
-                    něčeho většího. Společně tvoříme budoucnost vzdělávání.
-                </p>
-                <a href="https://discord.gg/fUKmXtpaE" class="hero-cta" target="_blank">
-                    Připojit se na Discord
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Připoj se ještě dnes</h2>
+                <p>Staň se součástí rostoucí komunity studentů, kteří se navzájem podporují a inspirují.</p>
+                <a href="https://discord.gg/fUKmXtpaE" class="cta-button" target="_blank">
+                    Vstoupit na Discord
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </a>
             </div>
-        </div>
+        </section>
     </main>
 
     <footer>
