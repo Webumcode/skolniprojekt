@@ -14,14 +14,6 @@
             --accent: #2563eb;
             --border: #e5e5e5;
             --surface: #ffffff;
-            --owner: #f59e0b;
-            --owner-light: #fef3c7;
-            --admin: #7c3aed;
-            --admin-light: #ede9fe;
-            --mod: #059669;
-            --mod-light: #d1fae5;
-            --dev: #ec4899;
-            --dev-light: #fce7f3;
         }
 
         * {
@@ -244,24 +236,11 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 1.5rem;
-            position: relative;
-        }
-
-        .card-number {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent);
-            opacity: 0.2;
         }
 
         .about-card h4 {
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
-            margin-top: 0.5rem;
         }
 
         .about-card p {
@@ -302,82 +281,6 @@
         .stat-label {
             font-size: 0.85rem;
             color: var(--text-secondary);
-        }
-
-        /* Features detailed */
-        .features-detailed {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .feature-detailed {
-            display: flex;
-            gap: 1rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.25rem;
-        }
-
-        .feature-icon-large {
-            width: 48px;
-            height: 48px;
-            background: var(--bg);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .feature-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .feature-content p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Audience */
-        .audience-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        @media (min-width: 640px) {
-            .audience-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .audience-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .audience-icon {
-            font-size: 2rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .audience-card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .audience-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
         }
 
         /* Values */
@@ -625,31 +528,27 @@
             </div>
 
             <div class="about-block">
-                <h3 class="block-title">⚙️ Jak to funguje</h3>
+                <h3 class="block-title">🎯 Naše mise a vize</h3>
                 <div class="about-grid">
                     <div class="about-card">
-                        <div class="card-number">01</div>
-                        <h4>Připoj se</h4>
-                        <p>Založ si Discord účet a připoj se na náš server jedním kliknutím. 
-                        Registrace trvá méně než minutu.</p>
+                        <h4>🎯 Mise</h4>
+                        <p>Propojit studenty napříč školami a obory, aby si mohli vzájemně pomáhat, 
+                        inspirovat se a společně růst v přátelském prostředí.</p>
                     </div>
                     <div class="about-card">
-                        <div class="card-number">02</div>
-                        <h4>Vyber si kanál</h4>
-                        <p>Najdi si kanál podle svého oboru, předmětu nebo zájmu. 
-                        Od matematiky po umění, od maturit po vysoké školy.</p>
+                        <h4>💡 Proč to děláme</h4>
+                        <p>Věříme, že každý student má co nabídnout a zároveň se má co naučit. 
+                        Společně jsme silnější než každý zvlášť.</p>
                     </div>
                     <div class="about-card">
-                        <div class="card-number">03</div>
-                        <h4>Ptej se a pomáhej</h4>
-                        <p>Máš otázku? Zeptej se. Znáš odpověď? Pomoz ostatním. 
-                        Čím více přispíváš, tím více získáváš.</p>
+                        <h4>🌱 Vize</h4>
+                        <p>Vytvořit největší studentskou komunitu v ČR, kde se může každý student 
+                        najít, rozvíjet svůj potenciál a připravit se na budoucnost.</p>
                     </div>
                     <div class="about-card">
-                        <div class="card-number">04</div>
-                        <h4>Spolupracuj</h4>
-                        <p>Najdi parťáky na projekt, vytvoř studijní skupinu 
-                        nebo se zapoj do komunitních aktivit.</p>
+                        <h4>🌍 Dopad</h4>
+                        <p>Chceme změnit způsob, jakým studenti v Česku přistupují ke vzdělávání – 
+                        od soutěžení ke spolupráci, od izolace ke komunitě.</p>
                     </div>
                 </div>
             </div>
@@ -680,94 +579,6 @@
                     <div class="stat-card">
                         <div class="stat-number">24/7</div>
                         <div class="stat-label">Online podpora</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-block">
-                <h3 class="block-title">🎯 Co přesně nabízíme</h3>
-                <div class="features-detailed">
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">📚</div>
-                        <div class="feature-content">
-                            <h4>Studijní pomoc</h4>
-                            <p>Základní i střední školy, gymnázia, učiliště i vysoké školy. 
-                            Pomáháme s matematikou, češtinou, fyzikou, chemií, biologií, 
-                            dějepisem, zeměpisem, cizími jazyky i programováním.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">🎓</div>
-                        <div class="feature-content">
-                            <h4>Příprava na maturity</h4>
-                            <p>Specializované kanály pro maturitní ročníky. Přístup k 
-                            maturitním otázkám, testům z minulých let, vzorovým řešením 
-                            a konzultacím s úspěšnými maturanty.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">🤝</div>
-                        <div class="feature-content">
-                            <h4>Spolupráce na projektech</h4>
-                            <p>Najdi spolužáky nebo parťáky z jiných škol na týmové projekty, 
-                            SOČ, olimpiády, hackathony nebo studentské firmy.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">💡</div>
-                        <div class="feature-content">
-                            <h4>Kariérní rady</h4>
-                            <p>Poradenství při výběru střední školy, oboru na VŠ, 
-                            brigád, stáží i prvního zaměstnání. Setkání s absolventy 
-                            a profesionály z praxe.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">🌈</div>
-                        <div class="feature-content">
-                            <h4>Mentoring</h4>
-                            <p>Program párování zkušenějších studentů s těmi novějšími. 
-                            Osobní přístup, pravidelné konzultace a dlouhodobá podpora.</p>
-                        </div>
-                    </div>
-                    <div class="feature-detailed">
-                        <div class="feature-icon-large">🎉</div>
-                        <div class="feature-content">
-                            <h4>Komunitní život</h4>
-                            <p>Online i offline eventy: studijní streamy, kvízy, 
-                            soutěže, herní večery, setkání v různých městech 
-                            a letní studentský tábor.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-block">
-                <h3 class="block-title">👥 Pro koho je to určeno</h3>
-                <div class="audience-grid">
-                    <div class="audience-card">
-                        <div class="audience-icon">🎒</div>
-                        <h4>Žáci 2. stupně ZŠ</h4>
-                        <p>Příprava na přijímačky, pomoc s domácími úkoly, 
-                        objevování zájmů a budoucího směřování.</p>
-                    </div>
-                    <div class="audience-card">
-                        <div class="audience-icon">📖</div>
-                        <h4>Středoškoláci</h4>
-                        <p>Podpora ve všech předmětech, příprava na maturitu, 
-                        výběr vysoké školy, řešení SOČ a olimpiád.</p>
-                    </div>
-                    <div class="audience-card">
-                        <div class="audience-icon">🎓</div>
-                        <h4>Vysokoškoláci</h4>
-                        <p>Pomoc s náročnými předměty, spolupráce na projektech, 
-                        sdílení zkušeností ze stáží a prvních zaměstnání.</p>
-                    </div>
-                    <div class="audience-card">
-                        <div class="audience-icon">👨‍🏫</div>
-                        <h4>Učitelé & Školy</h4>
-                        <p>Možnost využít platformu pro své třídy, 
-                        doporučení studentům, spolupráce na projektech mezi školami.</p>
                     </div>
                 </div>
             </div>
