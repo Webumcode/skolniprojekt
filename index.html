@@ -44,7 +44,7 @@
             letter-spacing: -0.02em;
         }
 
-        /* Navigation - Mobile First */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -77,43 +77,96 @@
             gap: 0.4rem;
             white-space: nowrap;
             flex-shrink: 0;
+            z-index: 102;
         }
 
         .logo span {
             font-size: 1rem;
         }
 
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 102;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Mobile Navigation Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(250, 250, 250, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 5rem 2rem 2rem;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .nav-links {
             display: flex;
-            gap: 0.75rem;
+            flex-direction: column;
+            gap: 1.5rem;
             list-style: none;
             align-items: center;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            flex: 1;
-            justify-content: center;
-            padding: 0 0.5rem;
-        }
-
-        .nav-links::-webkit-scrollbar {
-            display: none;
-        }
-
-        .nav-links li {
-            flex-shrink: 0;
+            margin-bottom: 2rem;
         }
 
         .nav-links a {
             text-decoration: none;
             color: var(--text-secondary);
-            font-size: 0.8rem;
+            font-size: 1.5rem;
             font-weight: 500;
             transition: all 0.2s ease;
             position: relative;
-            white-space: nowrap;
-            padding: 0.25rem 0;
+            padding: 0.5rem 1rem;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -123,35 +176,41 @@
         .nav-links a.active::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
             background: var(--accent);
-            border-radius: 1px;
+            border-radius: 2px;
         }
 
-        .nav-cta {
+        .nav-cta-mobile {
             background: var(--text);
             color: var(--bg);
-            padding: 0.5rem 0.875rem;
-            border-radius: 6px;
+            padding: 1rem 2rem;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 1.1rem;
             font-weight: 600;
             transition: all 0.2s ease;
-            white-space: nowrap;
-            flex-shrink: 0;
-            border: none;
-            cursor: pointer;
+            margin-top: 1rem;
         }
 
-        .nav-cta:hover {
+        .nav-cta-mobile:hover {
             background: var(--accent);
-            transform: translateY(-1px);
         }
 
-        /* Hero Section - Mobile First */
+        /* Desktop Navigation (hidden on mobile) */
+        .desktop-nav {
+            display: none;
+        }
+
+        .nav-cta-desktop {
+            display: none;
+        }
+
+        /* Hero Section */
         .hero-section {
             min-height: 100vh;
             min-height: 100dvh;
@@ -274,7 +333,7 @@
             transform: translateY(0);
         }
 
-        /* Footer - Mobile First */
+        /* Footer */
         footer {
             border-top: 1px solid var(--border);
             padding: 1.5rem 1rem;
@@ -320,8 +379,74 @@
             50% { opacity: 0.6; transform: scale(0.95); }
         }
 
-        /* Tablet (640px+) */
-        @media (min-width: 640px) {
+        /* Tablet (768px+) */
+        @media (min-width: 768px) {
+            .menu-toggle {
+                display: none;
+            }
+
+            .nav-overlay {
+                display: none;
+            }
+
+            .desktop-nav {
+                display: flex;
+                gap: 1.5rem;
+                list-style: none;
+                align-items: center;
+            }
+
+            .desktop-nav li {
+                flex-shrink: 0;
+            }
+
+            .desktop-nav a {
+                text-decoration: none;
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+                font-weight: 500;
+                transition: all 0.2s ease;
+                position: relative;
+                white-space: nowrap;
+                padding: 0.25rem 0;
+            }
+
+            .desktop-nav a:hover, .desktop-nav a.active {
+                color: var(--text);
+            }
+
+            .desktop-nav a.active::after {
+                content: '';
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: var(--accent);
+                border-radius: 1px;
+            }
+
+            .nav-cta-desktop {
+                display: inline-flex;
+                background: var(--text);
+                color: var(--bg);
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                text-decoration: none;
+                font-size: 0.85rem;
+                font-weight: 600;
+                transition: all 0.2s ease;
+                white-space: nowrap;
+                flex-shrink: 0;
+                border: none;
+                cursor: pointer;
+            }
+
+            .nav-cta-desktop:hover {
+                background: var(--accent);
+                transform: translateY(-1px);
+            }
+
             nav {
                 padding: 1rem 1.5rem;
             }
@@ -332,19 +457,6 @@
 
             .logo span {
                 font-size: 1.25rem;
-            }
-
-            .nav-links {
-                gap: 1.25rem;
-            }
-
-            .nav-links a {
-                font-size: 0.9rem;
-            }
-
-            .nav-cta {
-                padding: 0.5rem 1rem;
-                font-size: 0.85rem;
             }
 
             .hero-section {
@@ -391,15 +503,15 @@
                 gap: 2rem;
             }
 
-            .nav-links {
+            .desktop-nav {
                 gap: 2rem;
             }
 
-            .nav-links a {
+            .desktop-nav a {
                 font-size: 0.95rem;
             }
 
-            .nav-cta {
+            .nav-cta-desktop {
                 padding: 0.625rem 1.25rem;
                 font-size: 0.9rem;
             }
@@ -430,11 +542,11 @@
 
         /* Touch device optimizations */
         @media (hover: none) {
-            .nav-links a:hover {
+            .desktop-nav a:hover {
                 color: var(--text-secondary);
             }
 
-            .nav-links a:active {
+            .desktop-nav a:active {
                 color: var(--text);
             }
 
@@ -457,9 +569,14 @@
                 animation: none;
             }
 
-            .hero-cta, .nav-cta {
+            .hero-cta, .nav-cta-desktop, .nav-cta-mobile, .menu-toggle span {
                 transition: none;
             }
+        }
+
+        /* Prevent scroll when menu is open */
+        body.menu-open {
+            overflow: hidden;
         }
     </style>
 <base target="_blank">
@@ -471,7 +588,16 @@
                 <span>◆</span>
                 Doupě géniů
             </a>
-            <ul class="nav-links">
+
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Otevřít menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Desktop Navigation -->
+            <ul class="desktop-nav">
                 <li><a href="index.html" class="active">Domů</a></li>
                 <li><a href="oprojektu.html">O projektu</a></li>
                 <li><a href="vyhody.html">Výhody</a></li>
@@ -479,9 +605,22 @@
                 <li><a href="pravidla.html">Pravidla</a></li>
                 <li><a href="kontakt.html">Kontakt</a></li>
             </ul>
-            <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
+            <a href="https://discord.gg/fUKmXtpaE" class="nav-cta-desktop" target="_blank" rel="noopener noreferrer">Připojit se</a>
         </div>
     </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay">
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Domů</a></li>
+            <li><a href="oprojektu.html">O projektu</a></li>
+            <li><a href="vyhody.html">Výhody</a></li>
+            <li><a href="tym.html">Tým</a></li>
+            <li><a href="pravidla.html">Pravidla</a></li>
+            <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+        <a href="https://discord.gg/fUKmXtpaE" class="nav-cta-mobile" target="_blank" rel="noopener noreferrer">Připojit se na Discord</a>
+    </div>
 
     <main>
         <div class="hero-section">
@@ -526,5 +665,52 @@
             <div class="copyright">© 2026 Doupě géniů</div>
         </div>
     </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navOverlay = document.getElementById('navOverlay');
+        const body = document.body;
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            body.classList.toggle('menu-open');
+
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        // Close menu when clicking on a link
+        const navLinks = navOverlay.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Close menu when clicking outside
+        navOverlay.addEventListener('click', (e) => {
+            if (e.target === navOverlay) {
+                menuToggle.classList.remove('active');
+                navOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navOverlay.classList.contains('active')) {
+                menuToggle.classList.remove('active');
+                navOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    </script>
 </body>
 </html>
