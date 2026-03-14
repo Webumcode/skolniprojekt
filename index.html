@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doupě géniů — Student Community</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --text: #0a0a0a;
+            --text-secondary: #666;
+            --accent: #2563eb;
+            --border: #e5e5e5;
+            --surface: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 1rem 1.5rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            position: relative;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .nav-cta {
+            background: var(--text);
+            color: var(--bg);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+        }
+
+        /* Hero */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 5rem 1.5rem 3rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .hero-section h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            max-width: 900px;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-section h1 span {
+            color: var(--accent);
+        }
+
+        .hero-description {
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-description p {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .hero-feature::before {
+            content: '✓';
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .hero-cta:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 1rem;
+            background: var(--surface);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (min-width: 640px) {
+            .nav-links {
+                gap: 2rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+
+            .hero-section {
+                padding: 4rem 2rem;
+            }
+
+            .hero-features {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+            }
+
+            .footer-links {
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>◆</span>
+                Doupě géniů
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Domů</a></li>
+                <li><a href="oprojektu.html">O projektu</a></li>
+                <li><a href="vyhody.html">Výhody</a></li>
+                <li><a href="tym.html">Tým</a></li>
+                <li><a href="pravidla.html">Pravidla</a></li>
+                <li><a href="kontakt.html">Kontakt</a></li>
+            </ul>
+            <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="hero-section">
+            <div class="hero-badge">Komunita pro studenty</div>
+            <h1>
+                Místo, kde studenti<br>
+                <span>spojují síly</span>
+            </h1>
+            <div class="hero-description">
+                <p>
+                    Doupě géniů je školní komunikační server, který propojuje studenty všech škol. 
+                    Vytváříme bezpečné prostředí pro vzájemnou pomoc, sdílení znalostí a spolupráci na projektech.
+                </p>
+                <p>
+                    Věříme, že společně můžeme dosáhnout více. Ať už potřebuješ pomoc s maturitou, 
+                    hledáš parťáky na projekt, nebo chceš sdílet své zkušenosti – jsi tu správně.
+                </p>
+            </div>
+            <div class="hero-features">
+                <div class="hero-feature">Pomoc se studiem</div>
+                <div class="hero-feature">Spolupráce na projektech</div>
+                <div class="hero-feature">Přátelská komunita</div>
+            </div>
+            <a href="https://discord.gg/fUKmXtpaE" class="hero-cta" target="_blank">
+                Připojit se na Discord
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html">Domů</a>
+                <a href="oprojektu.html">O projektu</a>
+                <a href="pravidla.html">Pravidla</a>
+                <a href="kontakt.html">Kontakt</a>
+                <a href="https://discord.gg/fUKmXtpaE" target="_blank">Discord</a>
+            </div>
+            <div class="copyright">© 2026 Doupě géniů</div>
+        </div>
+    </footer>
+</body>
+</html>
