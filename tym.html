@@ -40,7 +40,7 @@
             letter-spacing: -0.02em;
         }
 
-        /* Navigation - stejné jako oprojektu.html */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -70,6 +70,7 @@
             align-items: center;
             gap: 0.5rem;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-links {
@@ -78,7 +79,11 @@
             list-style: none;
             align-items: center;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            flex: 1;
+            margin: 0 1rem;
+            padding: 0.25rem 0;
         }
 
         .nav-links::-webkit-scrollbar {
@@ -93,6 +98,7 @@
             transition: all 0.2s;
             position: relative;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -119,10 +125,36 @@
             font-weight: 500;
             transition: all 0.2s;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-cta:hover {
             background: var(--accent);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 767px) {
+            nav {
+                padding: 0.75rem 1rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                margin: 0 0.5rem;
+            }
+
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+
+            .nav-cta {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.75rem;
+            }
         }
 
         @media (min-width: 640px) {
