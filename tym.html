@@ -109,6 +109,8 @@
             transition: all 0.2s;
             position: relative;
             white-space: nowrap;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -481,7 +483,7 @@
             }
 
             .nav-cta {
-                display: none; /* Skryjeme tlačítko v headeru na mobilu */
+                display: none;
             }
 
             .nav-links {
@@ -515,7 +517,6 @@
                 font-size: 1rem;
             }
 
-            /* Tlačítko Připojit se v hamburger menu */
             .nav-links .nav-cta-mobile {
                 display: inline-block;
                 background: var(--text);
@@ -613,7 +614,7 @@
 
         @media (min-width: 769px) {
             .nav-links .nav-cta-mobile {
-                display: none; /* Skryjeme mobilní tlačítko na desktopu */
+                display: none;
             }
         }
 
@@ -645,7 +646,6 @@
     </style>
 </head>
 <body>
-    <!-- Overlay pro zavření menu při kliknutí mimo -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <nav>
@@ -678,7 +678,6 @@
             <p>Lidé, kteří stojí za Doupětem géniů a starají se o komunitu</p>
         </div>
 
-        <!-- Vyhledávač -->
         <div class="search-container">
             <span class="search-icon">🔍</span>
             <input type="text" id="searchInput" placeholder="Hledat podle jména nebo pozice...">
@@ -691,7 +690,6 @@
                 Majitel projektu
             </h2>
             <div class="team-grid" id="majitel-grid">
-                <!-- Petr -->
                 <div class="team-card" data-name="Petr" data-position="majitel">
                     <img class="card-image" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&h=400&fit=crop" alt="Petr" loading="lazy">
                     <div class="card-content">
@@ -719,7 +717,6 @@
                 Zástupce
             </h2>
             <div class="team-grid" id="zastupce-grid">
-                <!-- lenní -->
                 <div class="team-card" data-name="lenní" data-position="zastupce">
                     <img class="card-image" src="https://images.unsplash.com/photo-1494790108777-466fd6c24371?w=400&h=400&fit=crop" alt="lenní" loading="lazy">
                     <div class="card-content">
@@ -747,7 +744,6 @@
                 Technici
             </h2>
             <div class="team-grid" id="technici-grid">
-                <!-- Enemi - Discord Developer -->
                 <div class="team-card" data-name="Enemi" data-position="discord developer">
                     <img class="card-image" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop" alt="Enemi" loading="lazy">
                     <div class="card-content">
@@ -765,7 +761,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Drezzys - Web Developer -->
                 <div class="team-card" data-name="Drezzys" data-position="web developer">
                     <img class="card-image" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop" alt="Drezzys" loading="lazy">
                     <div class="card-content">
@@ -793,7 +788,6 @@
                 Administrátoři
             </h2>
             <div class="team-grid" id="administratori-grid">
-                <!-- Vojta 0221 -->
                 <div class="team-card" data-name="Vojta 0221" data-position="administrator">
                     <img class="card-image" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&h=400&fit=crop" alt="Vojta 0221" loading="lazy">
                     <div class="card-content">
@@ -811,7 +805,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- indebixis -->
                 <div class="team-card" data-name="indebixis" data-position="administrator">
                     <img class="card-image" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop" alt="indebixis" loading="lazy">
                     <div class="card-content">
@@ -839,7 +832,6 @@
                 Moderátoři
             </h2>
             <div class="team-grid" id="moderatori-grid">
-                <!-- Josef -->
                 <div class="team-card" data-name="Josef" data-position="moderator">
                     <img class="card-image" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Josef" loading="lazy">
                     <div class="card-content">
@@ -857,7 +849,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Kralis -->
                 <div class="team-card" data-name="Kralis" data-position="moderator">
                     <img class="card-image" src="https://images.unsplash.com/photo-1504257432389-52343af06ae5?w=400&h=400&fit=crop" alt="Kralis" loading="lazy">
                     <div class="card-content">
@@ -875,7 +866,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- veru_nkaa -->
                 <div class="team-card" data-name="veru_nkaa" data-position="moderator">
                     <img class="card-image" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop" alt="veru_nkaa" loading="lazy">
                     <div class="card-content">
@@ -893,7 +883,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- kribikovas -->
                 <div class="team-card" data-name="kribikovas" data-position="moderator">
                     <img class="card-image" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop" alt="kribikovas" loading="lazy">
                     <div class="card-content">
@@ -921,7 +910,6 @@
                 Junior Moderátoři
             </h2>
             <div class="team-grid" id="junior-grid">
-                <!-- zuz._.le -->
                 <div class="team-card" data-name="zuz._.le" data-position="junior">
                     <img class="card-image" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop" alt="zuz._.le" loading="lazy">
                     <div class="card-content">
@@ -940,29 +928,24 @@
                     </div>
                 </div>
 
-                <!-- 4 volná místa pro juniory -->
-                <!-- Volné místo 1 -->
                 <div class="team-card empty">
                     <div class="empty-content">
                         <span>🔮</span>
                         <p>Volné místo pro junior moderátora</p>
                     </div>
                 </div>
-                <!-- Volné místo 2 -->
                 <div class="team-card empty">
                     <div class="empty-content">
                         <span>🔮</span>
                         <p>Volné místo pro junior moderátora</p>
                     </div>
                 </div>
-                <!-- Volné místo 3 -->
                 <div class="team-card empty">
                     <div class="empty-content">
                         <span>🔮</span>
                         <p>Volné místo pro junior moderátora</p>
                     </div>
                 </div>
-                <!-- Volné místo 4 -->
                 <div class="team-card empty">
                     <div class="empty-content">
                         <span>🔮</span>
@@ -972,7 +955,6 @@
             </div>
         </section>
 
-        <!-- Prázdný stav pro vyhledávání -->
         <div class="no-results" id="noResults" style="display: none;">
             Žádný člen týmu neodpovídá hledanému výrazu.
         </div>
@@ -1032,22 +1014,31 @@
                 closeMenu();
             });
 
-            // Zavření menu po kliknutí na odkaz
+            // DŮLEŽITÉ: Při kliknutí na odkaz necháme přechod normálně fungovat
+            // a menu se zavře samo při načtení nové stránky
             navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    closeMenu();
+                link.addEventListener('click', (e) => {
+                    // Necháme odkaz normálně fungovat, nic neblokujeme
+                    // Menu se zavře automaticky při přechodu na novou stránku
                 });
             });
 
-            // Zavření menu při kliknutí na hlavní obsah
-            document.querySelector('main').addEventListener('click', () => {
+            // Zavření menu při kliknutí na hlavní obsah (ale ne na odkazy)
+            document.querySelector('main').addEventListener('click', (e) => {
+                // Pokud klikáme na odkaz, necháme ho fungovat
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                    return;
+                }
                 if (navLinks.classList.contains('active')) {
                     closeMenu();
                 }
             });
 
-            // Zavření menu při kliknutí na footer
-            document.querySelector('footer').addEventListener('click', () => {
+            // Zavření menu při kliknutí na footer (ale ne na odkazy)
+            document.querySelector('footer').addEventListener('click', (e) => {
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                    return;
+                }
                 if (navLinks.classList.contains('active')) {
                     closeMenu();
                 }
