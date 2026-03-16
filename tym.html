@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tým — Doupě géniů</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
             letter-spacing: -0.02em;
         }
 
-        /* Navigation */
+        /* Navigation - stejné jako index.html */
         nav {
             position: fixed;
             top: 0;
@@ -74,7 +74,7 @@
             align-items: center;
             gap: 0.5rem;
             white-space: nowrap;
-            z-index: 102;
+            flex-shrink: 0;
         }
 
         .nav-links {
@@ -85,6 +85,7 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            margin: 0 1rem;
         }
 
         .nav-links::-webkit-scrollbar {
@@ -133,115 +134,7 @@
             background: var(--accent);
         }
 
-        /* Hamburger Menu Button */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: space-around;
-            width: 32px;
-            height: 24px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            z-index: 102;
-            position: relative;
-        }
-
-        .hamburger span {
-            width: 100%;
-            height: 2px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-            transform-origin: center;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-            transform: scaleX(0);
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg);
-        }
-
-        /* Mobile Navigation Overlay */
-        @media (max-width: 1023px) {
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(250, 250, 250, 0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 2rem;
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-                z-index: 101;
-                padding: 2rem;
-                overflow-y: auto;
-            }
-
-            .nav-links.active {
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .nav-links li {
-                width: 100%;
-                text-align: center;
-            }
-
-            .nav-links a {
-                font-size: 1.5rem;
-                font-weight: 600;
-                display: block;
-                padding: 1rem;
-                color: var(--text-secondary);
-            }
-
-            .nav-links a.active {
-                color: var(--accent);
-            }
-
-            .nav-links a.active::after {
-                display: none;
-            }
-
-            .nav-cta {
-                margin-top: 1rem;
-                padding: 1rem 2rem;
-                font-size: 1.1rem;
-                display: inline-block;
-            }
-        }
-
-        /* Tablet specific adjustments */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .nav-links {
-                gap: 2.5rem;
-            }
-
-            .nav-links a {
-                font-size: 1.75rem;
-            }
-        }
-
-        /* Mobile specific adjustments */
+        /* Mobile & Tablet responsive nav - stejné jako index.html */
         @media (max-width: 767px) {
             nav {
                 padding: 0.75rem 1rem;
@@ -253,16 +146,32 @@
 
             .nav-links {
                 gap: 1rem;
+                margin: 0 0.5rem;
             }
 
             .nav-links a {
-                font-size: 1.25rem;
-                padding: 0.875rem;
+                font-size: 0.8rem;
             }
 
             .nav-cta {
-                font-size: 1rem;
-                padding: 0.875rem 1.5rem;
+                padding: 0.4rem 0.75rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .nav-links {
+                gap: 1.25rem;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .nav-links {
+                gap: 2rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
             }
         }
 
@@ -593,8 +502,20 @@
             color: var(--text-secondary);
             font-size: 0.85rem;
         }
+
+        @media (min-width: 640px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+            }
+
+            .footer-links {
+                gap: 2rem;
+            }
+        }
     </style>
-<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -604,13 +525,6 @@
                 <span>◆</span>
                 Doupě géniů
             </a>
-            
-            <button class="hamburger" aria-label="Menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
             <ul class="nav-links">
                 <li><a href="index.html">Domů</a></li>
                 <li><a href="oprojektu.html">O projektu</a></li>
@@ -618,8 +532,8 @@
                 <li><a href="tym.html" class="active">Tým</a></li>
                 <li><a href="pravidla.html">Pravidla</a></li>
                 <li><a href="kontakt.html">Kontakt</a></li>
-                <li><a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a></li>
             </ul>
+            <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a>
         </div>
     </nav>
 
@@ -1023,50 +937,5 @@
             <div class="copyright">© 2026 Doupě géniů</div>
         </div>
     </footer>
-
-    <script>
-        // Hamburger menu functionality
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-        const navLinksItems = document.querySelectorAll('.nav-links a');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            const isExpanded = hamburger.classList.contains('active');
-            hamburger.setAttribute('aria-expanded', isExpanded);
-            document.body.style.overflow = isExpanded ? 'hidden' : '';
-        });
-
-        // Close menu when clicking on a link
-        navLinksItems.forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
-            });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // Close menu on resize if switching to desktop
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 1023) {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
-            }
-        });
-    </script>
 </body>
 </html>
