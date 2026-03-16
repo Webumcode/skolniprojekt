@@ -99,13 +99,6 @@
             gap: 1.5rem;
             list-style: none;
             align-items: center;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .nav-links::-webkit-scrollbar {
-            display: none;
         }
 
         .nav-links a {
@@ -116,7 +109,6 @@
             transition: all 0.2s;
             position: relative;
             white-space: nowrap;
-            flex-shrink: 0;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -143,11 +135,26 @@
             font-weight: 500;
             transition: all 0.2s;
             white-space: nowrap;
-            flex-shrink: 0;
         }
 
         .nav-cta:hover {
             background: var(--accent);
+        }
+
+        /* Overlay pro zavření menu */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 149;
+        }
+
+        .menu-overlay.active {
+            display: block;
         }
 
         /* Main content */
@@ -464,8 +471,17 @@
 
         /* Hamburger menu pro mobil */
         @media (max-width: 768px) {
+            .nav-container {
+                position: relative;
+            }
+
             .menu-toggle {
                 display: flex;
+                order: 2;
+            }
+
+            .nav-cta {
+                display: none; /* Skryjeme tlačítko v headeru na mobilu */
             }
 
             .nav-links {
@@ -499,9 +515,24 @@
                 font-size: 1rem;
             }
 
-            .nav-cta {
-                margin-left: auto;
-                margin-right: 1rem;
+            /* Tlačítko Připojit se v hamburger menu */
+            .nav-links .nav-cta-mobile {
+                display: inline-block;
+                background: var(--text);
+                color: var(--bg);
+                padding: 0.75rem 1rem;
+                border-radius: 6px;
+                text-decoration: none;
+                font-size: 0.9rem;
+                font-weight: 500;
+                text-align: center;
+                width: 100%;
+                margin-top: 1rem;
+                border: none;
+            }
+
+            .nav-links .nav-cta-mobile:hover {
+                background: var(--accent);
             }
 
             main {
@@ -580,6 +611,12 @@
             }
         }
 
+        @media (min-width: 769px) {
+            .nav-links .nav-cta-mobile {
+                display: none; /* Skryjeme mobilní tlačítko na desktopu */
+            }
+        }
+
         @media (min-width: 640px) and (max-width: 768px) {
             .footer-content {
                 flex-direction: row;
@@ -608,6 +645,9 @@
     </style>
 </head>
 <body>
+    <!-- Overlay pro zavření menu při kliknutí mimo -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
     <nav>
         <div class="nav-container">
             <a href="index.html" class="logo">
@@ -626,6 +666,7 @@
                 <li><a href="tym.html" class="active">Tým</a></li>
                 <li><a href="pravidla.html">Pravidla</a></li>
                 <li><a href="kontakt.html">Kontakt</a></li>
+                <li><a href="https://discord.gg/fUKmXtpaE" class="nav-cta-mobile" target="_blank">Připojit se</a></li>
             </ul>
             <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a>
         </div>
@@ -954,32 +995,62 @@
         // Hamburger menu
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function closeMenu() {
+            navLinks.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            // Animace hamburgeru
+            const spans = menuToggle.querySelectorAll('span');
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
+
+        function openMenu() {
+            navLinks.classList.add('active');
+            menuOverlay.classList.add('active');
+            // Animace hamburgeru
+            const spans = menuToggle.querySelectorAll('span');
+            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+            spans[1].style.opacity = '0';
+            spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+        }
 
         if (menuToggle && navLinks) {
-            menuToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                // Animace hamburgeru
-                const spans = menuToggle.querySelectorAll('span');
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
                 if (navLinks.classList.contains('active')) {
-                    spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-                    spans[1].style.opacity = '0';
-                    spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+                    closeMenu();
                 } else {
-                    spans[0].style.transform = 'none';
-                    spans[1].style.opacity = '1';
-                    spans[2].style.transform = 'none';
+                    openMenu();
                 }
+            });
+
+            // Zavření menu po kliknutí na overlay
+            menuOverlay.addEventListener('click', () => {
+                closeMenu();
             });
 
             // Zavření menu po kliknutí na odkaz
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    const spans = menuToggle.querySelectorAll('span');
-                    spans[0].style.transform = 'none';
-                    spans[1].style.opacity = '1';
-                    spans[2].style.transform = 'none';
+                    closeMenu();
                 });
+            });
+
+            // Zavření menu při kliknutí na hlavní obsah
+            document.querySelector('main').addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+
+            // Zavření menu při kliknutí na footer
+            document.querySelector('footer').addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    closeMenu();
+                }
             });
         }
 
