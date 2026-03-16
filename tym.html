@@ -25,6 +25,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            font-size: 16px;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
@@ -40,7 +44,7 @@
             letter-spacing: -0.02em;
         }
 
-        /* Navigation - upraveno pro mobilní zařízení jako v oprojektu.html */
+        /* Navigation - Updated for Mobile */
         nav {
             position: fixed;
             top: 0;
@@ -58,6 +62,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .logo {
@@ -69,6 +74,46 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            white-space: nowrap;
+            z-index: 101;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-checkbox {
+            display: none;
+        }
+
+        .hamburger-label {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            cursor: pointer;
+            z-index: 101;
+            position: relative;
+        }
+
+        .hamburger-label span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Hamburger Animation when checked */
+        .hamburger-checkbox:checked + .hamburger-label span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger-checkbox:checked + .hamburger-label span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-checkbox:checked + .hamburger-label span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
         }
 
         .nav-links {
@@ -76,12 +121,6 @@
             gap: 1.5rem;
             list-style: none;
             align-items: center;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .nav-links::-webkit-scrollbar {
-            display: none;
         }
 
         .nav-links a {
@@ -90,6 +129,7 @@
             font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
+            position: relative;
             white-space: nowrap;
         }
 
@@ -123,7 +163,57 @@
             background: var(--accent);
         }
 
-        /* Page Header - upraveno pro mobil */
+        /* Mobile Navigation Styles */
+        @media (max-width: 768px) {
+            .hamburger-label {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--surface);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                margin: 0;
+                padding: 2rem;
+                z-index: 100;
+            }
+
+            .hamburger-checkbox:checked ~ .nav-links {
+                transform: translateX(0);
+            }
+
+            .nav-links a {
+                font-size: 1.25rem;
+                font-weight: 600;
+            }
+
+            .nav-links a.active::after {
+                bottom: -8px;
+                height: 3px;
+            }
+
+            .nav-cta {
+                margin-top: 1rem;
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            /* Prevent body scroll when menu is open */
+            body:has(.hamburger-checkbox:checked) {
+                overflow: hidden;
+            }
+        }
+
+        /* Page Header */
         .page-header {
             min-height: 35vh;
             display: flex;
@@ -165,7 +255,7 @@
             line-height: 1.7;
         }
 
-        /* Team Sections - upraveno pro mobil */
+        /* Team Sections */
         .team-section {
             max-width: 1200px;
             margin: 0 auto;
@@ -179,7 +269,6 @@
             margin-bottom: 2rem;
             padding-bottom: 1rem;
             border-bottom: 2px solid var(--border);
-            flex-wrap: wrap;
         }
 
         .section-icon {
@@ -190,7 +279,6 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            flex-shrink: 0;
         }
 
         .owner-section .section-icon {
@@ -233,7 +321,7 @@
             color: var(--text-secondary);
         }
 
-        /* Team Grid - upraveno pro mobil jako v oprojektu.html */
+        /* Team Grid */
         .team-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -309,7 +397,6 @@
             gap: 0.5rem;
             margin-bottom: 0.5rem;
             font-size: 0.95rem;
-            flex-wrap: wrap;
         }
 
         .info-label {
@@ -344,7 +431,6 @@
             display: flex;
             gap: 0.75rem;
             margin-top: 1.5rem;
-            flex-wrap: wrap;
         }
 
         .btn {
@@ -359,7 +445,6 @@
             font-size: 0.85rem;
             font-weight: 600;
             transition: all 0.2s;
-            min-width: 120px;
         }
 
         .btn-discord {
@@ -389,7 +474,6 @@
             grid-column: 1 / -1;
         }
 
-        /* Media Queries - přidány stejné breakpointy jako v oprojektu.html */
         @media (min-width: 640px) {
             .team-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -404,10 +488,6 @@
             .featured-card .card-image {
                 height: 100%;
             }
-
-            .section-header {
-                flex-wrap: nowrap;
-            }
         }
 
         @media (min-width: 1024px) {
@@ -420,11 +500,12 @@
             }
         }
 
-        /* Footer - upraveno jako v oprojektu.html */
+        /* Footer */
         footer {
             border-top: 1px solid var(--border);
             padding: 2rem 1rem;
             background: var(--surface);
+            margin-top: 2rem;
         }
 
         .footer-content {
@@ -459,28 +540,8 @@
             color: var(--text-secondary);
             font-size: 0.85rem;
         }
-
-        @media (min-width: 640px) {
-            .nav-links {
-                gap: 2rem;
-            }
-
-            .nav-links a {
-                font-size: 0.9rem;
-            }
-
-            .footer-content {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                text-align: left;
-            }
-
-            .footer-links {
-                gap: 2rem;
-            }
-        }
     </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -490,6 +551,15 @@
                 <span>◆</span>
                 Doupě géniů
             </a>
+            
+            <!-- Hamburger Menu -->
+            <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
+            <label for="hamburger-toggle" class="hamburger-label" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            
             <ul class="nav-links">
                 <li><a href="index.html">Domů</a></li>
                 <li><a href="oprojektu.html">O projektu</a></li>
@@ -497,8 +567,8 @@
                 <li><a href="tym.html" class="active">Tým</a></li>
                 <li><a href="pravidla.html">Pravidla</a></li>
                 <li><a href="kontakt.html">Kontakt</a></li>
+                <li><a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a></li>
             </ul>
-            <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a>
         </div>
     </nav>
 
