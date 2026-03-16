@@ -973,124 +973,108 @@
         </div>
     </footer>
 
-    <script>
-        // Hamburger menu
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        const menuOverlay = document.getElementById('menuOverlay');
+<script>
+    // Hamburger menu
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    const menuOverlay = document.getElementById('menuOverlay');
 
-        function closeMenu() {
-            navLinks.classList.remove('active');
-            menuOverlay.classList.remove('active');
-            // Animace hamburgeru
-            const spans = menuToggle.querySelectorAll('span');
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
-        }
+    function closeMenu() {
+        navLinks.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        // Animace hamburgeru
+        const spans = menuToggle.querySelectorAll('span');
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+    }
 
-        function openMenu() {
-            navLinks.classList.add('active');
-            menuOverlay.classList.add('active');
-            // Animace hamburgeru
-            const spans = menuToggle.querySelectorAll('span');
-            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-            spans[1].style.opacity = '0';
-            spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
-        }
+    function openMenu() {
+        navLinks.classList.add('active');
+        menuOverlay.classList.add('active');
+        // Animace hamburgeru
+        const spans = menuToggle.querySelectorAll('span');
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+    }
 
-        if (menuToggle && navLinks) {
-            menuToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (navLinks.classList.contains('active')) {
-                    closeMenu();
-                } else {
-                    openMenu();
-                }
-            });
-
-            // Zavření menu po kliknutí na overlay
-            menuOverlay.addEventListener('click', () => {
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (navLinks.classList.contains('active')) {
                 closeMenu();
-            });
-
-            // DŮLEŽITÉ: Při kliknutí na odkaz necháme přechod normálně fungovat
-            // a menu se zavře samo při načtení nové stránky
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    // Necháme odkaz normálně fungovat, nic neblokujeme
-                    // Menu se zavře automaticky při přechodu na novou stránku
-                });
-            });
-
-            // Zavření menu při kliknutí na hlavní obsah (ale ne na odkazy)
-            document.querySelector('main').addEventListener('click', (e) => {
-                // Pokud klikáme na odkaz, necháme ho fungovat
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    return;
-                }
-                if (navLinks.classList.contains('active')) {
-                    closeMenu();
-                }
-            });
-
-            // Zavření menu při kliknutí na footer (ale ne na odkazy)
-            document.querySelector('footer').addEventListener('click', (e) => {
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    return;
-                }
-                if (navLinks.classList.contains('active')) {
-                    closeMenu();
-                }
-            });
-        }
-
-        // Vyhledávání
-        const searchInput = document.getElementById('searchInput');
-        const teamCards = document.querySelectorAll('.team-card:not(.empty)');
-        const emptyCards = document.querySelectorAll('.team-card.empty');
-        const noResults = document.getElementById('noResults');
-        const sections = document.querySelectorAll('.team-section');
-
-        function filterCards() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            let visibleCount = 0;
-
-            teamCards.forEach(card => {
-                const name = card.getAttribute('data-name')?.toLowerCase() || '';
-                const position = card.getAttribute('data-position')?.toLowerCase() || '';
-                const cardText = card.textContent.toLowerCase();
-                
-                const matches = searchTerm === '' || name.includes(searchTerm) || position.includes(searchTerm) || cardText.includes(searchTerm);
-                
-                if (matches) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            emptyCards.forEach(card => {
-                card.style.display = searchTerm === '' ? 'flex' : 'none';
-            });
-
-            sections.forEach(section => {
-                const cards = section.querySelectorAll('.team-card');
-                const hasVisible = Array.from(cards).some(card => card.style.display !== 'none');
-                section.style.display = hasVisible ? 'block' : 'none';
-            });
-
-            if (visibleCount === 0 && searchTerm !== '') {
-                noResults.style.display = 'block';
             } else {
-                noResults.style.display = 'none';
+                openMenu();
             }
-        }
+        });
 
-        if (searchInput) {
-            searchInput.addEventListener('input', filterCards);
+        // Zavření menu po kliknutí na overlay
+        menuOverlay.addEventListener('click', () => {
+            closeMenu();
+        });
+
+        // Při kliknutí na odkaz zavřeme menu a necháme prohlížeč pracovat
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                // Zavřeme menu
+                closeMenu();
+                // Pro jistotu odstraníme všechny event listenery které by mohly blokovat
+                e.stopPropagation(); // Toto je důležité - zabrání bublání události
+                // Nevoláme e.preventDefault() - to by zablokovalo přechod
+            });
+        });
+    }
+
+    // VYMAŽEME VŠECHNY OSTATNÍ EVENT LISTENERS - mohou být problém
+    // Odstraníme listenery na main a footer
+
+    // Vyhledávání
+    const searchInput = document.getElementById('searchInput');
+    const teamCards = document.querySelectorAll('.team-card:not(.empty)');
+    const emptyCards = document.querySelectorAll('.team-card.empty');
+    const noResults = document.getElementById('noResults');
+    const sections = document.querySelectorAll('.team-section');
+
+    function filterCards() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        teamCards.forEach(card => {
+            const name = card.getAttribute('data-name')?.toLowerCase() || '';
+            const position = card.getAttribute('data-position')?.toLowerCase() || '';
+            const cardText = card.textContent.toLowerCase();
+            
+            const matches = searchTerm === '' || name.includes(searchTerm) || position.includes(searchTerm) || cardText.includes(searchTerm);
+            
+            if (matches) {
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        emptyCards.forEach(card => {
+            card.style.display = searchTerm === '' ? 'flex' : 'none';
+        });
+
+        sections.forEach(section => {
+            const cards = section.querySelectorAll('.team-card');
+            const hasVisible = Array.from(cards).some(card => card.style.display !== 'none');
+            section.style.display = hasVisible ? 'block' : 'none';
+        });
+
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
         }
-    </script>
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', filterCards);
+    }
+</script>
 </body>
 </html>
