@@ -1,1 +1,696 @@
 
+html_content = '''<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doupě géniů</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --dark-gray: #111111;
+            --medium-gray: #1a1a1a;
+            --light-gray: #2a2a2a;
+            --green-primary: #00ff88;
+            --green-secondary: #00cc6a;
+            --green-glow: rgba(0, 255, 136, 0.3);
+            --white: #ffffff;
+            --text-gray: #b0b0b0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            background: radial-gradient(ellipse at center, var(--medium-gray) 0%, var(--black) 70%);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, var(--green-glow) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, var(--green-glow) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--white) 0%, var(--green-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+
+        .slogan {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-gray);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--green-primary) 0%, var(--green-secondary) 100%);
+            color: var(--black);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px var(--green-glow);
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px var(--green-glow);
+        }
+
+        .discord-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Navigation - Glass Design */
+        nav {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--green-primary);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        section h2 span {
+            color: var(--green-primary);
+        }
+
+        /* Úvod */
+        #uvod {
+            text-align: center;
+        }
+
+        #uvod p {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* O projektu */
+        #oprojektu {
+            background: var(--dark-gray);
+            border-radius: 30px;
+            margin: 2rem auto;
+            padding: 4rem 2rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .about-card {
+            background: var(--medium-gray);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover {
+            border-color: var(--green-primary);
+            transform: translateY(-5px);
+        }
+
+        .about-card h3 {
+            color: var(--green-primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .about-card p {
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* Výhody */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-item {
+            background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: scale(1.05);
+            border-color: var(--green-primary);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--green-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .benefit-item h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .benefit-item p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Tým */
+        #tym {
+            background: var(--dark-gray);
+            border-radius: 30px;
+            margin: 2rem auto;
+            padding: 4rem 2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background: var(--medium-gray);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            border-color: var(--green-primary);
+        }
+
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--green-primary) 0%, var(--green-secondary) 100%);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .team-member h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .team-member .role {
+            color: var(--green-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .team-member p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Pravidla */
+        .rules-list {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            background: var(--medium-gray);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--green-primary);
+            transition: all 0.3s ease;
+        }
+
+        .rule-item:hover {
+            transform: translateX(10px);
+            background: var(--light-gray);
+        }
+
+        .rule-number {
+            background: var(--green-primary);
+            color: var(--black);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .rule-content h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .rule-content p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Kontakt */
+        #kontakt {
+            background: var(--dark-gray);
+            border-radius: 30px;
+            margin: 2rem auto;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            background: var(--medium-gray);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            border-color: var(--green-primary);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: var(--green-primary);
+            font-size: 1.3rem;
+        }
+
+        .contact-item h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item a {
+            color: var(--green-primary);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-item a:hover {
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--black);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-gray);
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--green-primary);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                top: 1rem;
+                padding: 0.5rem;
+                width: 95%;
+            }
+
+            nav ul {
+                gap: 0.25rem;
+            }
+
+            nav a {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            #oprojektu, #tym, #kontakt {
+                margin: 1rem;
+                padding: 3rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                letter-spacing: -1px;
+            }
+
+            .about-grid,
+            .benefits-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--green-primary);
+            color: var(--black);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#uvod">Úvod</a></li>
+            <li><a href="#oprojektu">O projektu</a></li>
+            <li><a href="#vyhody">Výhody</a></li>
+            <li><a href="#tym">Tým</a></li>
+            <li><a href="#pravidla">Pravidla</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>Doupě géniů</h1>
+            <p class="slogan">„Místo, kde studenti spojují síly a učí se spolu"</p>
+            <a href="https://discord.gg" class="discord-btn" target="_blank">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                </svg>
+                Připojit se na Discord
+            </a>
+        </div>
+    </header>
+
+    <!-- Úvod -->
+    <section id="uvod">
+        <h2>Vítejte v <span>Doupěti géniů</span></h2>
+        <p>
+            Doupě géniů je moderní studentská komunita vytvořená pro ty, kteří chtějí spolupracovat, 
+            sdílet znalosti a vzájemně se podporovat na cestě za vzděláním. Spojujeme studenty 
+            napříč obory a vytváříme prostředí, kde se každý může učit, růst a dosahovat svých cílů.
+        </p>
+    </section>
+
+    <!-- O projektu -->
+    <section id="oprojektu">
+        <h2>O <span>projektu</span></h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <h3>Naše mise</h3>
+                <p>
+                    Vytvořit inspirativní prostředí, kde studenti mohou volně sdílet myšlenky, 
+                    řešit problémy společně a budovat cenné vztahy pro svou budoucí kariéru.
+                </p>
+            </div>
+            <div class="about-card">
+                <h3>Vize</h3>
+                <p>
+                    Stát se přední studentskou komunitou v České republice, která propojuje 
+                    talentované jedince a podporuje inovativní přístup ke vzdělávání.
+                </p>
+            </div>
+            <div class="about-card">
+                <h3>Hodnoty</h3>
+                <p>
+                    Spolupráce, otevřenost, respekt a neustálé zlepšování. Věříme, že společně 
+                    můžeme dosáhnout více než každý sám za sebe.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Výhody -->
+    <section id="vyhody">
+        <h2>Proč se <span>připojit</span>?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <div class="benefit-icon">🤝</div>
+                <h3>Spolupráce</h3>
+                <p>Najdi spolupracovníky na projekty, sdílej nápady a uč se od ostatních.</p>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">📚</div>
+                <h3>Sdílení znalostí</h3>
+                <p>Přístup k materiálům, poznámkám a zkušenostem od ostatních studentů.</p>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🎯</div>
+                <h3>Podpora</h3>
+                <p>Získej pomoc při učení, motivaci a podporu od komunity stejně smýšlejících lidí.</p>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🚀</div>
+                <h3>Růst</h3>
+                <p>Rozvíjej své dovednosti, buduj portfolio a připrav se na kariéru.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tým -->
+    <section id="tym">
+        <h2>Náš <span>tým</span></h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-avatar">JK</div>
+                <h3>Jan Novák</h3>
+                <div class="role">Zakladatel</div>
+                <p>Student informatiky s vášní pro technologie a komunitní budování.</p>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">PS</div>
+                <h3>Petra Svobodová</h3>
+                <div class="role">Komunitní manažerka</div>
+                <p>Ensures, že se každý cítí vítán a podporuje aktivní zapojení členů.</p>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">MK</div>
+                <h3>Martin Kovář</h3>
+                <div class="role">Moderátor</div>
+                <p>Dohlíží na dodržování pravidel a pomáhá udržovat pozitivní atmosféru.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pravidla -->
+    <section id="pravidla">
+        <h2>Základní <span>pravidla</span></h2>
+        <div class="rules-list">
+            <div class="rule-item">
+                <div class="rule-number">1</div>
+                <div class="rule-content">
+                    <h3>Respektuj ostatní</h3>
+                    <p>Chovej se k ostatním členům s úctou a respektem. Diskriminace, obtěžování a toxické chování nebudou tolerovány.</p>
+                </div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-number">2</div>
+                <div class="rule-content">
+                    <h3>Sdílej kvalitní obsah</h3>
+                    <p>Přispívej relevantním a hodnotným obsahem. Pomáhej ostatním a sdílej své znalosti.</p>
+                </div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-number">3</div>
+                <div class="rule-content">
+                    <h3>Žádný spam</h3>
+                    <p>Neposílej nevyžádané zprávy, reklamy nebo opakovaný obsah. Udržuj konverzace smysluplné.</p>
+                </div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-number">4</div>
+                <div class="rule-content">
+                    <h3>Ochrana soukromí</h3>
+                    <p>Respektuj soukromí ostatních. Nesdílej osobní údaje bez souhlasu.</p>
+                </div>
+            </div>
+            <div class="rule-item">
+                <div class="rule-number">5</div>
+                <div class="rule-content">
+                    <h3>Aktivní účast</h3>
+                    <p>Zapoj se do diskuzí, pomáhej ostatním a buď aktivním členem komunity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontakt -->
+    <section id="kontakt">
+        <h2><span>Kontaktujte</span> nás</h2>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="contact-icon">📧</div>
+                <h3>Email</h3>
+                <a href="mailto:info@doupegeniu.cz">info@doupegeniu.cz</a>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">💬</div>
+                <h3>Discord</h3>
+                <a href="https://discord.gg" target="_blank">Připojit se</a>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">🐦</div>
+                <h3>Sociální sítě</h3>
+                <a href="#" target="_blank">@DoupeGeniu</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Doupě géniů. Všechna práva vyhrazena.</p>
+        <div class="footer-links">
+            <a href="#uvod">Zpět nahoru</a>
+            <a href="https://discord.gg" target="_blank">Discord</a>
+        </div>
+    </footer>
+</body>
+</html>
