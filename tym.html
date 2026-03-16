@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tým — Doupě géniů</title>
+    <title>Náš tým — Doupě géniů</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
+    <style>
         :root {
             --bg: #fafafa;
             --text: #0a0a0a;
@@ -14,9 +14,7 @@
             --accent: #2563eb;
             --border: #e5e5e5;
             --surface: #ffffff;
-            --discord: #5865F2;
-            --danger: #dc2626;
-            --tech: #7c3aed;
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
         }
 
         * {
@@ -38,13 +36,13 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 600;
             letter-spacing: -0.02em;
         }
 
-        /* Navigation - Updated for Mobile */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -60,9 +58,8 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            position: relative;
         }
 
         .logo {
@@ -75,49 +72,26 @@
             align-items: center;
             gap: 0.5rem;
             white-space: nowrap;
-            z-index: 101;
-            position: absolute;
-            left: 0;
         }
 
-        /* Hamburger Menu Styles */
-        .hamburger-checkbox {
-            display: none;
-        }
-
-        .hamburger-label {
+        .menu-toggle {
             display: none;
             flex-direction: column;
             justify-content: space-between;
             width: 24px;
-            height: 18px;
+            height: 20px;
+            background: transparent;
+            border: none;
             cursor: pointer;
-            z-index: 101;
-            position: relative;
-            position: absolute;
-            right: 0;
+            padding: 0;
+            z-index: 200;
         }
 
-        .hamburger-label span {
-            display: block;
+        .menu-toggle span {
             width: 100%;
             height: 2px;
-            background-color: var(--text);
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        /* Hamburger Animation when checked */
-        .hamburger-checkbox:checked + .hamburger-label span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger-checkbox:checked + .hamburger-label span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger-checkbox:checked + .hamburger-label span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
+            background: var(--text);
+            transition: all 0.3s;
         }
 
         .nav-links {
@@ -125,6 +99,13 @@
             gap: 1.5rem;
             list-style: none;
             align-items: center;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .nav-links::-webkit-scrollbar {
+            display: none;
         }
 
         .nav-links a {
@@ -135,6 +116,7 @@
             transition: all 0.2s;
             position: relative;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -153,7 +135,7 @@
 
         .nav-cta {
             background: var(--text);
-            color: white;
+            color: var(--bg);
             padding: 0.5rem 1rem;
             border-radius: 6px;
             text-decoration: none;
@@ -161,364 +143,269 @@
             font-weight: 500;
             transition: all 0.2s;
             white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 20px;  
+            flex-shrink: 0;
         }
 
         .nav-cta:hover {
             background: var(--accent);
         }
 
-        .nav-cta svg {
-            width: 16px;
-            height: 16px;
+        /* Main content */
+        main {
+            padding-top: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
         }
 
-        /* Mobile Navigation Styles */
-        @media (max-width: 768px) {
-            .hamburger-label {
-                display: flex;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: var(--surface);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 2rem;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-                margin: 0;
-                padding: 2rem;
-                z-index: 100;
-            }
-
-            .hamburger-checkbox:checked ~ .nav-links {
-                transform: translateX(0);
-            }
-
-            .nav-links a {
-                font-size: 1.25rem;
-                font-weight: 600;
-            }
-
-            .nav-links a.active::after {
-                bottom: -8px;
-                height: 3px;
-            }
-
-
-    }
-
-    .nav-cta-container {
-        display: flex;
-        justify-content: flex-end; /* Tlačítko "Připojit se" bude zarovnáno na pravou stranu */
-    }
-
-            .nav-cta {
-                margin-top: 1rem;
-                padding: 0.75rem 1.5rem;
-                font-size: 1rem;
-            }
-
-            /* Prevent body scroll when menu is open */
-            body:has(.hamburger-checkbox:checked) {
-                overflow: hidden;
-            }
-        }
-
-        /* Page Header */
         .page-header {
-            min-height: 35vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
-            padding: 6rem 1.5rem 2rem;
-        }
-
-        .page-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            margin: 3rem 0 2rem;
         }
 
         .page-header h1 {
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            margin-bottom: 1rem;
-            line-height: 1.1;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
         }
 
-        .page-header h1 span {
-            color: var(--accent);
-        }
-
-        .page-description {
-            max-width: 600px;
+        .page-header p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-
-        /* Team Sections */
-        .team-section {
-            max-width: 1200px;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 3rem 1.5rem;
         }
 
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border);
+        /* Search */
+        .search-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            position: relative;
         }
 
-        .section-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
         }
 
-        .owner-section .section-icon {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        #searchInput {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            background: var(--surface);
+            transition: all 0.2s;
         }
 
-        .tech-section .section-icon {
-            background: linear-gradient(135deg, var(--tech), #6d28d9);
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .admin-section .section-icon {
-            background: linear-gradient(135deg, var(--danger), #b91c1c);
-        }
-
-        .mod-section .section-icon {
-            background: linear-gradient(135deg, #10b981, #059669);
+        /* Team sections */
+        .team-section {
+            margin-bottom: 4rem;
         }
 
         .section-title {
-            flex: 1;
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
-        .section-title h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent);
         }
 
-        .section-title p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            display: inline-block;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
-        .section-count {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        /* Team Grid */
         .team-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
         }
 
+        /* Team card */
         .team-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
         }
 
         .team-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border-color: var(--accent);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
         }
 
         .card-image {
             width: 100%;
-            aspect-ratio: 1/1;
-            position: relative;
-            overflow: hidden;
-            background: #e5e5e5;
-        }
-
-        .card-image img {
-            width: 100%;
-            height: 100%;
+            aspect-ratio: 1;
             object-fit: cover;
+            background: #f0f0f0;
             display: block;
-        }
-
-        .card-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.35rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: white;
-            z-index: 2;
-        }
-
-        .owner-section .card-badge {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-        }
-
-        .tech-section .card-badge {
-            background: linear-gradient(135deg, var(--tech), #6d28d9);
-        }
-
-        .admin-section .card-badge {
-            background: linear-gradient(135deg, var(--danger), #b91c1c);
-        }
-
-        .mod-section .card-badge {
-            background: linear-gradient(135deg, #10b981, #059669);
+            border-bottom: 1px solid var(--border);
         }
 
         .card-content {
-            padding: 1.5rem;
-        }
-
-        .info-row {
+            padding: 1.25rem;
+            flex: 1;
             display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
+            flex-direction: column;
         }
 
-        .info-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-            flex-shrink: 0;
-        }
-
-        .info-value {
-            color: var(--text);
+        .card-name {
+            font-size: 1.25rem;
             font-weight: 600;
-        }
-
-        .info-desc {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .info-desc .info-label {
-            display: block;
             margin-bottom: 0.25rem;
         }
 
-        .info-desc p {
+        .card-position {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            align-self: flex-start;
+        }
+
+        .card-details {
+            margin-bottom: 1rem;
             color: var(--text-secondary);
             font-size: 0.9rem;
-            line-height: 1.6;
+        }
+
+        .card-details p {
+            margin-bottom: 0.25rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .card-details strong {
+            color: var(--text);
+            min-width: 70px;
+        }
+
+        .card-bio {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 1rem 0;
+            padding-top: 0.5rem;
+            border-top: 1px dashed var(--border);
+            line-height: 1.5;
         }
 
         .card-actions {
             display: flex;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
+            gap: 0.5rem;
+            margin-top: auto;
+            flex-wrap: wrap;
         }
 
-        .btn {
+        .card-btn {
             flex: 1;
-            display: flex;
+            min-width: 100px;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 0.75rem;
-            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
             transition: all 0.2s;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
         }
 
-        .btn-discord {
-            background: var(--discord);
+        .card-btn.discord {
+            background: #5865F2;
+            border-color: #5865F2;
             color: white;
         }
 
-        .btn-discord:hover {
-            background: #4752C4;
-            transform: translateY(-2px);
+        .card-btn.discord:hover {
+            background: #4752c4;
+            border-color: #4752c4;
         }
 
-        .btn-email {
+        .card-btn.email {
             background: var(--surface);
+            border-color: var(--border);
             color: var(--text);
-            border: 1px solid var(--border);
         }
 
-        .btn-email:hover {
+        .card-btn.email:hover {
             background: var(--bg);
             border-color: var(--accent);
-            transform: translateY(-2px);
+            color: var(--accent);
         }
 
-        /* Featured Card (Owner) */
-        .featured-card {
-            grid-column: 1 / -1;
+        /* Empty card for junior spots */
+        .team-card.empty {
+            border: 2px dashed var(--border);
+            background: transparent;
+            box-shadow: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            opacity: 0.7;
+            transition: all 0.3s;
         }
 
-        @media (min-width: 640px) {
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .featured-card {
-                grid-column: span 2;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .featured-card .card-image {
-                height: 100%;
-            }
+        .team-card.empty:hover {
+            opacity: 1;
+            border-color: var(--accent);
+            transform: none;
         }
 
-        @media (min-width: 1024px) {
-            .team-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        .empty-content {
+            text-align: center;
+            padding: 2rem;
+        }
 
-            .featured-card {
-                grid-column: span 2;
-            }
+        .empty-content span {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .empty-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
         /* Footer */
@@ -526,7 +413,7 @@
             border-top: 1px solid var(--border);
             padding: 2rem 1rem;
             background: var(--surface);
-            margin-top: 2rem;
+            margin-top: 3rem;
         }
 
         .footer-content {
@@ -561,6 +448,70 @@
             color: var(--text-secondary);
             font-size: 0.85rem;
         }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 250px;
+                height: 100vh;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 5rem 1.5rem 2rem;
+                transition: right 0.3s ease;
+                box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+                align-items: flex-start;
+                overflow-y: auto;
+                gap: 1rem;
+                z-index: 150;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.5rem 0;
+                font-size: 1rem;
+            }
+
+            .nav-cta {
+                margin-left: auto;
+                margin-right: 1rem;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+            }
+
+            .footer-links {
+                gap: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -570,413 +521,327 @@
                 <span>◆</span>
                 Doupě géniů
             </a>
-            
-            <!-- Hamburger Menu -->
-            <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
-            <label for="hamburger-toggle" class="hamburger-label" aria-label="Menu">
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
                 <span></span>
                 <span></span>
                 <span></span>
-            </label>
-            
-            <ul class="nav-links">
-                <a href="index.html">Domů</a>
-                <a href="oprojektu.html">O projektu</a>
-                <a href="vyhody.html">Výhody</a>
-                <a href="tym.html" class="active">Tým</a>
-                <a href="pravidla.html">Pravidla</a>
-                <a href="kontakt.html">Kontakt</a>
-                <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="oprojektu.html">O projektu</a></li>
+                <li><a href="vyhody.html">Výhody</a></li>
+                <li><a href="tym.html" class="active">Tým</a></li>
+                <li><a href="pravidla.html">Pravidla</a></li>
+                <li><a href="kontakt.html">Kontakt</a></li>
             </ul>
+            <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a>
         </div>
     </nav>
 
     <main>
         <div class="page-header">
-            <div class="page-badge">Lidé za projektem</div>
-            <h1>
-                Náš <span>tým</span>
-            </h1>
-            <p class="page-description">
-                Seznamte se s lidmi, kteří stojí za chodem komunity Doupě géniů.
-            </p>
+            <h1>Náš tým</h1>
+            <p>Lidé, kteří stojí za Doupětem géniů a starají se o komunitu</p>
         </div>
 
-        <!-- Majitel -->
-        <section class="team-section owner-section">
-            <div class="section-header">
-                <div class="section-icon">👑</div>
-                <div class="section-title">
-                    <h2>Majitel projektu</h2>
-                    <p>Zakladatel a hlavní vedení</p>
-                </div>
-                <span class="section-count">1 člen</span>
-            </div>
-            
-            <div class="team-grid">
-                <article class="team-card featured-card">
-                    <div class="card-image">
-                        <img src="https://i.ibb.co/N6ZH5Nrt/no.png" alt="Petr - Majitel">
-                        <span class="card-badge">Majitel</span>
-                    </div>
+        <!-- Vyhledávač -->
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Hledat podle jména nebo pozice...">
+        </div>
+
+        <!-- Sekce Majitel projektu -->
+        <section class="team-section" data-section="majitel">
+            <h2 class="section-title">
+                <img src="https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png" alt="Majitel" class="section-icon" onerror="this.style.display='none'">
+                Majitel projektu
+            </h2>
+            <div class="team-grid" id="majitel-grid">
+                <!-- Petr -->
+                <div class="team-card" data-name="Petr" data-position="majitel">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&h=400&fit=crop" alt="Petr" loading="lazy">
                     <div class="card-content">
-                        <div class="info-row">
-                            <span class="info-label">Přezdívka:</span>
-                            <span class="info-value">Petr</span>
+                        <h3 class="card-name">Petr</h3>
+                        <span class="card-position">Majitel projektu</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> Petr</p>
+                            <p><strong>Pozice:</strong> Majitel, zakladatel</p>
+                            <p><strong>Věk:</strong> —</p>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Pozice:</span>
-                            <span class="info-value">Zakladatel a majitel</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Věk:</span>
-                            <span class="info-value">19 let</span>
-                        </div>
-                        <div class="info-desc">
-                            <span class="info-label">Vlastní popis:</span>
-                            <p>Zakladatel projektu Doupě géniů s vizí propojit studenty napříč školami. Věří v sílu komunity a vzájemnou pomoc.</p>
-                        </div>
+                        <div class="card-bio">Zakladatel komunity, stará se o celkový chod a strategii serveru. Věří, že společné učení je budoucnost.</div>
                         <div class="card-actions">
-                            <a href="https://discord.com/users/1481610001054302319" class="btn btn-discord" target="_blank">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                                </svg>
-                                Discord
-                            </a>
-                            <a href="mailto:petr@doupegeniu.cz" class="btn btn-email">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                                Email
-                            </a>
+                            <a href="https://discord.com/users/1481610001054302319" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:petr@doupegeniu.cz" class="card-btn email">Email</a>
                         </div>
                     </div>
-                </article>
+                </div>
             </div>
         </section>
 
-        <!-- Technici -->
-        <section class="team-section tech-section">
-            <div class="section-header">
-                <div class="section-icon">⚙️</div>
-                <div class="section-title">
-                    <h2>Technici</h2>
-                    <p>Vývoj a správa technické infrastruktury</p>
-                </div>
-                <span class="section-count">1 člen</span>
-            </div>
-            
-            <div class="team-grid">
-                <article class="team-card">
-                    <div class="card-image">
-                        <img src="https://i.ibb.co/chKS6fPV/ja.jpg" alt="Drezyss - Developer">
-                        <span class="card-badge">Developer</span>
-                    </div>
+        <!-- Sekce Zástupce -->
+        <section class="team-section" data-section="zastupce">
+            <h2 class="section-title">
+                <img src="https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png" alt="Zástupce" class="section-icon" onerror="this.style.display='none'">
+                Zástupce
+            </h2>
+            <div class="team-grid" id="zastupce-grid">
+                <!-- lenní -->
+                <div class="team-card" data-name="lenní" data-position="zastupce">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1494790108777-466fd6c24371?w=400&h=400&fit=crop" alt="lenní" loading="lazy">
                     <div class="card-content">
-                        <div class="info-row">
-                            <span class="info-label">Přezdívka:</span>
-                            <span class="info-value">Drezyss</span>
+                        <h3 class="card-name">lenní</h3>
+                        <span class="card-position">Zástupce</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> lenní</p>
+                            <p><strong>Pozice:</strong> Zástupce projektu</p>
+                            <p><strong>Věk:</strong> —</p>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Pozice:</span>
-                            <span class="info-value">Hlavní developer</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Věk:</span>
-                            <span class="info-value">18 let</span>
-                        </div>
-                        <div class="info-desc">
-                            <span class="info-label">Vlastní popis:</span>
-                            <p>Full-stack developer zodpovědný za technickou infrastrukturu projektu. Specializace na webové technologie a Discord boty.</p>
-                        </div>
+                        <div class="card-bio">Pravá ruka majitele, pomáhá s organizací a koordinací týmu. Zodpovídá za hladký chod komunity.</div>
                         <div class="card-actions">
-                            <a href="https://discord.com/users/1481610001054302319" class="btn btn-discord" target="_blank">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                                </svg>
-                                Discord
-                            </a>
-                            <a href="mailto:drezyss@doupegeniu.cz" class="btn btn-email">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                                Email
-                            </a>
+                            <a href="https://discord.com/users/123456789012345678" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:lenni@doupegeniu.cz" class="card-btn email">Email</a>
                         </div>
                     </div>
-                </article>
+                </div>
             </div>
         </section>
 
-        <!-- Administrátoři -->
-        <section class="team-section admin-section">
-            <div class="section-header">
-                <div class="section-icon">🛠</div>
-                <div class="section-title">
-                    <h2>Administrátoři</h2>
-                    <p>Správa serveru a technická podpora</p>
+        <!-- Sekce Technici -->
+        <section class="team-section" data-section="technici">
+            <h2 class="section-title">
+                <img src="https://i.ibb.co/MD9Pz2Qv/406258-activedev.png" alt="Technici" class="section-icon" onerror="this.style.display='none'">
+                Technici
+            </h2>
+            <div class="team-grid" id="technici-grid">
+                <!-- Enemi - Discord Developer -->
+                <div class="team-card" data-name="Enemi" data-position="discord developer">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop" alt="Enemi" loading="lazy">
+                    <div class="card-content">
+                        <h3 class="card-name">Enemi</h3>
+                        <span class="card-position">Discord Developer</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> Enemi</p>
+                            <p><strong>Pozice:</strong> Discord Developer</p>
+                            <p><strong>Věk:</strong> —</p>
+                        </div>
+                        <div class="card-bio">Starší brácha, kterého baví programování a hraní her. Na Discordu se stará o boty, vylepšování serveru a automatizaci.</div>
+                        <div class="card-actions">
+                            <a href="https://discord.com/users/1481610001054302319" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:enemi@doupegeniu.cz" class="card-btn email">Email</a>
+                        </div>
+                    </div>
                 </div>
-                <span class="section-count">2 členové</span>
-            </div>
-            
-            <div class="team-grid">
-                <article class="team-card">
-                    <div class="card-image">
-                        <img src="https://i.ibb.co/N6ZH5Nrt/no.png" alt="Vojta 0221 - Administrátor">
-                        <span class="card-badge">Admin</span>
-                    </div>
+                <!-- Drezzys - Web Developer -->
+                <div class="team-card" data-name="Drezzys" data-position="web developer">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop" alt="Drezzys" loading="lazy">
                     <div class="card-content">
-                        <div class="info-row">
-                            <span class="info-label">Přezdívka:</span>
-                            <span class="info-value">Vojta 0221</span>
+                        <h3 class="card-name">Drezzys</h3>
+                        <span class="card-position">Web Developer</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> Drezzys</p>
+                            <p><strong>Pozice:</strong> Web Developer</p>
+                            <p><strong>Věk:</strong> 21</p>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Pozice:</span>
-                            <span class="info-value">Administrátor</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Věk:</span>
-                            <span class="info-value">20 let</span>
-                        </div>
-                        <div class="info-desc">
-                            <span class="info-label">Vlastní popis:</span>
-                            <p>Zkušený administrátor zodpovědný za správu komunity a technickou podporu uživatelů.</p>
-                        </div>
+                        <div class="card-bio">Frontend vývojář, milovník moderních technologií a čistého kódu. Stará se o vzhled a funkčnost webu. Ve volném čase hraje hry a poslouchá hudbu.</div>
                         <div class="card-actions">
-                            <a href="https://discord.com/users/1481610001054302319" class="btn btn-discord" target="_blank">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                                </svg>
-                                Discord
-                            </a>
-                            <a href="mailto:vojta0221@doupegeniu.cz" class="btn btn-email">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                                Email
-                            </a>
+                            <a href="https://discord.com/users/1481610001054302319" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:drezzys@doupegeniu.cz" class="card-btn email">Email</a>
                         </div>
                     </div>
-                </article>
-
-                <article class="team-card">
-                    <div class="card-image">
-                        <img src="https://i.ibb.co/N6ZH5Nrt/no.png" alt="indebixis - Administrátor">
-                        <span class="card-badge">Admin</span>
-                    </div>
-                    <div class="card-content">
-                        <div class="info-row">
-                            <span class="info-label">Přezdívka:</span>
-                            <span class="info-value">indebixis</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Pozice:</span>
-                            <span class="info-value">Administrátor</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Věk:</span>
-                            <span class="info-value">18 let</span>
-                        </div>
-                        <div class="info-desc">
-                            <span class="info-label">Vlastní popis:</span>
-                            <p>Specialista na technickou podporu a řešení problémů uživatelů. Vždy připraven pomoci.</p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="https://discord.com/users/1481610001054302319" class="btn btn-discord" target="_blank">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                                </svg>
-                                Discord
-                            </a>
-                            <a href="mailto:indebixis@doupegeniu.cz" class="btn btn-email">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                                Email
-                            </a>
-                        </div>
-                    </div>
-                </article>
+                </div>
             </div>
         </section>
 
-        <!-- Moderátoři -->
-        <section class="team-section mod-section">
-            <div class="section-header">
-                <div class="section-icon">🛡</div>
-                <div class="section-title">
-                    <h2>Moderátoři</h2>
-                    <p>Dohlížení na pravidla a pomoc uživatelům</p>
+        <!-- Sekce Administrátoři -->
+        <section class="team-section" data-section="administratori">
+            <h2 class="section-title">
+                <img src="https://i.ibb.co/f30LjK5/943769-staff.png" alt="Administrátoři" class="section-icon" onerror="this.style.display='none'">
+                Administrátoři
+            </h2>
+            <div class="team-grid" id="administratori-grid">
+                <!-- Vojta 0221 -->
+                <div class="team-card" data-name="Vojta 0221" data-position="administrator">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&h=400&fit=crop" alt="Vojta 0221" loading="lazy">
+                    <div class="card-content">
+                        <h3 class="card-name">Vojta 0221</h3>
+                        <span class="card-position">Administrátor</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> Vojta 0221</p>
+                            <p><strong>Pozice:</strong> Administrátor</p>
+                            <p><strong>Věk:</strong> —</p>
+                        </div>
+                        <div class="card-bio">Zodpovídá za pořádek na serveru, řeší konflikty a pomáhá nováčkům.</div>
+                        <div class="card-actions">
+                            <a href="https://discord.com/users/345678901234567890" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:vojta@doupegeniu.cz" class="card-btn email">Email</a>
+                        </div>
+                    </div>
                 </div>
-                <span class="section-count">4 členové</span>
-            </div>
-            
-            <div class="team-grid">
-                <article class="team-card">
-                    <div class="card-image">
-                        <img src="https://i.ibb.co/N6ZH5Nrt/no.png" alt="Josef - Moderátor">
-                        <span class="card-badge">Moderátor</span>
-                    </div>
+                <!-- indebixis -->
+                <div class="team-card" data-name="indebixis" data-position="administrator">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop" alt="indebixis" loading="lazy">
                     <div class="card-content">
-                        <div class="info-row">
-                            <span class="info-label">Přezdívka:</span>
-                            <span class="info-value">Josef</span>
+                        <h3 class="card-name">indebixis</h3>
+                        <span class="card-position">Administrátor</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> indebixis</p>
+                            <p><strong>Pozice:</strong> Administrátor</p>
+                            <p><strong>Věk:</strong> —</p>
                         </div>
-                        <div class="info-row">
-                            <span class="info-label">Pozice:</span>
-                            <span class="info-value">Moderátor</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Věk:</span>
-                            <span class="info-value">17 let</span>
-                        </div>
-                        <div class="info-desc">
-                            <span class="info-label">Vlastní popis:</span>
-                            <p>Zkušený moderátor zajišťující přátelskou atmosféru v komunitě. Specialista na řešení konfliktů.</p>
-                        </div>
+                        <div class="card-bio">Organizuje komunitní akce, soutěže a stará se o to, aby se u nás každý cítil dobře.</div>
                         <div class="card-actions">
-                            <a href="https://discord.com/users/1481610001054302319" class="btn btn-discord" target="_blank">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                                </svg>
-                                Discord
-                            </a>
-                            <a href="mailto:josef@doupegeniu.cz" class="btn btn-email">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                                Email
-                            </a>
+                            <a href="https://discord.com/users/456789012345678901" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:indebixis@doupegeniu.cz" class="card-btn email">Email</a>
                         </div>
                     </div>
-                </article>
-
-                <article class="team-card">
-                    <div class="card-image">
-                        <img src="https://i.ibb.co/N6ZH5Nrt/no.png" alt="Kralis - Moderátor">
-                        <span class="card-badge">Moderátor</span>
-                    </div>
-                    <div class="card-content">
-                        <div class="info-row">
-                            <span class="info-label">Přezdívka:</span>
-                            <span class="info-value">Kralis</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Pozice:</span>
-                            <span class="info-value">Moderátor</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Věk:</span>
-                            <span class="info-value">19 let</span>
-                        </div>
-                        <div class="info-desc">
-                            <span class="info-label">Vlastní popis:</span>
-                            <p>Moderátor a správce obsahu komunity. Stará se o kvalitu příspěvků a aktivitu kanálů.</p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="https://discord.com/users/1481610001054302319" class="btn btn-discord" target="_blank">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                                </svg>
-                                Discord
-                            </a>
-                            <a href="mailto:kralis@doupegeniu.cz" class="btn btn-email">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                                Email
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="team-card">
-                    <div class="card-image">
-                        <img src="https://i.ibb.co/N6ZH5Nrt/no.png" alt="veru_nkaa - Moderátorka">
-                        <span class="card-badge">Moderátorka</span>
-                    </div>
-                    <div class="card-content">
-                        <div class="info-row">
-                            <span class="info-label">Přezdívka:</span>
-                            <span class="info-value">veru_nkaa</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Pozice:</span>
-                            <span class="info-value">Moderátorka</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Věk:</span>
-                            <span class="info-value">18 let</span>
-                        </div>
-                        <div class="info-desc">
-                            <span class="info-label">Vlastní popis:</span>
-                            <p>Komunitní manažerka a moderátorka. Organizuje eventy a buduje přátelskou atmosféru.</p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="https://discord.com/users/1481610001054302319" class="btn btn-discord" target="_blank">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                                </svg>
-                                Discord
-                            </a>
-                            <a href="mailto:verunkaa@doupegeniu.cz" class="btn btn-email">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                                Email
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="team-card">
-                    <div class="card-image">
-                        <img src="https://i.ibb.co/N6ZH5Nrt/no.png" alt="kribikovas - Moderátorka">
-                        <span class="card-badge">Moderátorka</span>
-                    </div>
-                    <div class="card-content">
-                        <div class="info-row">
-                            <span class="info-label">Přezdívka:</span>
-                            <span class="info-value">kribikovas</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Pozice:</span>
-                            <span class="info-value">Moderátorka</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Věk:</span>
-                            <span class="info-value">17 let</span>
-                        </div>
-                        <div class="info-desc">
-                            <span class="info-label">Vlastní popis:</span>
-                            <p>Event manažerka a moderátorka. Organizuje soutěže a aktivity pro komunitu.</p>
-                        </div>
-                        <div class="card-actions">
-                            <a href="https://discord.com/users/1481610001054302319" class="btn btn-discord" target="_blank">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-                                </svg>
-                                Discord
-                            </a>
-                            <a href="mailto:kribikovas@doupegeniu.cz" class="btn btn-email">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                                Email
-                            </a>
-                        </div>
-                    </div>
-                </article>
+                </div>
             </div>
         </section>
+
+        <!-- Sekce Moderátoři -->
+        <section class="team-section" data-section="moderatori">
+            <h2 class="section-title">
+                <img src="https://i.ibb.co/7JdcsspS/681304-moderator.png" alt="Moderátoři" class="section-icon" onerror="this.style.display='none'">
+                Moderátoři
+            </h2>
+            <div class="team-grid" id="moderatori-grid">
+                <!-- Josef -->
+                <div class="team-card" data-name="Josef" data-position="moderator">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Josef" loading="lazy">
+                    <div class="card-content">
+                        <h3 class="card-name">Josef</h3>
+                        <span class="card-position">Moderátor</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> Josef</p>
+                            <p><strong>Pozice:</strong> Moderátor</p>
+                            <p><strong>Věk:</strong> —</p>
+                        </div>
+                        <div class="card-bio">Dohlíží na dodržování pravidel v chatech a pomáhá uživatelům s dotazy.</div>
+                        <div class="card-actions">
+                            <a href="https://discord.com/users/567890123456789012" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:josef@doupegeniu.cz" class="card-btn email">Email</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Kralis -->
+                <div class="team-card" data-name="Kralis" data-position="moderator">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1504257432389-52343af06ae5?w=400&h=400&fit=crop" alt="Kralis" loading="lazy">
+                    <div class="card-content">
+                        <h3 class="card-name">Kralis</h3>
+                        <span class="card-position">Moderátor</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> Kralis</p>
+                            <p><strong>Pozice:</strong> Moderátor</p>
+                            <p><strong>Věk:</strong> —</p>
+                        </div>
+                        <div class="card-bio">Specialista na technické dotazy a pomoc s nastavením.</div>
+                        <div class="card-actions">
+                            <a href="https://discord.com/users/678901234567890123" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:kralis@doupegeniu.cz" class="card-btn email">Email</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- veru_nkaa -->
+                <div class="team-card" data-name="veru_nkaa" data-position="moderator">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop" alt="veru_nkaa" loading="lazy">
+                    <div class="card-content">
+                        <h3 class="card-name">veru_nkaa</h3>
+                        <span class="card-position">Moderátorka</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> veru_nkaa</p>
+                            <p><strong>Pozice:</strong> Moderátorka</p>
+                            <p><strong>Věk:</strong> —</p>
+                        </div>
+                        <div class="card-bio">Stará se o studijní místnosti a pomáhá studentům s hledáním materiálů.</div>
+                        <div class="card-actions">
+                            <a href="https://discord.com/users/789012345678901234" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:verunka@doupegeniu.cz" class="card-btn email">Email</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- kribikovas -->
+                <div class="team-card" data-name="kribikovas" data-position="moderator">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop" alt="kribikovas" loading="lazy">
+                    <div class="card-content">
+                        <h3 class="card-name">kribikovas</h3>
+                        <span class="card-position">Moderátor</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> kribikovas</p>
+                            <p><strong>Pozice:</strong> Moderátor</p>
+                            <p><strong>Věk:</strong> —</p>
+                        </div>
+                        <div class="card-bio">Pomáhá s organizací a dohlíží na dodržování pravidel.</div>
+                        <div class="card-actions">
+                            <a href="https://discord.com/users/890123456789012345" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:kribikovas@doupegeniu.cz" class="card-btn email">Email</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekce Junior Moderátoři -->
+        <section class="team-section" data-section="junior">
+            <h2 class="section-title">
+                <img src="https://i.ibb.co/7JdcsspS/681304-moderator.png" alt="Junior Moderátoři" class="section-icon" onerror="this.style.display='none'">
+                Junior Moderátoři
+            </h2>
+            <div class="team-grid" id="junior-grid">
+                <!-- zuz._.le -->
+                <div class="team-card" data-name="zuz._.le" data-position="junior">
+                    <img class="card-image" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop" alt="zuz._.le" loading="lazy">
+                    <div class="card-content">
+                        <h3 class="card-name">zuz._.le</h3>
+                        <span class="card-position">Junior Moderátorka</span>
+                        <div class="card-details">
+                            <p><strong>Přezdívka:</strong> zuz._.le</p>
+                            <p><strong>Pozice:</strong> Junior Moderátorka</p>
+                            <p><strong>Věk:</strong> —</p>
+                        </div>
+                        <div class="card-bio">Učí se od zkušenějších, pomáhá s běžnými dotazy a postupně poznává chod komunity.</div>
+                        <div class="card-actions">
+                            <a href="https://discord.com/users/901234567890123456" class="card-btn discord" target="_blank">Discord</a>
+                            <a href="mailto:zuzle@doupegeniu.cz" class="card-btn email">Email</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 volná místa pro juniory -->
+                <!-- Volné místo 1 -->
+                <div class="team-card empty">
+                    <div class="empty-content">
+                        <span>🔮</span>
+                        <p>Volné místo pro junior moderátora</p>
+                    </div>
+                </div>
+                <!-- Volné místo 2 -->
+                <div class="team-card empty">
+                    <div class="empty-content">
+                        <span>🔮</span>
+                        <p>Volné místo pro junior moderátora</p>
+                    </div>
+                </div>
+                <!-- Volné místo 3 -->
+                <div class="team-card empty">
+                    <div class="empty-content">
+                        <span>🔮</span>
+                        <p>Volné místo pro junior moderátora</p>
+                    </div>
+                </div>
+                <!-- Volné místo 4 -->
+                <div class="team-card empty">
+                    <div class="empty-content">
+                        <span>🔮</span>
+                        <p>Volné místo pro junior moderátora</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prázdný stav pro vyhledávání -->
+        <div class="no-results" id="noResults" style="display: none;">
+            Žádný člen týmu neodpovídá hledanému výrazu.
+        </div>
     </main>
 
     <footer>
@@ -991,5 +856,90 @@
             <div class="copyright">© 2026 Doupě géniů</div>
         </div>
     </footer>
+
+    <script>
+        // Hamburger menu
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                // Animace hamburgeru
+                const spans = menuToggle.querySelectorAll('span');
+                if (navLinks.classList.contains('active')) {
+                    spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                    spans[1].style.opacity = '0';
+                    spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+                } else {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            });
+
+            // Zavření menu po kliknutí na odkaz
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    const spans = menuToggle.querySelectorAll('span');
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                });
+            });
+        }
+
+        // Vyhledávání
+        const searchInput = document.getElementById('searchInput');
+        const teamCards = document.querySelectorAll('.team-card:not(.empty)'); // Nevyhledáváme v prázdných kartách
+        const emptyCards = document.querySelectorAll('.team-card.empty');
+        const noResults = document.getElementById('noResults');
+        const sections = document.querySelectorAll('.team-section');
+
+        function filterCards() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            // Skryjeme/zobrazíme normální karty
+            teamCards.forEach(card => {
+                const name = card.getAttribute('data-name')?.toLowerCase() || '';
+                const position = card.getAttribute('data-position')?.toLowerCase() || '';
+                const cardText = card.textContent.toLowerCase();
+                
+                const matches = searchTerm === '' || name.includes(searchTerm) || position.includes(searchTerm) || cardText.includes(searchTerm);
+                
+                if (matches) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Prázdné karty vždy schováme při vyhledávání (nebo zobrazíme jen když je search prázdný)
+            emptyCards.forEach(card => {
+                card.style.display = searchTerm === '' ? 'flex' : 'none';
+            });
+
+            // Skryjeme prázdné sekce
+            sections.forEach(section => {
+                const cards = section.querySelectorAll('.team-card');
+                const hasVisible = Array.from(cards).some(card => card.style.display !== 'none');
+                section.style.display = hasVisible ? 'block' : 'none';
+            });
+
+            // Zobrazíme nebo skryjeme hlášku "nenalezeno"
+            if (visibleCount === 0 && searchTerm !== '') {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', filterCards);
+        }
+    </script>
 </body>
 </html>
