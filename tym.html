@@ -74,26 +74,6 @@
             white-space: nowrap;
         }
 
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 24px;
-            height: 20px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            z-index: 200;
-        }
-
-        .menu-toggle span {
-            width: 100%;
-            height: 2px;
-            background: var(--text);
-            transition: all 0.3s;
-        }
-
         .nav-links {
             display: flex;
             gap: 1.5rem;
@@ -457,46 +437,125 @@
             grid-column: 1 / -1;
         }
 
-        /* Responsive */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Mobilní zařízení - stejné jako v index.html */
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
+            nav {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                font-size: 1.1rem;
             }
 
             .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 250px;
-                height: 100vh;
-                background: var(--surface);
-                flex-direction: column;
-                padding: 5rem 1.5rem 2rem;
-                transition: right 0.3s ease;
-                box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-                align-items: flex-start;
-                overflow-y: auto;
-                gap: 1rem;
-                z-index: 150;
-            }
-
-            .nav-links.active {
-                right: 0;
-            }
-
-            .nav-links li {
+                order: 3;
                 width: 100%;
+                justify-content: flex-start;
+                padding-top: 0.5rem;
+                margin-top: 0.5rem;
+                border-top: 1px solid var(--border);
+                gap: 1rem;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
             }
 
             .nav-links a {
-                display: block;
-                padding: 0.5rem 0;
-                font-size: 1rem;
+                font-size: 0.8rem;
+                padding: 0.25rem 0;
+            }
+
+            .nav-links a.active::after {
+                bottom: -2px;
             }
 
             .nav-cta {
-                margin-left: auto;
-                margin-right: 1rem;
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            main {
+                padding-top: 120px;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .page-header {
+                margin: 2rem 0 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: clamp(1.75rem, 6vw, 2.5rem);
+            }
+
+            .search-container {
+                margin: 1.5rem auto;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+                gap: 0.5rem;
+            }
+
+            .section-icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            .team-grid {
+                gap: 1rem;
+            }
+
+            .card-content {
+                padding: 1rem;
+            }
+
+            .card-name {
+                font-size: 1.1rem;
+            }
+
+            .card-details p {
+                font-size: 0.85rem;
+            }
+
+            .card-details strong {
+                min-width: 60px;
+            }
+
+            .card-bio {
+                font-size: 0.85rem;
+                margin: 0.75rem 0;
+            }
+
+            .card-actions {
+                gap: 0.4rem;
+            }
+
+            .card-btn {
+                min-width: 80px;
+                font-size: 0.75rem;
+                padding: 0.4rem 0.5rem;
+            }
+
+            .team-card.empty {
+                min-height: 250px;
+            }
+
+            .empty-content span {
+                font-size: 2rem;
+            }
+
+            .empty-content p {
+                font-size: 0.8rem;
             }
         }
 
@@ -521,12 +580,7 @@
                 <span>◆</span>
                 Doupě géniů
             </a>
-            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
+            <ul class="nav-links">
                 <li><a href="index.html">Domů</a></li>
                 <li><a href="oprojektu.html">O projektu</a></li>
                 <li><a href="vyhody.html">Výhody</a></li>
@@ -858,41 +912,9 @@
     </footer>
 
     <script>
-        // Hamburger menu
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        if (menuToggle && navLinks) {
-            menuToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                // Animace hamburgeru
-                const spans = menuToggle.querySelectorAll('span');
-                if (navLinks.classList.contains('active')) {
-                    spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-                    spans[1].style.opacity = '0';
-                    spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
-                } else {
-                    spans[0].style.transform = 'none';
-                    spans[1].style.opacity = '1';
-                    spans[2].style.transform = 'none';
-                }
-            });
-
-            // Zavření menu po kliknutí na odkaz
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    const spans = menuToggle.querySelectorAll('span');
-                    spans[0].style.transform = 'none';
-                    spans[1].style.opacity = '1';
-                    spans[2].style.transform = 'none';
-                });
-            });
-        }
-
         // Vyhledávání
         const searchInput = document.getElementById('searchInput');
-        const teamCards = document.querySelectorAll('.team-card:not(.empty)'); // Nevyhledáváme v prázdných kartách
+        const teamCards = document.querySelectorAll('.team-card:not(.empty)');
         const emptyCards = document.querySelectorAll('.team-card.empty');
         const noResults = document.getElementById('noResults');
         const sections = document.querySelectorAll('.team-section');
@@ -901,7 +923,6 @@
             const searchTerm = searchInput.value.toLowerCase().trim();
             let visibleCount = 0;
 
-            // Skryjeme/zobrazíme normální karty
             teamCards.forEach(card => {
                 const name = card.getAttribute('data-name')?.toLowerCase() || '';
                 const position = card.getAttribute('data-position')?.toLowerCase() || '';
@@ -917,19 +938,16 @@
                 }
             });
 
-            // Prázdné karty vždy schováme při vyhledávání (nebo zobrazíme jen když je search prázdný)
             emptyCards.forEach(card => {
                 card.style.display = searchTerm === '' ? 'flex' : 'none';
             });
 
-            // Skryjeme prázdné sekce
             sections.forEach(section => {
                 const cards = section.querySelectorAll('.team-card');
                 const hasVisible = Array.from(cards).some(card => card.style.display !== 'none');
                 section.style.display = hasVisible ? 'block' : 'none';
             });
 
-            // Zobrazíme nebo skryjeme hlášku "nenalezeno"
             if (visibleCount === 0 && searchTerm !== '') {
                 noResults.style.display = 'block';
             } else {
