@@ -1,248 +1,201 @@
 <!DOCTYPE html>
-<html lang="cs" class="scroll-smooth">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O projektu | Doupě géniů</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>O projektu — Doupě géniů</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Space Grotesk', 'sans-serif'],
-                    },
-                    colors: {
-                        genius: {
-                            black: '#0a0a0a',
-                            dark: '#111111',
-                            green: '#00ff41',
-                            gray: '#1a1a1a',
-                            lightGray: '#888888'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #fafafa;
+            --text: #0f0f0f;
+            --text-secondary: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-light: #dbeafe;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: #0a0a0a;
-            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #ffffff 0%, #00ff41 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
         }
-        
-        .nav-glass {
-            background: rgba(10, 10, 10, 0.8);
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 250, 250, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .glow-green {
-            box-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
-        }
-        
-        .border-glow {
-            border: 1px solid rgba(0, 255, 65, 0.2);
-        }
-        
-        .hover-glow:hover {
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
-            border-color: rgba(0, 255, 65, 0.4);
-        }
-        
-        #canvas-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.3;
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 0.75rem 1rem;
         }
 
-        /* Mobile Menu Styles */
-        .menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
-            z-index: 998;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .menu-overlay.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .mobile-menu-container {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 85%;
-            max-width: 320px;
-            height: 100vh;
-            background: #111111;
-            border-left: 1px solid rgba(0, 255, 65, 0.2);
-            z-index: 999;
-            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .mobile-menu-container.active {
-            right: 0;
-        }
-
-        .mobile-menu-header {
-            padding: 2rem 1.5rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .mobile-menu-title {
+        .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 0.25rem;
-        }
-
-        .mobile-menu-subtitle {
-            font-size: 0.9rem;
-            color: #888888;
-        }
-
-        .mobile-nav-links {
-            list-style: none;
-            padding: 1rem 0;
-            flex-grow: 1;
-        }
-
-        .mobile-nav-links li {
-            width: 100%;
-        }
-
-        .mobile-nav-links a {
+            color: var(--text);
+            text-decoration: none;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 1.125rem 1.5rem;
-            color: #888888;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border-left: 3px solid transparent;
+            gap: 0.5rem;
+            white-space: nowrap;
+            transition: transform 0.2s ease;
         }
 
-        .mobile-nav-links a:hover,
-        .mobile-nav-links a.active {
-            color: #00ff41;
-            background: rgba(0, 255, 65, 0.05);
-            border-left-color: #00ff41;
+        .logo:hover {
+            transform: scale(1.02);
         }
 
-        .mobile-nav-links a::after {
-            content: '→';
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.2s ease;
-            color: #00ff41;
-        }
-
-        .mobile-nav-links a:hover::after,
-        .mobile-nav-links a.active::after {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .mobile-nav-links a.active {
-            background: rgba(0, 255, 65, 0.1);
-        }
-
-        .mobile-menu-cta {
-            padding: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .mobile-menu-cta a {
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
-            width: 100%;
-            padding: 1rem;
-            background: #00ff41;
-            color: #0a0a0a;
-            font-weight: 600;
-            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
             text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
             transition: all 0.2s ease;
+            position: relative;
+            white-space: nowrap;
         }
 
-        .mobile-menu-cta a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0, 255, 65, 0.3);
+        .nav-links a:hover {
+            color: var(--text);
+            background: rgba(0,0,0,0.03);
         }
 
-        /* Hamburger Button */
+        .nav-links a.active {
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .nav-cta {
+            background: var(--text);
+            color: var(--bg);
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
             width: 44px;
             height: 44px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
             cursor: pointer;
             padding: 0;
             gap: 5px;
+            align-items: center;
             transition: all 0.2s ease;
         }
 
         .menu-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(0, 255, 65, 0.3);
+            background: var(--bg);
+            border-color: var(--accent);
         }
 
         .menu-toggle span {
             width: 22px;
             height: 2.5px;
-            background: #ffffff;
+            background: var(--text);
             border-radius: 2px;
             transition: all 0.3s ease;
             transform-origin: center;
         }
 
         .menu-toggle.active {
-            background: #00ff41;
-            border-color: #00ff41;
+            background: var(--accent);
+            border-color: var(--accent);
         }
 
         .menu-toggle.active span {
-            background: #0a0a0a;
+            background: white;
         }
 
         .menu-toggle.active span:nth-child(1) {
@@ -258,378 +211,765 @@
             transform: translateY(-7.5px) rotate(-45deg);
         }
 
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .desktop-nav {
-                display: none !important;
-            }
+        /* Mobile Menu Overlay */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        /* Close button for mobile menu */
-        .mobile-menu-close {
+        .menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 8rem 1.5rem 4rem;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header-bg {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .page-header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 4rem 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-block {
+            margin-bottom: 3rem;
+        }
+
+        .content-block h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .content-block p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .content-block ul {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .content-block li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .content-block li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Values Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .value-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-light);
+        }
+
+        .value-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-light) 0%, #bfdbfe 100%);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #888888;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .mobile-menu-close:hover {
-            background: rgba(0, 255, 65, 0.1);
-            border-color: #00ff41;
-            color: #00ff41;
+        .value-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .value-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-light));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin-left: -5px;
+            box-shadow: 0 0 0 4px var(--accent-light);
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: var(--text);
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            padding: 4rem 1.5rem;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: white;
+            color: var(--accent);
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            padding: 3rem 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .footer-brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: 1rem 0;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 320px;
+                height: 100vh;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 6rem 1.5rem 2rem;
+                gap: 0;
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+                align-items: stretch;
+                z-index: 999;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 1rem 1.25rem;
+                font-size: 1.1rem;
+                border-radius: var(--radius-sm);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .nav-links a::after {
+                content: '→';
+                opacity: 0;
+                transform: translateX(-10px);
+                transition: all 0.2s ease;
+                color: var(--accent);
+            }
+
+            .nav-links a:hover::after,
+            .nav-links a.active::after {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-links a.active {
+                background: var(--accent-light);
+                color: var(--accent);
+            }
+
+            .nav-cta {
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+                padding: 1rem;
+                font-size: 1rem;
+                border-radius: var(--radius);
+                margin-top: auto;
+            }
+
+            .mobile-menu-header {
+                display: block;
+                padding-bottom: 1.5rem;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .mobile-menu-title {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--text);
+                margin-bottom: 0.5rem;
+            }
+
+            .mobile-menu-subtitle {
+                font-size: 0.9rem;
+                color: var(--text-secondary);
+            }
+
+            .page-header {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .content-section {
+                padding: 3rem 1rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-left: 1.5rem;
+            }
+
+            .timeline-item::before {
+                left: -1.5rem;
+            }
+
+            .footer-content {
+                gap: 1.5rem;
+            }
+
+            .footer-links {
+                gap: 1rem;
+            }
+        }
+
+        @media (min-width: 640px) and (max-width: 1024px) {
+            .page-header {
+                padding: 7rem 2rem 3rem;
+            }
+
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .mobile-menu-header {
+                display: none;
+            }
+
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .footer-divider {
+                display: none;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col">
-
-    <canvas id="canvas-bg"></canvas>
-
-    <!-- Navigation -->
-    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
-        <div class="nav-glass rounded-full px-6 py-4 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-genius-green/10 border border-genius-green/30 flex items-center justify-center">
-                    <i class="fa-solid fa-brain text-genius-green text-lg"></i>
-                </div>
-                <span class="font-display font-bold text-lg tracking-wide hidden sm:block">DOUPĚ GÉNIŮ</span>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">◆</div>
+                Doupě géniů
             </a>
-
-            <!-- Desktop Navigation -->
-            <div class="desktop-nav hidden md:flex items-center gap-1 bg-white/5 rounded-full p-1">
-                <a href="index.html#uvod" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Úvod</a>
-                <a href="oprojektu.html" class="px-4 py-2 rounded-full text-sm text-white bg-white/10 transition-all">O projektu</a>
-                <a href="vyhody.html" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Výhody</a>
-                <a href="tym.html" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Tým</a>
-                <a href="pravidla.html" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Pravidla</a>
-                <a href="kontakt.html" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Kontakt</a>
-            </div>
-
-            <a href="https://discord.com" target="_blank" class="desktop-nav hidden sm:flex items-center gap-2 px-5 py-2.5 bg-genius-green text-black font-semibold rounded-full hover:scale-105 transition-transform text-sm">
-                <i class="fa-brands fa-discord"></i>
-                <span>Připojit se</span>
-            </a>
-
-            <!-- Mobile Menu Toggle -->
             <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
+            <div class="menu-overlay"></div>
+            <div class="nav-menu">
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-title">Doupě géniů</div>
+                    <div class="mobile-menu-subtitle">Menu</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Domů</a></li>
+                    <li><a href="oprojektu.html" class="active">O projektu</a></li>
+                    <li><a href="vyhody.html">Výhody</a></li>
+                    <li><a href="tym.html">Tým</a></li>
+                    <li><a href="pravidla.html">Pravidla</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+                <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
+            </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu Overlay -->
-    <div class="menu-overlay"></div>
+    <main>
+        <header class="page-header">
+            <div class="page-header-bg"></div>
+            <div class="page-header-content">
+                <h1>O projektu</h1>
+                <p>Poznejte příběh a vizi komunity, která mění způsob, jakým studenti spolupracují a učí se od sebe navzájem.</p>
+            </div>
+        </header>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu-container">
-        <button class="mobile-menu-close" aria-label="Zavřít menu">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-        
-        <div class="mobile-menu-header">
-            <div class="mobile-menu-title">Doupě géniů</div>
-            <div class="mobile-menu-subtitle">Menu</div>
-        </div>
-        
-        <ul class="mobile-nav-links">
-            <li><a href="index.html#uvod">Úvod</a></li>
-            <li><a href="oprojektu.html" class="active">O projektu</a></li>
-            <li><a href="vyhody.html">Výhody</a></li>
-            <li><a href="tym.html">Tým</a></li>
-            <li><a href="pravidla.html">Pravidla</a></li>
-            <li><a href="kontakt.html">Kontakt</a></li>
-        </ul>
-        
-        <div class="mobile-menu-cta">
-            <a href="https://discord.com" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-discord text-lg"></i>
-                <span>Připojit se na Discord</span>
+        <section class="content-section">
+            <div class="content-block fade-in">
+                <h2>Náš příběh</h2>
+                <p>
+                    Doupě géniů vzniklo v roce 2024 z jednoduché myšlenky: studenti si navzájem nejvíce rozumějí a dokáží si nejlépe pomoci. 
+                    Co začalo jako malá skupinka spolužáků, kteří si pomáhali s domácími úkoly, se postupně rozrostlo v živou komunitu 
+                    stovek studentů z desítek škol po celé České republice.
+                </p>
+                <p>
+                    Věříme, že každý student má své silné stránky a oblasti, ve kterých může ostatním pomoci. 
+                    Naším cílem je vytvořit prostředí, kde se znalosti a zkušenosti volně sdílejí, 
+                    kde se nikdo nebojí zeptat a kde každý najde podporu pro svůj akademický růst.
+                </p>
+            </div>
+
+            <div class="content-block fade-in">
+                <h2>Naše hodnoty</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">🤝</div>
+                        <h3>Spolupráce</h3>
+                        <p>Věříme v sílu týmové práce a vzájemné podpory. Společně dokážeme více než sami.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">📚</div>
+                        <h3>Vzdělávání</h3>
+                        <p>Podporujeme celoživotní učení a sdílení znalostí bez ohledu na úroveň zkušeností.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🛡️</div>
+                        <h3>Bezpečí</h3>
+                        <p>Vytváříme přátelské a respektující prostředí, kde se každý cítí vítán a vážen.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">⚡</div>
+                        <h3>Inovace</h3>
+                        <p>Neustále hledáme nové způsoby, jak zlepšit vzdělávací proces a zpřístupnit vědomosti.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block fade-in">
+                <h2>Co nabízíme</h2>
+                <ul>
+                    <li>Pomoc s domácími úkoly a přípravou na zkoušky v reálném čase</li>
+                    <li>Specializované kanály pro různé předměty a obory</li>
+                    <li>Možnost najít spoluhráče na skupinové projekty a soutěže</li>
+                    <li>Sdílení studijních materiálů, poznámek a tipů</li>
+                    <li>Kariérní poradenství a mentoring od starších studentů</li>
+                    <li>Organizaci virtuálních study roomů a skupinového učení</li>
+                </ul>
+            </div>
+
+            <div class="content-block fade-in">
+                <h2>Milníky</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">Leden 2024</div>
+                        <div class="timeline-content">
+                            <h3>Založení komunity</h3>
+                            <p>Prvních 50 členů a spuštění Discord serveru</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Březen 2024</div>
+                        <div class="timeline-content">
+                            <h3>Růst komunity</h3>
+                            <p>Překročení hranice 200 aktivních studentů</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Září 2024</div>
+                        <div class="timeline-content">
+                            <h3>Spolupráce se školami</h3>
+                            <p>Partnerství s prvními školami a oficiální podpora pedagogů</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Leden 2025</div>
+                        <div class="timeline-content">
+                            <h3>Nová éra</h3>
+                            <p>Spuštění webových stránek a expanze na 500+ členů</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block fade-in">
+                <h2>Vize do budoucna</h2>
+                <p>
+                    Chceme se stát největší studentskou komunitou v České republice, která propojuje studenty 
+                    všech typů škol – od základních po vysoké. Plánujeme rozšířit naše aktivity o offline meetupy, 
+                    workshopy a spolupráci s firmami, které nabízejí stáže a pracovní příležitosti pro studenty.
+                </p>
+                <p>
+                    Věříme, že budoucnost vzdělávání spočívá v propojení tradičního školního systému 
+                    s moderními technologiemi a peer-to-peer učením. Doupě géniů je prvním krokem k této budoucnosti.
+                </p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Přidej se k nám</h2>
+            <p>Staň se součástí rostoucí komunity studentů, kteří si navzájem pomáhají k úspěchu.</p>
+            <a href="https://discord.gg/fUKmXtpaE" class="cta-button" target="_blank" rel="noopener noreferrer">
+                Připojit se na Discord
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </a>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <main class="flex-grow pt-32 pb-20 px-6">
-        <div class="max-w-6xl mx-auto">
-            <!-- Header -->
-            <div class="text-center mb-20">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-genius-green/30 bg-genius-green/5 mb-6">
-                    <span class="text-genius-green text-sm font-medium tracking-wide">NAŠE VIZE</span>
-                </div>
-                <h1 class="font-display text-5xl md:text-7xl font-bold mb-6">
-                    O <span class="gradient-text">projektu</span>
-                </h1>
-                <p class="text-xl text-genius-lightGray max-w-3xl mx-auto leading-relaxed">
-                    Doupě géniů vzniklo z jednoduché myšlenky: studenti si pomáhají lépe než kdokoli jiný. 
-                    Spojujeme lidi, kteří chtějí růst a posouvat se vpřed.
-                </p>
-            </div>
-
-            <!-- Story Section -->
-            <div class="grid md:grid-cols-2 gap-16 items-center mb-24">
-                <div class="order-2 md:order-1">
-                    <h2 class="text-3xl font-display font-bold mb-6">Jak to začalo</h2>
-                    <div class="space-y-4 text-genius-lightGray leading-relaxed">
-                        <p>
-                            Vše začalo v roce 2022, kdy jsme jako skupina studentů zjistili, že studium nemusí být osamělá cesta. 
-                            Začali jsme sdílet poznámky, řešit úkoly společně a podporovat se při zkouškách.
-                        </p>
-                        <p>
-                            To, co začalo jako malá skupina přátel, se rychle rozrostlo v komunitu stovek studentů 
-                            napříč různými univerzitami a obory.
-                        </p>
-                        <p>
-                            Dnes jsme platforma, která propojuje studenty nejen v České republice, 
-                            ale i v zahraničí. Naším cílem je vytvořit globální síť, kde znalosti a zkušenosti 
-                            proudí volně mezi těmi, kteří chtějí učit, a těmi, kteří chtějí se učit.
-                        </p>
-                    </div>
-                </div>
-                <div class="order-1 md:order-2 relative">
-                    <div class="absolute -inset-4 bg-genius-green/20 rounded-2xl blur-2xl"></div>
-                    <div class="relative border-glow rounded-2xl overflow-hidden hover-glow transition-all">
-                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Our story" class="w-full h-[400px] object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mission & Vision -->
-            <div class="grid md:grid-cols-2 gap-8 mb-24">
-                <div class="border-glow rounded-2xl p-8 hover-glow transition-all">
-                    <div class="w-14 h-14 rounded-xl bg-genius-green/10 flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-bullseye text-genius-green text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-display font-bold mb-4">Naše mise</h3>
-                    <p class="text-genius-lightGray leading-relaxed">
-                        Vytvořit prostředí, kde každý student najde podporu, inspiraci a praktické nástroje 
-                        pro svůj akademický i profesní růst. Chceme demokratizovat přístup ke kvalitním 
-                        studijním materiálům a mentoringu.
-                    </p>
-                </div>
-                
-                <div class="border-glow rounded-2xl p-8 hover-glow transition-all">
-                    <div class="w-14 h-14 rounded-xl bg-genius-green/10 flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-eye text-genius-green text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-display font-bold mb-4">Naše vize</h3>
-                    <p class="text-genius-lightGray leading-relaxed">
-                        Stát se přední studentskou komunitou ve střední Evropě, která definuje standardy 
-                        pro spolupráci a vzájemnou pomoc. Místo, kde se rodí inovace a budoucí lídři.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Stats -->
-            <div class="border-glow rounded-2xl p-8 md:p-12 mb-24">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <div>
-                        <div class="text-4xl md:text-5xl font-display font-bold text-genius-green mb-2">500+</div>
-                        <div class="text-genius-lightGray text-sm">Aktivních členů</div>
-                    </div>
-                    <div>
-                        <div class="text-4xl md:text-5xl font-display font-bold text-genius-green mb-2">50+</div>
-                        <div class="text-genius-lightGray text-sm">Dokončených projektů</div>
-                    </div>
-                    <div>
-                        <div class="text-4xl md:text-5xl font-display font-bold text-genius-green mb-2">20+</div>
-                        <div class="text-genius-lightGray text-sm">Univerzit</div>
-                    </div>
-                    <div>
-                        <div class="text-4xl md:text-5xl font-display font-bold text-genius-green mb-2">15</div>
-                        <div class="text-genius-lightGray text-sm">Zemí</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Values -->
-            <div class="mb-24">
-                <h2 class="text-3xl font-display font-bold text-center mb-12">Hodnoty, které nás definují</h2>
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="text-center p-6">
-                        <div class="w-16 h-16 rounded-full border border-genius-green/30 bg-genius-green/5 flex items-center justify-center mx-auto mb-4">
-                            <i class="fa-solid fa-handshake text-genius-green text-2xl"></i>
-                        </div>
-                        <h4 class="text-xl font-semibold mb-2">Spolupráce</h4>
-                        <p class="text-genius-lightGray text-sm">Věříme, že společně dosáhneme více než sami.</p>
-                    </div>
-                    <div class="text-center p-6">
-                        <div class="w-16 h-16 rounded-full border border-genius-green/30 bg-genius-green/5 flex items-center justify-center mx-auto mb-4">
-                            <i class="fa-solid fa-lightbulb text-genius-green text-2xl"></i>
-                        </div>
-                        <h4 class="text-xl font-semibold mb-2">Inovace</h4>
-                        <p class="text-genius-lightGray text-sm">Podporujeme nové nápady a nebojíme se experimentovat.</p>
-                    </div>
-                    <div class="text-center p-6">
-                        <div class="w-16 h-16 rounded-full border border-genius-green/30 bg-genius-green/5 flex items-center justify-center mx-auto mb-4">
-                            <i class="fa-solid fa-heart text-genius-green text-2xl"></i>
-                        </div>
-                        <h4 class="text-xl font-semibold mb-2">Podpora</h4>
-                        <p class="text-genius-lightGray text-sm">Každý člen je důležitý a zaslouží si pomoc.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CTA -->
-            <div class="text-center">
-                <h2 class="text-3xl font-display font-bold mb-6">Chceš být součástí?</h2>
-                <p class="text-genius-lightGray mb-8 max-w-xl mx-auto">
-                    Připoj se k nám a zažij, jaké to je být součástí komunity, která ti pomůže růst.
-                </p>
-                <a href="https://discord.com" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-genius-green text-black font-semibold rounded-full hover:scale-105 transition-transform glow-green">
-                    <i class="fa-brands fa-discord text-xl"></i>
-                    <span>Připojit se na Discord</span>
-                </a>
-            </div>
-        </div>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-white/10 py-8 px-6">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <i class="fa-solid fa-brain text-genius-green text-xl"></i>
-                <span class="font-display font-bold tracking-wider">DOUPĚ GÉNIŮ</span>
+    <footer>
+        <div class="footer-content">
+            <a href="index.html" class="footer-brand">
+                <div class="footer-brand-icon">◆</div>
+                Doupě géniů
+            </a>
+            <div class="footer-links">
+                <a href="index.html">Domů</a>
+                <a href="oprojektu.html">O projektu</a>
+                <a href="pravidla.html">Pravidla</a>
+                <a href="kontakt.html">Kontakt</a>
+                <a href="https://discord.gg/fUKmXtpaE" target="_blank" rel="noopener noreferrer">Discord</a>
             </div>
-            <div class="text-genius-lightGray text-sm">
-                © 2024 Doupě géniů. Všechna práva vyhrazena.
-            </div>
-            <div class="flex gap-4">
-                <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-genius-lightGray hover:border-genius-green hover:text-genius-green transition-all">
-                    <i class="fa-brands fa-discord"></i>
-                </a>
-                <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-genius-lightGray hover:border-genius-green hover:text-genius-green transition-all">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-                <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-genius-lightGray hover:border-genius-green hover:text-genius-green transition-all">
-                    <i class="fa-brands fa-github"></i>
-                </a>
-            </div>
+            <div class="footer-divider"></div>
+            <div class="copyright">© 2026 Doupě géniů. Všechna práva vyhrazena.</div>
         </div>
     </footer>
 
     <script>
-        // Mobile Menu Functionality
+        // Mobile menu toggle
         const menuToggle = document.querySelector('.menu-toggle');
-        const mobileMenu = document.querySelector('.mobile-menu-container');
+        const navMenu = document.querySelector('.nav-menu');
         const menuOverlay = document.querySelector('.menu-overlay');
-        const menuClose = document.querySelector('.mobile-menu-close');
         const body = document.body;
-
+        
         function openMenu() {
             menuToggle.classList.add('active');
             menuToggle.setAttribute('aria-expanded', 'true');
             menuToggle.setAttribute('aria-label', 'Zavřít menu');
-            mobileMenu.classList.add('active');
+            navMenu.classList.add('active');
             menuOverlay.classList.add('active');
             body.style.overflow = 'hidden';
         }
-
+        
         function closeMenu() {
             menuToggle.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
             menuToggle.setAttribute('aria-label', 'Otevřít menu');
-            mobileMenu.classList.remove('active');
+            navMenu.classList.remove('active');
             menuOverlay.classList.remove('active');
             body.style.overflow = '';
         }
-
+        
         menuToggle.addEventListener('click', () => {
-            if (mobileMenu.classList.contains('active')) {
+            if (navMenu.classList.contains('active')) {
                 closeMenu();
             } else {
                 openMenu();
             }
         });
 
-        menuClose.addEventListener('click', closeMenu);
+        // Close menu when clicking overlay
         menuOverlay.addEventListener('click', closeMenu);
 
         // Close menu when clicking on a link
-        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+        document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
 
         // Close menu on escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
                 closeMenu();
             }
         });
 
-        // Canvas Animation
-        const canvas = document.getElementById('canvas-bg');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                this.size = Math.random() * 1.5;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(0, 255, 65, 0.6)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 50; i++) particles.push(new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
+        // Add scroll effect to nav
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const nav = document.querySelector('nav');
             
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        ctx.strokeStyle = `rgba(0, 255, 65, ${0.08 - dist/1500})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-                particles[i].update();
-                particles[i].draw();
+            if (currentScroll > 100) {
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+            } else {
+                nav.style.boxShadow = 'none';
             }
-            requestAnimationFrame(animate);
-        }
-        animate();
+            
+            lastScroll = currentScroll;
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.1s';
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.content-block').forEach((block) => {
+            observer.observe(block);
+        });
     </script>
 </body>
 </html>
