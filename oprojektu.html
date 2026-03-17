@@ -73,6 +73,224 @@
             z-index: -1;
             opacity: 0.3;
         }
+
+        /* Mobile Menu Styles */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .mobile-menu-container {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 320px;
+            height: 100vh;
+            background: #111111;
+            border-left: 1px solid rgba(0, 255, 65, 0.2);
+            z-index: 999;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-menu-container.active {
+            right: 0;
+        }
+
+        .mobile-menu-header {
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-menu-subtitle {
+            font-size: 0.9rem;
+            color: #888888;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            padding: 1rem 0;
+            flex-grow: 1;
+        }
+
+        .mobile-nav-links li {
+            width: 100%;
+        }
+
+        .mobile-nav-links a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.125rem 1.5rem;
+            color: #888888;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            color: #00ff41;
+            background: rgba(0, 255, 65, 0.05);
+            border-left-color: #00ff41;
+        }
+
+        .mobile-nav-links a::after {
+            content: '→';
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.2s ease;
+            color: #00ff41;
+        }
+
+        .mobile-nav-links a:hover::after,
+        .mobile-nav-links a.active::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .mobile-nav-links a.active {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .mobile-menu-cta {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-cta a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 1rem;
+            background: #00ff41;
+            color: #0a0a0a;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu-cta a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 255, 65, 0.3);
+        }
+
+        /* Hamburger Button */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            padding: 0;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 255, 65, 0.3);
+        }
+
+        .menu-toggle span {
+            width: 22px;
+            height: 2.5px;
+            background: #ffffff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active {
+            background: #00ff41;
+            border-color: #00ff41;
+        }
+
+        .menu-toggle.active span {
+            background: #0a0a0a;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .desktop-nav {
+                display: none !important;
+            }
+        }
+
+        /* Close button for mobile menu */
+        .mobile-menu-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888888;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(0, 255, 65, 0.1);
+            border-color: #00ff41;
+            color: #00ff41;
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
@@ -89,7 +307,8 @@
                 <span class="font-display font-bold text-lg tracking-wide hidden sm:block">DOUPĚ GÉNIŮ</span>
             </a>
 
-            <div class="hidden md:flex items-center gap-1 bg-white/5 rounded-full p-1">
+            <!-- Desktop Navigation -->
+            <div class="desktop-nav hidden md:flex items-center gap-1 bg-white/5 rounded-full p-1">
                 <a href="index.html#uvod" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Úvod</a>
                 <a href="oprojektu.html" class="px-4 py-2 rounded-full text-sm text-white bg-white/10 transition-all">O projektu</a>
                 <a href="vyhody.html" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Výhody</a>
@@ -98,31 +317,50 @@
                 <a href="kontakt.html" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Kontakt</a>
             </div>
 
-            <a href="https://discord.com" target="_blank" class="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-genius-green text-black font-semibold rounded-full hover:scale-105 transition-transform text-sm">
+            <a href="https://discord.com" target="_blank" class="desktop-nav hidden sm:flex items-center gap-2 px-5 py-2.5 bg-genius-green text-black font-semibold rounded-full hover:scale-105 transition-transform text-sm">
                 <i class="fa-brands fa-discord"></i>
                 <span>Připojit se</span>
             </a>
 
-            <button id="mobileBtn" class="md:hidden text-white text-xl p-2">
-                <i class="fa-solid fa-bars"></i>
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
         </div>
-
-        <div id="mobileMenu" class="hidden md:hidden mt-2 nav-glass rounded-2xl p-4">
-            <div class="flex flex-col gap-2">
-                <a href="index.html#uvod" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Úvod</a>
-                <a href="oprojektu.html" class="px-4 py-3 rounded-xl text-white bg-white/5 transition-all">O projektu</a>
-                <a href="vyhody.html" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Výhody</a>
-                <a href="tym.html" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Tým</a>
-                <a href="pravidla.html" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Pravidla</a>
-                <a href="kontakt.html" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Kontakt</a>
-                <a href="https://discord.com" target="_blank" class="mt-2 px-4 py-3 bg-genius-green text-black font-semibold rounded-xl text-center flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-discord"></i>
-                    <span>Připojit se na Discord</span>
-                </a>
-            </div>
-        </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-container">
+        <button class="mobile-menu-close" aria-label="Zavřít menu">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-title">Doupě géniů</div>
+            <div class="mobile-menu-subtitle">Menu</div>
+        </div>
+        
+        <ul class="mobile-nav-links">
+            <li><a href="index.html#uvod">Úvod</a></li>
+            <li><a href="oprojektu.html" class="active">O projektu</a></li>
+            <li><a href="vyhody.html">Výhody</a></li>
+            <li><a href="tym.html">Tým</a></li>
+            <li><a href="pravidla.html">Pravidla</a></li>
+            <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+        
+        <div class="mobile-menu-cta">
+            <a href="https://discord.com" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-discord text-lg"></i>
+                <span>Připojit se na Discord</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <main class="flex-grow pt-32 pb-20 px-6">
@@ -284,19 +522,55 @@
     </footer>
 
     <script>
-        const mobileBtn = document.getElementById('mobileBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        // Mobile Menu Functionality
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu-container');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const menuClose = document.querySelector('.mobile-menu-close');
+        const body = document.body;
+
+        function openMenu() {
+            menuToggle.classList.add('active');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            menuToggle.setAttribute('aria-label', 'Zavřít menu');
+            mobileMenu.classList.add('active');
+            menuOverlay.classList.add('active');
+            body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            menuToggle.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Otevřít menu');
+            mobileMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            body.style.overflow = '';
+        }
+
+        menuToggle.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('active')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
         });
 
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
+        menuClose.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', closeMenu);
         });
 
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Canvas Animation
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let width, height;
