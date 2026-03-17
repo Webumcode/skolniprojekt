@@ -8,22 +8,24 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Space Grotesk', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
                     },
                     colors: {
                         genius: {
-                            black: '#050505',
-                            dark: '#0a0a0a',
+                            black: '#0a0a0a',
+                            dark: '#111111',
                             green: '#00ff41',
-                            dim: 'rgba(0, 255, 65, 0.1)',
-                            glass: 'rgba(10, 10, 10, 0.7)'
+                            greenDim: 'rgba(0, 255, 65, 0.15)',
+                            gray: '#1a1a1a',
+                            lightGray: '#888888'
                         }
                     }
                 }
@@ -32,39 +34,31 @@
     </script>
     <style>
         body {
-            background-color: #050505;
-            color: #e0e0e0;
-            overflow-x: hidden;
+            background-color: #0a0a0a;
+            color: #ffffff;
         }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #00ff41; 
-            border-radius: 4px;
-        }
-
-        /* Glassmorphism */
-        .glass-panel {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 255, 65, 0.1);
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #00ff41 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .glass-nav {
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .glow-green {
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
         }
-
-        /* Background Canvas */
+        
+        .border-glow {
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
+            border-color: rgba(0, 255, 65, 0.6);
+        }
+        
         #canvas-bg {
             position: fixed;
             top: 0;
@@ -72,383 +66,154 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.4;
+            opacity: 0.3;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-genius-green selection:text-black">
+<body class="antialiased min-h-screen flex flex-col">
 
-    <!-- Interactive Background -->
     <canvas id="canvas-bg"></canvas>
 
-    <!-- Navigation -->
-    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-4xl">
-        <div class="glass-nav rounded-full px-6 py-3 flex justify-between items-center" id="navbar">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                <i class="fa-solid fa-brain text-genius-green text-xl"></i>
-                <span class="font-bold text-lg tracking-wider text-white hidden sm:block">DOUPĚ GÉNIŮ</span>
+    <!-- Header -->
+    <header class="flex-grow flex items-center justify-center px-6 py-20">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-genius-green/30 bg-genius-green/5 mb-8">
+                <span class="w-2 h-2 rounded-full bg-genius-green animate-pulse"></span>
+                <span class="text-genius-green text-sm font-medium tracking-wide">KOMUNITA STUDENTŮ</span>
             </div>
-
-            <div class="hidden md:flex gap-1 bg-black/20 rounded-full p-1 border border-white/5">
-                <a href="#intro" class="px-4 py-1.5 rounded-full text-sm text-gray-300 hover:text-genius-green hover:bg-white/5 transition-all">Úvod</a>
-                <a href="#about" class="px-4 py-1.5 rounded-full text-sm text-gray-300 hover:text-genius-green hover:bg-white/5 transition-all">O projektu</a>
-                <a href="#benefits" class="px-4 py-1.5 rounded-full text-sm text-gray-300 hover:text-genius-green hover:bg-white/5 transition-all">Výhody</a>
-                <a href="#team" class="px-4 py-1.5 rounded-full text-sm text-gray-300 hover:text-genius-green hover:bg-white/5 transition-all">Tým</a>
-                <a href="#rules" class="px-4 py-1.5 rounded-full text-sm text-gray-300 hover:text-genius-green hover:bg-white/5 transition-all">Pravidla</a>
-                <a href="#contact" class="px-4 py-1.5 rounded-full text-sm text-gray-300 hover:text-genius-green hover:bg-white/5 transition-all">Kontakt</a>
-            </div>
-
-            <a href="https://discord.com" target="_blank" class="bg-genius-green text-black font-bold px-5 py-2 rounded-full text-sm hover:bg-white transition-colors flex items-center gap-2">
-                <i class="fa-brands fa-discord text-lg"></i>
-                <span class="hidden sm:inline">Připojit se</span>
-            </a>
-
-            <button id="mobile-menu-btn" class="md:hidden text-white text-xl">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-        </div>
-
-        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full mt-2 glass-nav rounded-2xl p-4 flex-col gap-2 md:hidden">
-            <a href="#intro" class="block py-2 px-4 text-gray-300 hover:text-genius-green hover:bg-white/5 rounded-lg">Úvod</a>
-            <a href="#about" class="block py-2 px-4 text-gray-300 hover:text-genius-green hover:bg-white/5 rounded-lg">O projektu</a>
-            <a href="#benefits" class="block py-2 px-4 text-gray-300 hover:text-genius-green hover:bg-white/5 rounded-lg">Výhody</a>
-            <a href="#team" class="block py-2 px-4 text-gray-300 hover:text-genius-green hover:bg-white/5 rounded-lg">Tým</a>
-            <a href="#rules" class="block py-2 px-4 text-gray-300 hover:text-genius-green hover:bg-white/5 rounded-lg">Pravidla</a>
-            <a href="#contact" class="block py-2 px-4 text-gray-300 hover:text-genius-green hover:bg-white/5 rounded-lg">Kontakt</a>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header id="intro" class="min-h-screen flex items-center justify-center relative pt-20">
-        <div class="container mx-auto px-6 text-center z-10">
-            <div class="inline-block mb-4 px-4 py-1 rounded-full border border-genius-green/30 bg-genius-green/10 text-genius-green text-sm font-mono">
-                <i class="fa-solid fa-circle-nodes mr-2"></i> Komunita studentů budoucnosti
-            </div>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500">
-                DOUPĚ <span class="text-genius-green">GÉNIŮ</span>
+            
+            <h1 class="font-display text-6xl md:text-8xl font-bold mb-6 tracking-tight">
+                DOUPĚ <span class="gradient-text">GÉNIŮ</span>
             </h1>
-            <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-10 font-light">
+            
+            <p class="text-xl md:text-2xl text-genius-lightGray max-w-2xl mx-auto mb-12 leading-relaxed font-light">
                 Místo, kde studenti spojují síly a učí se spolu. Propojujeme mysli, sdílíme znalosti a tvoříme budoucnost.
             </p>
+            
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="https://discord.com" target="_blank" class="px-8 py-4 bg-genius-green text-black font-bold rounded-full hover:bg-white transition-all flex items-center gap-2">
-                    <i class="fa-brands fa-discord text-xl"></i> Vstoupit na Discord
+                <a href="https://discord.com" target="_blank" class="group relative px-8 py-4 bg-genius-green text-black font-semibold rounded-lg overflow-hidden transition-all hover:scale-105 glow-green flex items-center gap-3">
+                    <i class="fa-brands fa-discord text-xl"></i>
+                    <span>Vstoupit na Discord</span>
                 </a>
-                <a href="#about" class="px-8 py-4 border border-gray-700 text-white rounded-full hover:border-genius-green hover:text-genius-green transition-all">
-                    Prozkoumat více
+                
+                <a href="#about" class="px-8 py-4 border border-genius-gray text-white rounded-lg hover:border-genius-green hover:text-genius-green transition-all flex items-center gap-2">
+                    <span>Prozkoumat více</span>
+                    <i class="fa-solid fa-arrow-down text-sm"></i>
                 </a>
             </div>
-        </div>
-        
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-gray-500">
-            <i class="fa-solid fa-chevron-down text-2xl"></i>
         </div>
     </header>
 
-    <!-- About Section -->
-    <section id="about" class="py-24 relative">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col lg:flex-row items-center gap-16">
-                <div class="lg:w-1/2">
-                    <div class="relative">
-                        <div class="absolute -inset-4 bg-genius-green/20 rounded-2xl blur-xl"></div>
-                        <div class="glass-panel rounded-2xl p-1 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Students collaborating" class="rounded-xl w-full h-[400px] object-cover grayscale hover:grayscale-0 transition-all duration-700">
+    <!-- About Preview -->
+    <section id="about" class="py-24 px-6 border-t border-genius-gray/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-genius-green text-sm font-semibold tracking-wider mb-4">O PROJEKTU</h2>
+                    <h3 class="text-4xl font-display font-bold mb-6">Vytváříme prostor pro <span class="text-genius-green">růst</span></h3>
+                    <p class="text-genius-lightGray leading-relaxed mb-6">
+                        Doupě géniů je moderní platforma propojující studenty napříč obory. Věříme, že spolupráce je klíčem k úspěchu v dnešním rychle se měnícím světě.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="border-glow rounded-lg p-4 hover-glow transition-all">
+                            <div class="text-3xl font-bold text-genius-green mb-1">500+</div>
+                            <div class="text-sm text-genius-lightGray">Aktivních členů</div>
+                        </div>
+                        <div class="border-glow rounded-lg p-4 hover-glow transition-all">
+                            <div class="text-3xl font-bold text-genius-green mb-1">50+</div>
+                            <div class="text-sm text-genius-lightGray">Projektů ročně</div>
                         </div>
                     </div>
                 </div>
-                <div class="lg:w-1/2">
-                    <h2 class="text-genius-green font-mono text-sm mb-2">O PROJEKTU</h2>
-                    <h3 class="text-4xl font-bold text-white mb-6">Více než jen skupina. <br>Je to <span class="text-genius-green">ekosystém</span>.</h3>
-                    <p class="text-gray-400 mb-6 leading-relaxed">
-                        Doupě géniů vzniklo jako odpověď na osamělost při studiu. Věříme, že nejlepší nápady vznikají při spolupráci. Naše platforma propojuje studenty napříč obory, kteří chtějí:
-                    </p>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-gray-300">
-                            <i class="fa-solid fa-check-circle text-genius-green"></i> Řešit složité problémy společně
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-300">
-                            <i class="fa-solid fa-check-circle text-genius-green"></i> Sdílet poznámky a zdroje
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-300">
-                            <i class="fa-solid fa-check-circle text-genius-green"></i> Připravovat se na zkoušky v týmu
-                        </li>
-                    </ul>
-                    <a href="o-projektu.html" class="text-genius-green hover:text-white flex items-center gap-2 transition-colors">
-                        Podrobnější informace <i class="fa-solid fa-arrow-right"></i>
-                    </a>
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-genius-green/20 rounded-2xl blur-2xl"></div>
+                    <div class="relative border-glow rounded-2xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Collaboration" class="w-full h-[400px] object-cover grayscale hover:grayscale-0 transition-all duration-500">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Benefits Section -->
-    <section id="benefits" class="py-24 bg-genius-dark relative">
-        <div class="container mx-auto px-6">
+    <!-- Features Grid -->
+    <section class="py-24 px-6 bg-genius-dark">
+        <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="text-genius-green font-mono text-sm mb-2">PROČ SE PŘIPOJIT?</h2>
-                <h3 class="text-4xl font-bold text-white">Výhody členství</h3>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="glass-panel p-8 rounded-2xl hover:border-genius-green/50 transition-all duration-300">
-                    <div class="w-14 h-14 bg-genius-green/10 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-users text-2xl text-genius-green"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-white mb-3">Networking</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Poznej studenty se stejnými zájmy. Najdi parťáky na projekty nebo budoucí kolegy.
-                    </p>
-                </div>
-
-                <div class="glass-panel p-8 rounded-2xl hover:border-genius-green/50 transition-all duration-300">
-                    <div class="w-14 h-14 bg-genius-green/10 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-book-open text-2xl text-genius-green"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-white mb-3">Databáze znalostí</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Přístup ke sdíleným poznámkám, návodům a studijním materiálům od komunity.
-                    </p>
-                </div>
-
-                <div class="glass-panel p-8 rounded-2xl hover:border-genius-green/50 transition-all duration-300">
-                    <div class="w-14 h-14 bg-genius-green/10 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-code text-2xl text-genius-green"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-white mb-3">Společné projekty</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Zapoj se do open-source projektů nebo hackathonů organizovaných komunitou.
-                    </p>
-                </div>
-
-                <div class="glass-panel p-8 rounded-2xl hover:border-genius-green/50 transition-all duration-300">
-                    <div class="w-14 h-14 bg-genius-green/10 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-chalkboard-user text-2xl text-genius-green"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-white mb-3">Mentoring</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Starší ročníky a absolventi pomáhají nováčkům zorientovat se ve studiu.
-                    </p>
-                </div>
-
-                <div class="glass-panel p-8 rounded-2xl hover:border-genius-green/50 transition-all duration-300">
-                    <div class="w-14 h-14 bg-genius-green/10 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-calendar-check text-2xl text-genius-green"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-white mb-3">Akce & Meetupy</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Pravidelné online i offline setkání, workshopy a přednášky odborníků.
-                    </p>
-                </div>
-
-                <div class="glass-panel p-8 rounded-2xl hover:border-genius-green/50 transition-all duration-300">
-                    <div class="w-14 h-14 bg-genius-green/10 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-rocket text-2xl text-genius-green"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-white mb-3">Kariérní růst</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Tipy na pracovní příležitosti, CV review a příprava na pohovory.
-                    </p>
-                </div>
+                <h2 class="text-genius-green text-sm font-semibold tracking-wider mb-4">CO NABÍZÍME</h2>
+                <h3 class="text-3xl md:text-4xl font-display font-bold">Proč se připojit</h3>
             </div>
             
-            <div class="text-center mt-12">
-                <a href="vyhody.html" class="inline-block px-8 py-3 border border-genius-green text-genius-green rounded-full hover:bg-genius-green hover:text-black transition-all">
-                    Zobrazit všechny výhody
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team" class="py-24 relative">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-genius-green font-mono text-sm mb-2">LIDÉ ZA PROJEKTEM</h2>
-                <h3 class="text-4xl font-bold text-white">Náš Tým</h3>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <div class="glass-panel rounded-2xl p-6 text-center hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-2 border-genius-green/30 hover:border-genius-green transition-colors">
-                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Team Member" class="w-full h-full object-cover">
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="border-glow rounded-xl p-8 hover-glow transition-all group">
+                    <div class="w-12 h-12 rounded-lg bg-genius-green/10 flex items-center justify-center mb-6 group-hover:bg-genius-green/20 transition-colors">
+                        <i class="fa-solid fa-users text-genius-green text-xl"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-white">Alex Novák</h4>
-                    <p class="text-genius-green text-sm mb-3">Zakladatel & Admin</p>
-                    <p class="text-gray-400 text-xs">Student informatiky s vášní pro komunitní budování.</p>
-                    <div class="mt-4 flex justify-center gap-3">
-                        <a href="#" class="text-gray-500 hover:text-white"><i class="fa-brands fa-linkedin"></i></a>
-                        <a href="#" class="text-gray-500 hover:text-white"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Networking</h4>
+                    <p class="text-genius-lightGray text-sm leading-relaxed">Poznej studenty se stejnými zájmy a najdi parťáky na projekty.</p>
                 </div>
-
-                <div class="glass-panel rounded-2xl p-6 text-center hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-2 border-genius-green/30 hover:border-genius-green transition-colors">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Team Member" class="w-full h-full object-cover">
-                    </div>
-                    <h4 class="text-xl font-bold text-white">Eva Svobodová</h4>
-                    <p class="text-genius-green text-sm mb-3">Community Manager</p>
-                    <p class="text-gray-400 text-xs">Zajišťuje hladký chod komunity a organizaci akcí.</p>
-                    <div class="mt-4 flex justify-center gap-3">
-                        <a href="#" class="text-gray-500 hover:text-white"><i class="fa-brands fa-linkedin"></i></a>
-                        <a href="#" class="text-gray-500 hover:text-white"><i class="fa-brands fa-instagram"></i></a>
-                    </div>
-                </div>
-
-                <div class="glass-panel rounded-2xl p-6 text-center hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-2 border-genius-green/30 hover:border-genius-green transition-colors">
-                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Team Member" class="w-full h-full object-cover">
-                    </div>
-                    <h4 class="text-xl font-bold text-white">Tomáš Horák</h4>
-                    <p class="text-genius-green text-sm mb-3">Tech Lead</p>
-                    <p class="text-gray-400 text-xs">Spravuje technickou infrastrukturu a boty na Discordu.</p>
-                    <div class="mt-4 flex justify-center gap-3">
-                        <a href="#" class="text-gray-500 hover:text-white"><i class="fa-brands fa-github"></i></a>
-                        <a href="#" class="text-gray-500 hover:text-white"><i class="fa-brands fa-linkedin"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center mt-12">
-                <a href="tym.html" class="text-gray-400 hover:text-genius-green transition-colors underline decoration-genius-green/30 underline-offset-4">
-                    Podívat se na celý tým moderátorů
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Rules Section -->
-    <section id="rules" class="py-24 bg-genius-dark relative">
-        <div class="container mx-auto px-6 max-w-4xl">
-            <div class="text-center mb-16">
-                <h2 class="text-genius-green font-mono text-sm mb-2">PRAVIDLA SPOLEČENSTVÍ</h2>
-                <h3 class="text-4xl font-bold text-white">Základní kodex</h3>
-                <p class="text-gray-400 mt-4">Respekt a otevřenost jsou pilíře naší komunity.</p>
-            </div>
-
-            <div class="space-y-4">
-                <div class="glass-panel rounded-xl p-6 flex gap-4 items-start group hover:bg-white/5 transition-colors cursor-pointer" onclick="toggleRule(this)">
-                    <div class="text-genius-green font-bold text-2xl opacity-50 group-hover:opacity-100">01</div>
-                    <div class="flex-1">
-                        <h4 class="text-lg font-bold text-white mb-2 flex justify-between items-center">
-                            Respektuj ostatní
-                            <i class="fa-solid fa-chevron-down text-xs text-gray-500 transition-transform duration-300"></i>
-                        </h4>
-                        <p class="text-gray-400 text-sm hidden rule-content">Žádná diskriminace, obtěžování nebo osobní útoky. Buď konstruktivní v diskuzích.</p>
-                    </div>
-                </div>
-
-                <div class="glass-panel rounded-xl p-6 flex gap-4 items-start group hover:bg-white/5 transition-colors cursor-pointer" onclick="toggleRule(this)">
-                    <div class="text-genius-green font-bold text-2xl opacity-50 group-hover:opacity-100">02</div>
-                    <div class="flex-1">
-                        <h4 class="text-lg font-bold text-white mb-2 flex justify-between items-center">
-                            Žádný spam
-                            <i class="fa-solid fa-chevron-down text-xs text-gray-500 transition-transform duration-300"></i>
-                        </h4>
-                        <p class="text-gray-400 text-sm hidden rule-content">Reklama bez povolení, nevyžádané DM zprávy a offtopic příspěvky jsou zakázány.</p>
-                    </div>
-                </div>
-
-                <div class="glass-panel rounded-xl p-6 flex gap-4 items-start group hover:bg-white/5 transition-colors cursor-pointer" onclick="toggleRule(this)">
-                    <div class="text-genius-green font-bold text-2xl opacity-50 group-hover:opacity-100">03</div>
-                    <div class="flex-1">
-                        <h4 class="text-lg font-bold text-white mb-2 flex justify-between items-center">
-                            Pomáhej, ne jen pros
-                            <i class="fa-solid fa-chevron-down text-xs text-gray-500 transition-transform duration-300"></i>
-                        </h4>
-                        <p class="text-gray-400 text-sm hidden rule-content">Komunita funguje na principu vzájemné pomoci. Pokud se ptáš, buď ochoten i odpovídat.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-8 text-center">
-                <a href="pravidla.html" class="text-sm text-genius-green border-b border-genius-green/30 pb-1 hover:border-genius-green transition-colors">
-                    Přečíst si kompletní pravidla
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-24 relative">
-        <div class="container mx-auto px-6">
-            <div class="glass-panel rounded-3xl p-8 md:p-12 max-w-5xl mx-auto border-genius-green/20 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-genius-green/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                 
-                <div class="grid md:grid-cols-2 gap-12 relative z-10">
-                    <div>
-                        <h2 class="text-genius-green font-mono text-sm mb-2">KONTAKT</h2>
-                        <h3 class="text-3xl font-bold text-white mb-6">Máš nápad nebo dotaz?</h3>
-                        <p class="text-gray-400 mb-8">
-                            Neváhej nás kontaktovat. Rádi uslyšíme tvůj návrh na zlepšení nebo odpovíme na jakýkoliv dotaz ohledně komunity.
-                        </p>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-4 text-gray-300">
-                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-genius-green">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </div>
-                                <span>info@doupegenu.cz</span>
-                            </div>
-                            <div class="flex items-center gap-4 text-gray-300">
-                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-genius-green">
-                                    <i class="fa-brands fa-discord"></i>
-                                </div>
-                                <span>discord.gg/doupegenu</span>
-                            </div>
-                        </div>
+                <div class="border-glow rounded-xl p-8 hover-glow transition-all group">
+                    <div class="w-12 h-12 rounded-lg bg-genius-green/10 flex items-center justify-center mb-6 group-hover:bg-genius-green/20 transition-colors">
+                        <i class="fa-solid fa-book-open text-genius-green text-xl"></i>
                     </div>
-
-                    <form class="space-y-4" onsubmit="event.preventDefault(); alert('Zpráva odeslána! (Simulace)');">
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-1">Jméno</label>
-                            <input type="text" class="w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-genius-green focus:outline-none transition-colors" placeholder="Tvé jméno">
-                        </div>
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-1">Email</label>
-                            <input type="email" class="w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-genius-green focus:outline-none transition-colors" placeholder="tvuj@email.cz">
-                        </div>
-                        <div>
-                            <label class="block text-sm text-gray-400 mb-1">Zpráva</label>
-                            <textarea rows="4" class="w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-genius-green focus:outline-none transition-colors" placeholder="Napiš nám..."></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-genius-green text-black font-bold py-3 rounded-lg hover:bg-white transition-colors">
-                            Odeslat zprávu
-                        </button>
-                    </form>
+                    <h4 class="text-xl font-semibold mb-3">Databáze znalostí</h4>
+                    <p class="text-genius-lightGray text-sm leading-relaxed">Přístup ke sdíleným poznámkám, návodům a studijním materiálům.</p>
                 </div>
+                
+                <div class="border-glow rounded-xl p-8 hover-glow transition-all group">
+                    <div class="w-12 h-12 rounded-lg bg-genius-green/10 flex items-center justify-center mb-6 group-hover:bg-genius-green/20 transition-colors">
+                        <i class="fa-solid fa-rocket text-genius-green text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Kariérní růst</h4>
+                    <p class="text-genius-lightGray text-sm leading-relaxed">Tipy na pracovní příležitosti, CV review a příprava na pohovory.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 px-6">
+        <div class="max-w-4xl mx-auto text-center border-glow rounded-2xl p-12 md:p-16 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-genius-green/5 to-transparent"></div>
+            <div class="relative z-10">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6">Připoj se k nám</h2>
+                <p class="text-genius-lightGray text-lg mb-8 max-w-xl mx-auto">
+                    Staň se součástí rostoucí komunity studentů, kteří chtějí něco dokázat.
+                </p>
+                <a href="https://discord.com" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-genius-green text-black font-semibold rounded-lg hover:scale-105 transition-transform glow-green">
+                    <i class="fa-brands fa-discord text-xl"></i>
+                    <span>Join Discord</span>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-gray-800 py-12 bg-black">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-brain text-genius-green"></i>
-                    <span class="font-bold text-white tracking-wider">DOUPĚ GÉNIŮ</span>
-                </div>
-                <div class="text-gray-500 text-sm">
-                    &copy; 2024 Doupě géniů. Všechna práva vyhrazena.
-                </div>
-                <div class="flex gap-4">
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:bg-genius-green hover:text-black transition-all">
-                        <i class="fa-brands fa-discord"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:bg-genius-green hover:text-black transition-all">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:bg-genius-green hover:text-black transition-all">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                </div>
+    <footer class="border-t border-genius-gray/30 py-8 px-6 mt-auto">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-brain text-genius-green text-xl"></i>
+                <span class="font-display font-bold tracking-wider">DOUPĚ GÉNIŮ</span>
+            </div>
+            <div class="text-genius-lightGray text-sm">
+                © 2024 Doupě géniů. Všechna práva vyhrazena.
+            </div>
+            <div class="flex gap-4">
+                <a href="#" class="w-10 h-10 rounded-full border border-genius-gray flex items-center justify-center text-genius-lightGray hover:border-genius-green hover:text-genius-green transition-all">
+                    <i class="fa-brands fa-discord"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full border border-genius-gray flex items-center justify-center text-genius-lightGray hover:border-genius-green hover:text-genius-green transition-all">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full border border-genius-gray flex items-center justify-center text-genius-lightGray hover:border-genius-green hover:text-genius-green transition-all">
+                    <i class="fa-brands fa-github"></i>
+                </a>
             </div>
         </div>
     </footer>
 
     <script>
-        // Canvas Background Animation (Neural Network) - Ponecháno
+        // Canvas Background
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let width, height;
@@ -465,9 +230,9 @@
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 1.5;
             }
             update() {
                 this.x += this.vx;
@@ -476,14 +241,14 @@
                 if (this.y < 0 || this.y > height) this.vy *= -1;
             }
             draw() {
-                ctx.fillStyle = 'rgba(0, 255, 65, 0.5)';
+                ctx.fillStyle = 'rgba(0, 255, 65, 0.6)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        for (let i = 0; i < 60; i++) particles.push(new Particle());
+        for (let i = 0; i < 50; i++) particles.push(new Particle());
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
@@ -493,9 +258,9 @@
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 150) {
-                        ctx.strokeStyle = `rgba(0, 255, 65, ${0.1 - dist/1500})`;
-                        ctx.lineWidth = 1;
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(0, 255, 65, ${0.08 - dist/1500})`;
+                        ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -508,29 +273,6 @@
             requestAnimationFrame(animate);
         }
         animate();
-
-        // Mobile Menu Toggle
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('flex');
-        });
-
-        // Accordion for Rules
-        function toggleRule(element) {
-            const content = element.querySelector('.rule-content');
-            const icon = element.querySelector('.fa-chevron-down');
-            
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                content.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        }
     </script>
 </body>
 </html>
