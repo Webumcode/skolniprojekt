@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Kontakt — Doupě géniů</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --text: #0f0f0f;
+            --text-secondary: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-light: #dbeafe;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --success: #10b981;
+            --success-light: #d1fae5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 250, 250, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            transition: transform 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            position: relative;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .nav-links > li > a:hover {
+            color: var(--text);
+            background: rgba(0,0,0,0.03);
+        }
+
+        .nav-links > li > a.active {
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .dropdown-arrow {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .dropdown-arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 180px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            list-style: none;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 0.6rem 1.2rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .dropdown-menu li a:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        .nav-cta {
+            background: var(--text);
+            color: var(--bg);
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            padding: 0;
+            gap: 5px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .menu-toggle:hover {
+            background: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .menu-toggle span {
+            width: 22px;
+            height: 2.5px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .menu-toggle.active span {
+            background: white;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+        }
+
+        /* Mobile Menu Overlay */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 8rem 1.5rem 3rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Contact Grid */
+        .contact-section {
+            padding: 0 1.5rem 5rem;
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        /* Success Message */
+        .success-message {
+            background: var(--success-light);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Discord Button */
+        .discord-support {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .discord-support h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .discord-support p {
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+        }
+
+        .discord-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #5865F2;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px 0 rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-button:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            background: var(--bg);
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.23);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 0 1.5rem 5rem;
+        }
+
+        .faq-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .faq-container h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .faq-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent-light);
+        }
+
+        .faq-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        .faq-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            padding: 3rem 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .footer-brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: 1rem 0;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 320px;
+                height: 100vh;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 6rem 1.5rem 2rem;
+                gap: 0;
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+                align-items: stretch;
+                z-index: 999;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links > li > a {
+                width: 100%;
+                padding: 1rem 1.25rem;
+                font-size: 1.1rem;
+                border-radius: var(--radius-sm);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .nav-links > li > a::after {
+                content: '→';
+                opacity: 0;
+                transform: translateX(-10px);
+                transition: all 0.2s ease;
+                color: var(--accent);
+            }
+
+            .nav-links > li > a:hover::after,
+            .nav-links > li > a.active::after {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-links > li > a.active {
+                background: var(--accent-light);
+                color: var(--accent);
+            }
+
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: 1px solid var(--border);
+                margin: 0.5rem 0 0.5rem 1rem;
+                min-width: auto;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                display: none;
+            }
+
+            .dropdown-menu.active {
+                display: block;
+            }
+
+            .dropdown-menu li a {
+                padding: 0.8rem 1.5rem;
+            }
+
+            .nav-cta {
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+                padding: 1rem;
+                font-size: 1rem;
+                border-radius: var(--radius);
+                margin-top: auto;
+            }
+
+            .mobile-menu-header {
+                display: block;
+                padding-bottom: 1.5rem;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .mobile-menu-title {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--text);
+                margin-bottom: 0.5rem;
+            }
+
+            .mobile-menu-subtitle {
+                font-size: 0.9rem;
+                color: var(--text-secondary);
+            }
+
+            .contact-container {
+                padding: 1.5rem;
+            }
+
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                padding: 7rem 1.5rem 2rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .mobile-menu-header {
+                display: none;
+            }
+
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .footer-divider {
+                display: none;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">◆</div>
+                Doupě géniů
+            </a>
+            <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="menu-overlay"></div>
+            <div class="nav-menu">
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-title">Doupě géniů</div>
+                    <div class="mobile-menu-subtitle">Menu</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Domů</a></li>
+                    <li><a href="oprojektu.html">O projektu</a></li>
+                    <li><a href="vyhody.html">Výhody</a></li>
+                    <li><a href="tym.html">Tým</a></li>
+                    <li><a href="pravidla.html">Pravidla</a></li>
+                    <li><a href="kontakt.html" class="active">Kontakt</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            Ostatní
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="banlist.html">Banlist</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="page-header">
+            <h1>Kontaktujte nás</h1>
+            <p>Máte otázku, nápad nebo chcete jen pokecat? Napište nám! Jsme tu pro vás.</p>
+        </div>
+
+        <section class="contact-section">
+            <div class="contact-container">
+                <div class="success-message" id="successMessage">
+                    ✓ Děkujeme za zprávu! Ozveme se vám co nejdříve.
+                </div>
+
+                <div class="discord-support">
+                    <h3>Nejrychlejší podpora na Discordu</h3>
+                    <p>Připojte se na náš Discord server a získejte odpověď okamžitě</p>
+                    <a href="https://discord.gg/fUKmXtpaE" class="discord-button" target="_blank" rel="noopener noreferrer">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.03.02.03.08-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+                        </svg>
+                        discord.gg/doupegeniu
+                    </a>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Jméno a příjmení *</label>
+                        <input type="text" id="name" name="name" required placeholder="Jan Novák">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail *</label>
+                        <input type="email" id="email" name="email" required placeholder="jan.novak@email.cz">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Předmět *</label>
+                        <input type="text" id="subject" name="subject" required placeholder="Dotaz k projektu">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Zpráva *</label>
+                        <textarea id="message" name="message" required placeholder="Napište nám, s čím potřebujete pomoci..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Odeslat zprávu
+                        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="faq-container">
+                <h2>Často kladené otázky</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>Jak se mohu připojit?</h3>
+                        <p>Stačí kliknout na tlačítko "Připojit se" v horní liště, které tě přesměruje na náš Discord server.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Je členství zpoplatněno?</h3>
+                        <p>Ne, komunita je zcela zdarma pro všechny studenty. Žádné skryté poplatky.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Můžu se zapojit do organizace?</h3>
+                        <p>Ano! Pokud máš chuť pomáhat, napiš nám e-mail nebo kontaktuj některého z administrátorů na Discordu.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Jaká pravidla platí?</h3>
+                        <p>Všechna pravidla najdeš v sekci Pravidla. Jsou tu pro to, aby se všichni cítili bezpečně a příjemně.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <a href="index.html" class="footer-brand">
+                <div class="footer-brand-icon">◆</div>
+                Doupě géniů
+            </a>
+            <div class="footer-links">
+                <a href="index.html">Domů</a>
+                <a href="oprojektu.html">O projektu</a>
+                <a href="pravidla.html">Pravidla</a>
+                <a href="kontakt.html">Kontakt</a>
+                <a href="https://discord.gg/fUKmXtpaE" target="_blank" rel="noopener noreferrer">Discord</a>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="copyright">© 2026 Doupě géniů. Všechna práva vyhrazena.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const body = document.body;
+        
+        function openMenu() {
+            menuToggle.classList.add('active');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            menuToggle.setAttribute('aria-label', 'Zavřít menu');
+            navMenu.classList.add('active');
+            menuOverlay.classList.add('active');
+            body.style.overflow = 'hidden';
+        }
+        
+        function closeMenu() {
+            menuToggle.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Otevřít menu');
+            navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            body.style.overflow = '';
+        }
+        
+        menuToggle.addEventListener('click', () => {
+            if (navMenu.classList.contains('active')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        // Close menu when clicking overlay
+        menuOverlay.addEventListener('click', closeMenu);
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Dropdown functionality
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        const dropdownArrow = document.querySelector('.dropdown-arrow');
+
+        function toggleDropdown(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            dropdownMenu.classList.toggle('active');
+            dropdownArrow.classList.toggle('rotated');
+        }
+
+        function closeDropdown() {
+            dropdownMenu.classList.remove('active');
+            dropdownArrow.classList.remove('rotated');
+        }
+
+        dropdownToggle.addEventListener('click', toggleDropdown);
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+
+        // Close dropdown on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
+                closeDropdown();
+            }
+        });
+
+        // Add scroll effect to nav
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const nav = document.querySelector('nav');
+            
+            if (currentScroll > 100) {
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Contact form handling
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Disable button to prevent multiple submissions
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Odesílám...';
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Here you would typically send the data to your server
+            // For now, we'll simulate sending with a timeout
+            setTimeout(() => {
+                // Show success message
+                successMessage.classList.add('show');
+                
+                // Reset form
+                contactForm.reset();
+                
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Odeslat zprávu <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                }, 5000);
+                
+                // Log form data (for debugging)
+                console.log('Form submitted:', formData);
+                
+                // Here you would actually send the email
+                // You need a backend service for that
+                // Example: fetch('/api/send-email', { method: 'POST', body: JSON.stringify(formData) })
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
