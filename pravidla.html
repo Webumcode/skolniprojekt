@@ -8,505 +8,689 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #fafafa;
-            --text: #0f0f0f;
-            --text-secondary: #64748b;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --accent-light: #dbeafe;
-            --border: #e2e8f0;
-            --surface: #ffffff;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --radius: 16px;
-            --radius-sm: 10px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { font-size: 16px; scroll-behavior: smooth; }
+        :root {
+            --bg: #f5f7fa;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --accent: #2563eb;
+            --accent-soft: #3b82f6;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --hover-bg: #f8fafc;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --radius: 20px;
+            --radius-sm: 12px;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.5;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
-        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; letter-spacing: -0.02em; }
 
-        /* Navigace (beze změny, kopírováno z indexu) */
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        /* Navigace (stejný styl, jen upravený padding kvůli sticky) */
         nav {
-            position: fixed; top: 0; width: 100%; background: rgba(250,250,250,0.8); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); z-index: 1000; padding: 0.75rem 1rem;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 40;
+            padding: 0.75rem 1.5rem;
         }
+
         .nav-container {
-            max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo {
-            font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--text);
-            text-decoration: none; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap;
-            transition: transform 0.2s ease;
-        }
-        .logo:hover { transform: scale(1.02); }
-        .logo-icon {
-            width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
-            border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;
-            font-size: 1.1rem; box-shadow: var(--shadow-sm);
-        }
-        .nav-menu { display: flex; align-items: center; gap: 0.5rem; }
-        .nav-links { display: flex; gap: 0.25rem; list-style: none; align-items: center; }
-        .nav-links a {
-            text-decoration: none; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500;
-            padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); transition: all 0.2s ease;
-        }
-        .nav-links a:hover { color: var(--text); background: rgba(0,0,0,0.03); }
-        .nav-links a.active { color: var(--accent); background: var(--accent-light); }
-        .nav-cta {
-            background: var(--text); color: var(--bg); padding: 0.6rem 1.25rem; border-radius: var(--radius-sm);
-            text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: all 0.2s ease;
-            white-space: nowrap; margin-left: 0.5rem; box-shadow: var(--shadow-sm);
-        }
-        .nav-cta:hover { background: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow); }
-
-        /* Mobile menu */
-        .menu-toggle { display: none; flex-direction: column; justify-content: center; width: 44px; height: 44px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; padding: 0; gap: 5px; align-items: center; transition: all 0.2s ease; }
-        .menu-toggle:hover { background: var(--bg); border-color: var(--accent); }
-        .menu-toggle span { width: 22px; height: 2.5px; background: var(--text); border-radius: 2px; transition: all 0.3s ease; transform-origin: center; }
-        .menu-toggle.active { background: var(--accent); border-color: var(--accent); }
-        .menu-toggle.active span { background: white; }
-        .menu-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-        .menu-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-        .menu-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 998; opacity: 0; transition: opacity 0.3s ease; }
-        .menu-overlay.active { display: block; opacity: 1; }
-
-        /* HLAVNÍ OBSAH – PRAVIDLA */
-        .page-header {
-            padding: 8rem 1.5rem 3rem;
-            text-align: center;
-            max-width: 800px;
+            max-width: 1400px;
             margin: 0 auto;
-        }
-        .page-header h1 {
-            font-size: clamp(2.8rem, 6vw, 4rem);
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .page-header p {
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-        }
-
-        .rules-wrapper {
-            max-width: 1300px;
-            margin: 0 auto 4rem;
-            padding: 0 1.5rem;
             display: flex;
-            flex-direction: column;
-            gap: 4rem;
-        }
-
-        /* Společné bloky */
-        .rule-category {
-            background: var(--surface);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .category-header {
-            padding: 1.8rem 2.2rem;
-            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
-            color: white;
-        }
-        .category-header h2 {
-            font-size: 2rem;
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.75rem;
-        }
-        .category-header h2::before {
-            content: '◆';
-            font-size: 2.2rem;
-            opacity: 0.9;
-        }
-        .category-header p {
-            margin-top: 0.5rem;
-            font-size: 1rem;
-            opacity: 0.9;
         }
 
-        /* PRAVIDLA DISCORD – kompaktní karty */
-        .discord-rules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.2rem;
-            padding: 2rem;
-            background: var(--bg);
-        }
-        .discord-rule-card {
-            background: var(--surface);
-            border-radius: var(--radius-sm);
-            padding: 1.5rem 1.2rem;
-            border: 1px solid var(--border);
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            box-shadow: var(--shadow-sm);
-        }
-        .discord-rule-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent);
-            box-shadow: var(--shadow);
-        }
-        .rule-emoji {
-            font-size: 2rem;
-            line-height: 1;
-            margin-bottom: 0.8rem;
-        }
-        .discord-rule-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        .discord-rule-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            flex: 1;
-        }
-        .rule-tag {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent);
-            background: var(--accent-light);
-            padding: 0.25rem 0.8rem;
-            border-radius: 50px;
-            align-self: flex-start;
-        }
 
-        /* PRAVIDLA WEBU – strukturované, přehledné */
-        .web-rules-container {
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-        .web-rule-block {
-            background: var(--bg);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-        .web-rule-title {
-            background: var(--surface);
-            padding: 1.2rem 1.8rem;
-            border-bottom: 1px solid var(--border);
-            font-size: 1.3rem;
-            font-weight: 600;
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(145deg, var(--accent), #1e40af);
+            border-radius: 10px;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
         }
-        .web-rule-title span { font-size: 1.6rem; }
-        .web-rule-content {
-            padding: 1.5rem 1.8rem;
-            color: var(--text-secondary);
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
         }
-        .web-rule-content ul, .web-rule-content ol {
-            padding-left: 1.5rem;
-            margin: 1rem 0 0.5rem;
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: 0.2s;
         }
-        .web-rule-content li {
-            margin-bottom: 0.5rem;
-        }
-        .web-rule-content strong { color: var(--text); }
-        .note-box {
-            background: var(--accent-light);
-            border-left: 4px solid var(--accent);
-            padding: 1rem 1.5rem;
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-            margin-top: 1.5rem;
+
+        .nav-links a:hover {
+            background: var(--hover-bg);
             color: var(--text);
+        }
+
+        .nav-links a.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .nav-cta {
+            background: var(--text);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+        }
+
+        /* HLAVNÍ LAYOUT – dvě vedle sebe */
+        .rules-dashboard {
+            max-width: 1400px;
+            margin: 2rem auto 4rem;
+            padding: 0 1.5rem;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        /* Levý panel – seznam kategorií a pravidel */
+        .rules-sidebar {
+            flex: 0 0 300px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: sticky;
+            top: 100px;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.5rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .sidebar-header p {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        .rules-category {
+            padding: 1rem 0;
+        }
+
+        .category-title {
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent);
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            border-top: 1px solid var(--border);
+        }
+
+        .rule-item {
+            padding: 0.8rem 1.5rem 0.8rem 2.2rem;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: 0.15s;
+            font-weight: 500;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid transparent;
+        }
+
+        .rule-item:hover {
+            background: var(--hover-bg);
+            color: var(--text);
+        }
+
+        .rule-item.active {
+            border-left-color: var(--accent);
+            background: #eff6ff;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .rule-item .rule-short {
+            font-size: 0.95rem;
+        }
+
+        .rule-item .arrow {
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+
+        .rule-item.active .arrow {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        /* Pravý panel – detail vybraného pravidla */
+        .rules-detail {
+            flex: 1;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 2rem 2.5rem;
+            min-height: 500px;
+            box-shadow: var(--shadow);
+        }
+
+        .detail-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .detail-header .rule-tag {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: #e6f0ff;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-header h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .detail-content {
+            color: var(--text-light);
+            font-size: 1.05rem;
+        }
+
+        .detail-content p {
+            margin-bottom: 1.2rem;
+        }
+
+        .detail-content ul, .detail-content ol {
+            padding-left: 1.8rem;
+            margin: 1.2rem 0;
+        }
+
+        .detail-content li {
+            margin-bottom: 0.6rem;
+        }
+
+        .detail-content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .detail-note {
+            background: #f0f4fe;
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-left: 4px solid var(--accent);
         }
 
         /* Footer */
         footer {
-            background: var(--surface); padding: 3rem 1.5rem; border-top: 1px solid var(--border);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 2rem 1.5rem;
         }
-        .footer-content {
-            max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; align-items: center;
-        }
-        .footer-brand {
-            display: flex; align-items: center; gap: 0.75rem; font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.25rem; font-weight: 700; color: var(--text); text-decoration: none;
-        }
-        .footer-brand-icon {
-            width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
-            border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;
-        }
-        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; }
-        .footer-links a { text-decoration: none; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; padding: 0.5rem; }
-        .footer-links a:hover { color: var(--accent); }
-        .footer-divider { width: 100%; height: 1px; background: var(--border); margin: 1rem 0; }
-        .copyright { color: var(--text-secondary); font-size: 0.85rem; text-align: center; }
 
-        /* Responsita */
-        @media (max-width: 768px) {
-            .menu-toggle { display: flex; z-index: 1001; }
-            .nav-menu { position: fixed; top: 0; right: -100%; width: 85%; max-width: 320px; height: 100vh; background: var(--surface); flex-direction: column; padding: 6rem 1.5rem 2rem; gap: 0; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: -10px 0 40px rgba(0,0,0,0.15); align-items: stretch; z-index: 999; overflow-y: auto; }
-            .nav-menu.active { right: 0; }
-            .nav-links { flex-direction: column; width: 100%; gap: 0.5rem; margin-bottom: 1.5rem; }
-            .nav-links li { width: 100%; }
-            .nav-links a { width: 100%; padding: 1rem 1.25rem; font-size: 1.1rem; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; }
-            .nav-links a::after { content: '→'; opacity: 0; transform: translateX(-10px); transition: all 0.2s ease; color: var(--accent); }
-            .nav-links a:hover::after, .nav-links a.active::after { opacity: 1; transform: translateX(0); }
-            .nav-links a.active { background: var(--accent-light); color: var(--accent); }
-            .nav-cta { margin-left: 0; width: 100%; text-align: center; padding: 1rem; font-size: 1rem; border-radius: var(--radius); margin-top: auto; }
-            .mobile-menu-header { display: block; padding-bottom: 1.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
-            .mobile-menu-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
-            .mobile-menu-subtitle { font-size: 0.9rem; color: var(--text-secondary); }
-            .discord-rules-grid { grid-template-columns: 1fr; padding: 1.5rem; }
-            .web-rules-container { padding: 1.5rem; }
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
         }
-        @media (min-width: 1025px) {
-            .mobile-menu-header { display: none; }
-            .footer-content { flex-direction: row; justify-content: space-between; align-items: center; }
-            .footer-divider { display: none; }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 2rem;
+        }
+
+        /* Responsivní chování */
+        @media (max-width: 900px) {
+            .rules-dashboard {
+                flex-direction: column;
+            }
+            .rules-sidebar {
+                position: static;
+                width: 100%;
+            }
+        }
+        /* Skrytí mobilního menu (zjednodušeno, není potřeba složité) */
+        .menu-toggle, .menu-overlay, .mobile-menu-header {
+            display: none;
         }
     </style>
 </head>
 <body>
     <nav>
         <div class="nav-container">
-            <a href="index.html" class="logo"><div class="logo-icon">◆</div>Doupě géniů</a>
-            <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false"><span></span><span></span><span></span></button>
-            <div class="menu-overlay"></div>
-            <div class="nav-menu">
-                <div class="mobile-menu-header"><div class="mobile-menu-title">Doupě géniů</div><div class="mobile-menu-subtitle">Menu</div></div>
-                <ul class="nav-links">
-                    <li><a href="index.html">Domů</a></li>
-                    <li><a href="oprojektu.html">O projektu</a></li>
-                    <li><a href="vyhody.html">Výhody</a></li>
-                    <li><a href="tym.html">Tým</a></li>
-                    <li><a href="pravidla.html" class="active">Pravidla</a></li>
-                    <li><a href="kontakt.html">Kontakt</a></li>
-                </ul>
-                <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
-            </div>
+            <a href="index.html" class="logo">
+                <div class="logo-icon">◆</div>
+                Doupě géniů
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="oprojektu.html">O projektu</a></li>
+                <li><a href="vyhody.html">Výhody</a></li>
+                <li><a href="tym.html">Tým</a></li>
+                <li><a href="pravidla.html" class="active">Pravidla</a></li>
+                <li><a href="kontakt.html">Kontakt</a></li>
+            </ul>
+            <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank">Připojit se</a>
         </div>
     </nav>
 
     <main>
-        <div class="page-header">
-            <h1>Pravidla | Doupě géniů</h1>
-            <p>Bezpečný prostor pro všechny – stačí dodržovat pár jasných bodů.</p>
-        </div>
+        <div class="rules-dashboard">
+            <!-- LEVÝ PANEL – SEZNAM PRAVIDEL -->
+            <div class="rules-sidebar">
+                <div class="sidebar-header">
+                    <h2>Pravidla komunity</h2>
+                    <p>Vyber kategorii a pravidlo</p>
+                </div>
 
-        <div class="rules-wrapper">
-            <!-- SEKCE 1: DISCORD PRAVIDLA (kompaktní, s emoji) -->
-            <section class="rule-category">
-                <div class="category-header">
-                    <h2>Discord server</h2>
-                    <p>10 zásad, které dělají z Doupěte skvělé místo</p>
-                </div>
-                <div class="discord-rules-grid">
-                    <!-- 1 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">🤝</div>
-                        <h3>Respekt především</h3>
-                        <p>Žádné nadávky, urážky, rasismus ani diskriminace. Chovejme se slušně.</p>
-                        <span class="rule-tag">#bezpečí</span>
+                <!-- Discord sekce -->
+                <div class="rules-category">
+                    <div class="category-title">📌 Discord server</div>
+                    <div class="rule-item active" data-target="discord1">
+                        <span class="rule-short">1. Respekt a slušnost</span>
+                        <span class="arrow">→</span>
                     </div>
-                    <!-- 2 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">🚫</div>
-                        <h3>Žádný spam</h3>
-                        <p>Neposílej opakované zprávy, emoji spam ani nevyžádanou reklamu.</p>
-                        <span class="rule-tag">#pořádek</span>
+                    <div class="rule-item" data-target="discord2">
+                        <span class="rule-short">2. Zákaz spamu</span>
+                        <span class="arrow">→</span>
                     </div>
-                    <!-- 3 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">📢</div>
-                        <h3>Reklama jen s povolením</h3>
-                        <p>Sdílení jiných serverů nebo projektů jen po domluvě s vedením.</p>
-                        <span class="rule-tag">#schváleno</span>
+                    <div class="rule-item" data-target="discord3">
+                        <span class="rule-short">3. Reklama jen s povolením</span>
+                        <span class="arrow">→</span>
                     </div>
-                    <!-- 4 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">🔞</div>
-                        <h3>Vhodný obsah</h3>
-                        <p>Žádný NSFW, násilný či nevhodný obsah. Server je pro všechny věkové kategorie.</p>
-                        <span class="rule-tag">#SFW</span>
+                    <div class="rule-item" data-target="discord4">
+                        <span class="rule-short">4. Vhodný obsah (žádný NSFW)</span>
+                        <span class="arrow">→</span>
                     </div>
-                    <!-- 5 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">📌</div>
-                        <h3>Správné kanály</h3>
-                        <p>Piš do místností podle tématu – ať se vyznáme.</p>
-                        <span class="rule-tag">#studium #projekty</span>
+                    <div class="rule-item" data-target="discord5">
+                        <span class="rule-short">5. Správné kanály</span>
+                        <span class="arrow">→</span>
                     </div>
-                    <!-- 6 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">🤐</div>
-                        <h3>Žádné hádky</h3>
-                        <p>Konflikty řeš v soukromých zprávách, nebo kontaktuj moderátory.</p>
-                        <span class="rule-tag">#klid</span>
+                    <div class="rule-item" data-target="discord6">
+                        <span class="rule-short">6. Řešení konfliktů</span>
+                        <span class="arrow">→</span>
                     </div>
-                    <!-- 7 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">👑</div>
-                        <h3>Respektuj vedení</h3>
-                        <p>Admini a moderátoři tu jsou pro tebe – jejich rozhodnutí platí.</p>
-                        <span class="rule-tag">#tým</span>
+                    <div class="rule-item" data-target="discord7">
+                        <span class="rule-short">7. Respekt k vedení</span>
+                        <span class="arrow">→</span>
                     </div>
-                    <!-- 8 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">⚙️</div>
-                        <h3>Nezneužívej role</h3>
-                        <p>Nepoužívej oprávnění k ničemu, k čemu nejsou určená.</p>
-                        <span class="rule-tag">#fairplay</span>
+                    <div class="rule-item" data-target="discord8">
+                        <span class="rule-short">8. Nezneužívat role</span>
+                        <span class="arrow">→</span>
                     </div>
-                    <!-- 9 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">🔒</div>
-                        <h3>Ochrana soukromí</h3>
-                        <p>Nezveřejňuj osobní údaje – svoje ani cizí.</p>
-                        <span class="rule-tag">#GDPR</span>
+                    <div class="rule-item" data-target="discord9">
+                        <span class="rule-short">9. Ochrana soukromí</span>
+                        <span class="arrow">→</span>
                     </div>
-                    <!-- 10 -->
-                    <div class="discord-rule-card">
-                        <div class="rule-emoji">🎉</div>
-                        <h3>Bav se!</h3>
-                        <p>Jsme tu hlavně pro zábavu a komunitu. Užívej si to.</p>
-                        <span class="rule-tag">#pohoda</span>
+                    <div class="rule-item" data-target="discord10">
+                        <span class="rule-short">10. Užij si to</span>
+                        <span class="arrow">→</span>
                     </div>
                 </div>
-            </section>
 
-            <!-- SEKCE 2: WEBOVÁ PRAVIDLA (rozepsaná, strukturovaná) -->
-            <section class="rule-category">
-                <div class="category-header">
-                    <h2>Web a online platformy</h2>
-                    <p>Jak se chováme na webu, v diskuzích a při sdílení materiálů</p>
+                <!-- Web sekce -->
+                <div class="rules-category">
+                    <div class="category-title">🌐 Web a platformy</div>
+                    <div class="rule-item" data-target="web1">
+                        <span class="rule-short">Ohleduplná komunikace</span>
+                        <span class="arrow">→</span>
+                    </div>
+                    <div class="rule-item" data-target="web2">
+                        <span class="rule-short">Autorská práva a obsah</span>
+                        <span class="arrow">→</span>
+                    </div>
+                    <div class="rule-item" data-target="web3">
+                        <span class="rule-short">Bezpečnost účtu</span>
+                        <span class="arrow">→</span>
+                    </div>
+                    <div class="rule-item" data-target="web4">
+                        <span class="rule-short">Reklama a propagace</span>
+                        <span class="arrow">→</span>
+                    </div>
+                    <div class="rule-item" data-target="web5">
+                        <span class="rule-short">Právní soulad (GDPR atd.)</span>
+                        <span class="arrow">→</span>
+                    </div>
+                    <div class="rule-item" data-target="web6">
+                        <span class="rule-short">Technická pravidla</span>
+                        <span class="arrow">→</span>
+                    </div>
                 </div>
-                <div class="web-rules-container">
-                    <!-- blok 1 -->
-                    <div class="web-rule-block">
-                        <div class="web-rule-title"><span>💬</span> Ohleduplná komunikace</div>
-                        <div class="web-rule-content">
-                            <p>Na webu platí stejná pravidla slušnosti jako na Discordu. Respektuj názory ostatních a vyhni se osobním útokům.</p>
-                            <ul>
-                                <li><strong>Žádný hate speech</strong> – nenávistné projevy nejsou povoleny.</li>
-                                <li><strong>Konstruktivní kritika</strong> – pokud kritizuješ, navrhni i zlepšení.</li>
-                                <li><strong>Žádné provokace</strong> – záměrné vyvolávání konfliktů není tolerováno.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- blok 2 -->
-                    <div class="web-rule-block">
-                        <div class="web-rule-title"><span>📄</span> Publikování a autorská práva</div>
-                        <div class="web-rule-content">
-                            <p>Chceš-li přidávat články, materiály nebo návody, dodržuj tato pravidla:</p>
-                            <ol>
-                                <li>Vkládej pouze obsah, který sám vytvoříš, nebo k němu máš souhlas autora.</li>
-                                <li>Odkazuj na zdroje, pokud čerpáš z cizích materiálů.</li>
-                                <li>Zákaz šíření nelegálních nebo pirátských souborů (PDF, software, videa).</li>
-                                <li>Studijní materiály musí být relevantní a ideálně ověřené.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    <!-- blok 3 -->
-                    <div class="web-rule-block">
-                        <div class="web-rule-title"><span>🔐</span> Bezpečnost a účet</div>
-                        <div class="web-rule-content">
-                            <p>Chraň své přihlašovací údaje a respektuj soukromí ostatních.</p>
-                            <ul>
-                                <li><strong>Jeden člověk = jeden účet</strong> – vytváření více účtů je zakázáno.</li>
-                                <li><strong>Nesdílej heslo</strong> – ani s kamarády, ani v rámci "důvěry".</li>
-                                <li><strong>Nahlás zneužití</strong> – pokud zjistíš problém, kontaktuj správce.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- blok 4 -->
-                    <div class="web-rule-block">
-                        <div class="web-rule-title"><span>📢</span> Reklama a komerce</div>
-                        <div class="web-rule-content">
-                            <p>Propagace na webu je možná jen po schválení vedením. Výjimky pro neziskové studentské projekty.</p>
-                            <p><strong>Zakázáno:</strong> spamování odkazů v komentářích, skryté affiliate odkazy, nabízení placených služeb bez souhlasu.</p>
-                        </div>
-                    </div>
-                    <!-- blok 5 -->
-                    <div class="web-rule-block">
-                        <div class="web-rule-title"><span>⚖️</span> Právní soulad</div>
-                        <div class="web-rule-content">
-                            <p>Používáním webu souhlasíš s platnými zákony ČR a EU, zejména:</p>
-                            <ul>
-                                <li><strong>GDPR</strong> – ochrana osobních údajů (nezadávej cizí údaje).</li>
-                                <li><strong>Autorský zákon</strong> – respektuj duševní vlastnictví.</li>
-                                <li><strong>Zákaz podpory násilí, terorismu nebo šíření nenávisti.</strong></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- blok 6 -->
-                    <div class="web-rule-block">
-                        <div class="web-rule-title"><span>🛠️</span> Technická pravidla</div>
-                        <div class="web-rule-content">
-                            <p>Neporušuj bezpečnost webu, nepokoušej se o hacking, DDoS ani automatizované skripty bez povolení. Pokud najdeš chybu, ohlas ji adminům (bug bounty vítán).</p>
-                            <p><strong>Automatizace:</strong> Skripty smí přistupovat jen na veřejné API, pokud existuje a je povoleno.</p>
-                        </div>
-                    </div>
+            </div>
 
-                    <!-- Důležité upozornění (šedá poznámka) -->
-                    <div class="note-box">
-                        <strong>⚠️ Důležité:</strong> Porušení pravidel webu může vést k dočasnému nebo trvalému zablokování přístupu. V případě závažných porušení (nelegální obsah) vyhrazujeme právo oznámit věc příslušným orgánům.
-                    </div>
-                </div>
-            </section>
+            <!-- PRAVÝ PANEL – DYNAMICKÝ DETAIL -->
+            <div class="rules-detail" id="ruleDetail">
+                <!-- obsah se plní JavaScriptem -->
+            </div>
         </div>
     </main>
 
     <footer>
         <div class="footer-content">
-            <a href="index.html" class="footer-brand"><div class="footer-brand-icon">◆</div>Doupě géniů</a>
+            <div>© 2026 Doupě géniů – studentská komunita</div>
             <div class="footer-links">
-                <a href="index.html">Domů</a>
-                <a href="oprojektu.html">O projektu</a>
                 <a href="pravidla.html">Pravidla</a>
                 <a href="kontakt.html">Kontakt</a>
-                <a href="https://discord.gg/fUKmXtpaE" target="_blank" rel="noopener noreferrer">Discord</a>
+                <a href="https://discord.gg/fUKmXtpaE">Discord</a>
             </div>
-            <div class="footer-divider"></div>
-            <div class="copyright">© 2026 Doupě géniů. Všechna práva vyhrazena.</div>
         </div>
     </footer>
 
     <script>
-        // Mobile menu (stejné jako v indexu)
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navMenu = document.querySelector('.nav-menu');
-        const menuOverlay = document.querySelector('.menu-overlay');
-        const body = document.body;
-        function openMenu() {
-            menuToggle.classList.add('active'); menuToggle.setAttribute('aria-expanded', 'true'); menuToggle.setAttribute('aria-label', 'Zavřít menu');
-            navMenu.classList.add('active'); menuOverlay.classList.add('active'); body.style.overflow = 'hidden';
+        // Databáze všech pravidel (čistě textová, bez zbytečných ikon)
+        const rulesData = {
+            // Discord
+            discord1: {
+                tag: 'Discord · Pravidlo #1',
+                title: 'Respekt a slušnost',
+                content: `
+                    <p><strong>Základní kámen celé komunity.</strong> Každý člen si zaslouží být respektován bez ohledu na věk, pohlaví, národnost, náboženství či názory.</p>
+                    <ul>
+                        <li><strong>Žádné osobní útoky, urážky nebo vulgární výlevy.</strong> Diskutujeme věcně, nikoli hrubě.</li>
+                        <li><strong>Rasismus, sexismus, homofobie a další formy diskriminace</strong> jsou přísně zakázány a vedou k okamžitému vyloučení.</li>
+                        <li><strong>Pokud se setkáš s toxickým chováním, neodpovídej stejně –</strong> raději to nahlas moderátorům.</li>
+                    </ul>
+                    <p>Věříme, že slušnost vytváří prostředí, kde se každý cítí dobře.</p>
+                `
+            },
+            discord2: {
+                tag: 'Discord · Pravidlo #2',
+                title: 'Žádný spam',
+                content: `
+                    <p>Spam znepřehledňuje server a obtěžuje ostatní. Platí zde několik zásad:</p>
+                    <ul>
+                        <li><strong>Neposílej opakovaně stejné zprávy</strong> (ani v krátkém sledu).</li>
+                        <li><strong>Vyvaruj se přehnanému používání @mention</strong> (označování lidí bez důvodu).</li>
+                        <li><strong>Žádné řetězové zprávy, copypasty nebo masivní emoji spamy.</strong></li>
+                        <li>Reklamní spam je řešen v samostatném pravidle.</li>
+                    </ul>
+                `
+            },
+            discord3: {
+                tag: 'Discord · Pravidlo #3',
+                title: 'Reklama jen s povolením',
+                content: `
+                    <p>Chceš propagovat vlastní projekt, server nebo sociální sítě? Nejprve si vyžádej souhlas od adminů.</p>
+                    <ul>
+                        <li><strong>Bez výslovného schválení není dovoleno posílat odkazy na jiné Discord servery, YouTube kanály, streamy atd.</strong></li>
+                        <li>Výjimkou je sdílení studentských projektů v rámci #projekty – ale vždy s popisem a bez spamování.</li>
+                        <li>Skrytá reklama (např. v profilu) je také nežádoucí.</li>
+                    </ul>
+                `
+            },
+            discord4: {
+                tag: 'Discord · Pravidlo #4',
+                title: 'Vhodný obsah',
+                content: `
+                    <p>Server je přístupný pro všechny věkové skupiny, proto veškerý obsah musí být SFW (Safe For Work).</p>
+                    <ul>
+                        <li><strong>Přísný zákaz NSFW materiálů</strong> – nahota, pornografie, násilí, gore apod.</li>
+                        <li>Nevhodné jsou i odkazy na stránky s tímto obsahem.</li>
+                        <li>Profily, přezdívky a statusy by také měly být neutrální a nerušivé.</li>
+                    </ul>
+                `
+            },
+            discord5: {
+                tag: 'Discord · Pravidlo #5',
+                title: 'Správné kanály',
+                content: `
+                    <p>Aby se každý snadno orientoval, dodržujeme tématické zařazení.</p>
+                    <ul>
+                        <li><strong>#studium</strong> – otázky k učení, maturita, materiály.</li>
+                        <li><strong>#projekty</strong> – hledání týmu, ukázky práce.</li>
+                        <li><strong>#off-topic</strong> – cokoli mimo, ale stále slušně.</li>
+                        <li>Pokud si nejsi jistý, kam zprávu napsat, zeptej se.</li>
+                    </ul>
+                `
+            },
+            discord6: {
+                tag: 'Discord · Pravidlo #6',
+                title: 'Řešení konfliktů',
+                content: `
+                    <p>Konflikty jsou přirozené, ale nesmí narušovat komunitu.</p>
+                    <ul>
+                        <li><strong>Hádky a osobní spory patří do soukromých zpráv.</strong></li>
+                        <li>Pokud vidíš, že se situace vyhrocuje, neeskaluj – kontaktuj moderátory (ticket nebo DM).</li>
+                        <li>Moderátoři mají právo zasáhnout a uklidnit situaci.</li>
+                    </ul>
+                `
+            },
+            discord7: {
+                tag: 'Discord · Pravidlo #7',
+                title: 'Respekt k vedení',
+                content: `
+                    <p>Admin tým a moderátoři se starají o chod serveru ve svém volném čase.</p>
+                    <ul>
+                        <li><strong>Jejich rozhodnutí respektujeme</strong>, i když s nimi nesouhlasíme (pak lze věc řešit slušně v soukromé zprávě).</li>
+                        <li><strong>Nenapadej moderátory veřejně</strong> – podkopává to autoritu.</li>
+                        <li>Chyby se stávají, pokud si myslíš, že došlo k omylu, napiš jinému adminovi.</li>
+                    </ul>
+                `
+            },
+            discord8: {
+                tag: 'Discord · Pravidlo #8',
+                title: 'Nezneužívej role',
+                content: `
+                    <p>Role (např. student, mentor, admin) jsou tu pro organizaci, ne pro výhody.</p>
+                    <ul>
+                        <li><strong>Neobcházej omezení kanálů pomocí bugů nebo zneužití oprávnění.</strong></li>
+                        <li>Pokud najdeš technickou chybu, nahlas ji adminům, nezneužívej ji.</li>
+                        <li>Vydávání se za někoho jiného (např. pomocí přezdívky) je zakázáno.</li>
+                    </ul>
+                `
+            },
+            discord9: {
+                tag: 'Discord · Pravidlo #9',
+                title: 'Ochrana soukromí',
+                content: `
+                    <p>Soukromí je důležité – chráníme své i cizí údaje.</p>
+                    <ul>
+                        <li><strong>Nezveřejňuj adresy, telefonní čísla, data narození</strong> ani jiné osobní informace (své ani cizí).</li>
+                        <li>Respektuj, že někteří chtějí zůstat anonymní.</li>
+                        <li>Nahrávání hovorů nebo zpráv bez souhlasu je nepřípustné.</li>
+                    </ul>
+                `
+            },
+            discord10: {
+                tag: 'Discord · Pravidlo #10',
+                title: 'Užij si to!',
+                content: `
+                    <p>Pravidla tu nejsou od toho, aby tě omezovala, ale abychom vytvořili přátelské místo.</p>
+                    <ul>
+                        <li><strong>Poznej nové lidi, zapoj se do projektů, bav se.</strong></li>
+                        <li>Pokud máš nápad na zlepšení, poděl se o něj.</li>
+                        <li>Dodržováním pravidel přispíváš k pohodové atmosféře.</li>
+                    </ul>
+                `
+            },
+            // WEBOVÁ PRAVIDLA (podrobněji)
+            web1: {
+                tag: 'Web · Komunikace',
+                title: 'Ohleduplná komunikace',
+                content: `
+                    <p>Na webu (diskuze, komentáře, profil) platí stejné standardy slušnosti jako na Discordu. Navíc:</p>
+                    <ul>
+                        <li><strong>Piš věcně a konstruktivně.</strong> Kritika je vítaná, ale měla by obsahovat i návrh zlepšení.</li>
+                        <li><strong>Žádné provokace (trolling) nebo záměrné vyvolávání konfliktů.</strong></li>
+                        <li>Respektuj, že každý má právo na názor – nemusíš s ním souhlasit, ale musíš ho nechat zaznít.</li>
+                    </ul>
+                `
+            },
+            web2: {
+                tag: 'Web · Obsah',
+                title: 'Autorská práva a publikování',
+                content: `
+                    <p>Chceš-li na web přidávat články, materiály nebo návody, dodržuj tato pravidla:</p>
+                    <ol>
+                        <li><strong>Vkládej pouze obsah, který sám vytvoříš, nebo k němu máš souhlas autora.</strong></li>
+                        <li><strong>Odkazuj na zdroje</strong> – pokud čerpáš z cizích materiálů, uveď je.</li>
+                        <li><strong>Zákaz šíření nelegálních nebo pirátských souborů</strong> (PDF knih, software, videí).</li>
+                        <li>Studijní materiály by měly být odborně v pořádku, aby nešířily chyby.</li>
+                    </ol>
+                    <p>V případě porušení autorských práv si vyhrazujeme právo obsah odstranit a přístup zablokovat.</p>
+                `
+            },
+            web3: {
+                tag: 'Web · Bezpečnost',
+                title: 'Bezpečnost účtu',
+                content: `
+                    <p>Chraň své přihlašovací údaje a respektuj soukromí ostatních uživatelů.</p>
+                    <ul>
+                        <li><strong>Jeden člověk = jeden účet.</strong> Vytváření více účtů je zakázáno (mimo technických testů po domluvě).</li>
+                        <li><strong>Nesdílej heslo</strong> – ani s kamarády. Pokud máš podezření na zneužití, okamžitě kontaktuj správce.</li>
+                        <li><strong>Nahlašuj podezřelou aktivitu</strong> – pomáháš tím chránit celou komunitu.</li>
+                    </ul>
+                `
+            },
+            web4: {
+                tag: 'Web · Reklama',
+                title: 'Reklama a propagace',
+                content: `
+                    <p>Propagace na webu (bannery, odkazy v profilech, články) je možná jen po schválení vedením.</p>
+                    <ul>
+                        <li><strong>Výjimku mají neziskové studentské projekty</strong> – stačí se domluvit.</li>
+                        <li><strong>Zakázáno:</strong> spamování odkazů v komentářích, skryté affiliate odkazy, nabízení placených služeb bez souhlasu.</li>
+                        <li>Reklama musí být vždy označena, aby bylo jasné, že jde o propagaci.</li>
+                    </ul>
+                `
+            },
+            web5: {
+                tag: 'Web · Právo',
+                title: 'Právní soulad',
+                content: `
+                    <p>Používáním webu souhlasíš s platnými zákony ČR a EU, zejména:</p>
+                    <ul>
+                        <li><strong>GDPR</strong> – ochrana osobních údajů (nezadávej cizí údaje, respektuj práva uživatelů).</li>
+                        <li><strong>Autorský zákon</strong> – viz pravidlo o obsahu.</li>
+                        <li><strong>Trestní právo</strong> – zákaz podpory násilí, terorismu, šíření nenávisti, dětské pornografie atd.</li>
+                    </ul>
+                    <p>Vážná porušení budeme oznamovat příslušným orgánům.</p>
+                `
+            },
+            web6: {
+                tag: 'Web · Technika',
+                title: 'Technická pravidla',
+                content: `
+                    <p>Chceme, aby web fungoval pro všechny – technická omezení jsou nutná.</p>
+                    <ul>
+                        <li><strong>Zákaz pokusů o narušení bezpečnosti</strong> (hacking, DDoS, skenování zranitelností).</li>
+                        <li><strong>Automatizované skripty (scraping) jen s výslovným povolením</strong> – jinak zatěžují servery.</li>
+                        <li>Pokud najdeš chybu, ohlas ji prosím adminům (bug bounty formou poděkování).</li>
+                    </ul>
+                `
+            }
+        };
+
+        // Funkce pro zobrazení detailu
+        function renderRule(ruleId) {
+            const detailEl = document.getElementById('ruleDetail');
+            const rule = rulesData[ruleId];
+            if (!rule) return;
+
+            const html = `
+                <div class="detail-header">
+                    <div class="rule-tag">${rule.tag}</div>
+                    <h3>${rule.title}</h3>
+                </div>
+                <div class="detail-content">
+                    ${rule.content}
+                </div>
+                <div class="detail-note">
+                    <strong>Shrnutí:</strong> Toto pravidlo pomáhá udržovat komunitu přátelskou a bezpečnou. Pokud si nejsi jistý, zeptej se kteréhokoli moderátora.
+                </div>
+            `;
+            detailEl.innerHTML = html;
         }
-        function closeMenu() {
-            menuToggle.classList.remove('active'); menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.setAttribute('aria-label', 'Otevřít menu');
-            navMenu.classList.remove('active'); menuOverlay.classList.remove('active'); body.style.overflow = '';
-        }
-        menuToggle.addEventListener('click', () => { navMenu.classList.contains('active') ? closeMenu() : openMenu(); });
-        menuOverlay.addEventListener('click', closeMenu);
-        document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', closeMenu));
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && navMenu.classList.contains('active')) closeMenu(); });
-        window.addEventListener('scroll', () => { document.querySelector('nav').style.boxShadow = window.pageYOffset > 100 ? '0 4px 20px rgba(0,0,0,0.08)' : 'none'; });
+
+        // Inicializace – zobrazíme první pravidlo (discord1)
+        renderRule('discord1');
+
+        // Přidání event listenerů na všechny rule-item
+        const ruleItems = document.querySelectorAll('.rule-item');
+        ruleItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                // odstranit active ze všech
+                ruleItems.forEach(i => i.classList.remove('active'));
+                // přidat active tomuto
+                this.classList.add('active');
+
+                // získat target
+                const target = this.getAttribute('data-target');
+                if (target) renderRule(target);
+            });
+        });
     </script>
 </body>
 </html>
