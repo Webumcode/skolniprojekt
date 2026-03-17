@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Kontakt — Doupě géniů</title>
+    <title>Kontakt | Doupě géniů</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,6 +26,8 @@
             --success-light: #d1fae5;
             --error: #ef4444;
             --error-light: #fee2e2;
+            --progress-bg: #e2e8f0;
+            --progress-fill: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
         }
 
         * {
@@ -47,6 +49,9 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         h1, h2, h3 {
@@ -292,77 +297,158 @@
             opacity: 1;
         }
 
-        /* Page Header */
-        .page-header {
-            padding: 8rem 1.5rem 3rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
+        /* Main Content */
+        main {
+            flex: 1;
+            padding-top: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
         }
 
-        .page-header h1 {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
+        /* Coming Soon Section */
+        .coming-soon-section {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .coming-soon-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        .coming-soon-section h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
             margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .page-header p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-        }
-
-        /* Contact Grid */
-        .contact-section {
-            padding: 0 1.5rem 5rem;
-        }
-
-        .contact-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--surface);
-            border-radius: var(--radius);
-            padding: 2.5rem;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        /* Success Message - upraveno pro FormSubmit */
-        .success-message {
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius);
-            margin-bottom: 2rem;
-            text-align: center;
-            font-weight: 500;
-            background: var(--success-light);
-            border: 1px solid var(--success);
-            color: var(--success);
-            display: none;
-        }
-
-        .success-message.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        /* Discord Button */
-        .discord-support {
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .discord-support h3 {
+        .coming-soon-section p {
             font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            text-align: left;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .progress-label {
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .progress-percentage {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 20px;
+            background: var(--progress-bg);
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: inset var(--shadow-sm);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 49%;
+            background: var(--progress-fill);
+            border-radius: 999px;
+            position: relative;
+            animation: shimmer 2s infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .progress-note {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .progress-note strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Feature Preview */
+        .feature-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .feature-item:hover {
+            background: var(--accent-light);
+            transform: translateY(-4px);
+        }
+
+        .feature-item .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .feature-item h3 {
+            font-size: 1.1rem;
             margin-bottom: 0.5rem;
             color: var(--text);
         }
 
-        .discord-support p {
+        .feature-item p {
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            margin-bottom: 1.2rem;
-            font-size: 0.95rem;
         }
 
+        /* Discord Button */
         .discord-button {
             display: inline-flex;
             align-items: center;
@@ -376,6 +462,7 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 14px 0 rgba(88, 101, 242, 0.3);
+            margin-bottom: 2rem;
         }
 
         .discord-button:hover {
@@ -384,123 +471,23 @@
             box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
         }
 
-        /* Contact Form */
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text);
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            background: var(--bg);
-            transition: all 0.2s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-light);
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
+        /* Success Message */
+        .success-message {
+            padding: 1rem 1.5rem;
             border-radius: var(--radius);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.23);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            padding: 0 1.5rem 5rem;
-        }
-
-        .faq-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .faq-container h2 {
+            margin: 2rem auto;
+            max-width: 500px;
             text-align: center;
-            font-size: 2rem;
-            margin-bottom: 3rem;
+            font-weight: 500;
+            background: var(--success-light);
+            border: 1px solid var(--success);
+            color: var(--success);
+            display: none;
         }
 
-        .faq-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .faq-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
-        }
-
-        .faq-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-            border-color: var(--accent-light);
-        }
-
-        .faq-item h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
-            color: var(--accent);
-        }
-
-        .faq-item p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
 
         /* Footer */
@@ -508,6 +495,7 @@
             background: var(--surface);
             padding: 3rem 1.5rem;
             border-top: 1px solid var(--border);
+            margin-top: auto;
         }
 
         .footer-content {
@@ -575,6 +563,15 @@
         }
 
         /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -705,16 +702,13 @@
                 color: var(--text-secondary);
             }
 
-            .contact-container {
+            .feature-preview {
+                grid-template-columns: 1fr;
                 padding: 1.5rem;
             }
 
-            .faq-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .page-header {
-                padding: 7rem 1.5rem 2rem;
+            .coming-soon-icon {
+                font-size: 4rem;
             }
         }
 
@@ -785,84 +779,52 @@
     </nav>
 
     <main>
-        <div class="page-header">
-            <h1>Kontaktujte nás</h1>
-            <p>Máte otázku, nápad nebo chcete jen pokecat? Napište nám! Jsme tu pro vás.</p>
-        </div>
+        <section class="coming-soon-section">
+            <div class="coming-soon-icon">📬</div>
+            <h1>Kontaktní formulář</h1>
+            <p>
+                Pracujeme na vylepšeném kontaktním systému. Mezitím nás můžeš kontaktovat přes Discord.
+            </p>
+            
+            <a href="https://discord.gg/fUKmXtpaE" class="discord-button" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.03.02.03.08-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+                </svg>
+                discord.gg/doupegeniu
+            </a>
 
-        <section class="contact-section">
-            <div class="contact-container">
-                <div class="success-message" id="successMessage">
-                    ✓ Děkujeme za zprávu! Ozveme se vám co nejdříve.
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span class="progress-label">Hotovo</span>
+                    <span class="progress-percentage">49 %</span>
                 </div>
-
-                <div class="discord-support">
-                    <h3>Nejrychlejší podpora na Discordu</h3>
-                    <p>Připojte se na náš Discord server a získejte odpověď okamžitě</p>
-                    <a href="https://discord.gg/fUKmXtpaE" class="discord-button" target="_blank" rel="noopener noreferrer">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.03.02.03.08-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
-                        </svg>
-                        discord.gg/doupegeniu
-                    </a>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
                 </div>
-
-                <!-- FormSubmit.co formulář -->
-                <form class="contact-form" action="https://formsubmit.co/webum@post.cz" method="POST">
-                    <!-- FormSubmit.co konfigurace -->
-                    <input type="hidden" name="_next" value="https://skolniprojekt.vercel.app/kontakt.html">
-                    <input type="hidden" name="_subject" value="Nová zpráva z Doupěte géniů!">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_autoresponse" value="Děkujeme za vaši zprávu! Ozveme se vám co nejdříve.">
-                    
-                    <div class="form-group">
-                        <label for="name">Jméno a příjmení *</label>
-                        <input type="text" id="name" name="Jméno" required placeholder="Jan Novák">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">E-mail *</label>
-                        <input type="email" id="email" name="E-mail" required placeholder="jan.novak@email.cz">
-                    </div>
-                    <div class="form-group">
-                        <label for="subject">Předmět *</label>
-                        <input type="text" id="subject" name="Předmět" required placeholder="Dotaz k projektu">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Zpráva *</label>
-                        <textarea id="message" name="Zpráva" required placeholder="Napište nám, s čím potřebujete pomoci..."></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        Odeslat zprávu
-                        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                </form>
+                <div class="progress-note">
+                    <strong>49 % hotovo</strong> — brzy spouštíme plnohodnotný kontakt!
+                </div>
             </div>
-        </section>
 
-        <section class="faq-section">
-            <div class="faq-container">
-                <h2>Často kladené otázky</h2>
-                <div class="faq-grid">
-                    <div class="faq-item">
-                        <h3>Jak se mohu připojit?</h3>
-                        <p>Stačí kliknout na tlačítko "Připojit se" v horní liště, které tě přesměruje na náš Discord server.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>Je členství zpoplatněno?</h3>
-                        <p>Ne, komunita je zcela zdarma pro všechny studenty. Žádné skryté poplatky.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>Můžu se zapojit do organizace?</h3>
-                        <p>Ano! Pokud máš chuť pomáhat, napiš nám e-mail nebo kontaktuj některého z administrátorů na Discordu.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>Jaká pravidla platí?</h3>
-                        <p>Všechna pravidla najdeš v sekci Pravidla. Jsou tu pro to, aby se všichni cítili bezpečně a příjemně.</p>
-                    </div>
+            <div class="success-message" id="successMessage">
+                ✓ Děkujeme za zprávu! Ozveme se vám co nejdříve.
+            </div>
+
+            <div class="feature-preview">
+                <div class="feature-item">
+                    <span class="emoji">📧</span>
+                    <h3>Email</h3>
+                    <p>Rychlá odpověď do 24 hodin</p>
+                </div>
+                <div class="feature-item">
+                    <span class="emoji">💬</span>
+                    <h3>Discord</h3>
+                    <p>Nejrychlejší podpora živě</p>
+                </div>
+                <div class="feature-item">
+                    <span class="emoji">📝</span>
+                    <h3>Formulář</h3>
+                    <p>Přehledné odesílání zpráv</p>
                 </div>
             </div>
         </section>
@@ -983,19 +945,17 @@
             lastScroll = currentScroll;
         });
 
-        // Zobrazení success message po přesměrování zpět
+        // Check for success message from FormSubmit
         const urlParams = new URLSearchParams(window.location.search);
         const successMessage = document.getElementById('successMessage');
         
         if (urlParams.has('submit') || document.referrer.includes('formsubmit.co')) {
             successMessage.classList.add('show');
             
-            // Skrytí po 5 sekundách
             setTimeout(() => {
                 successMessage.classList.remove('show');
             }, 5000);
             
-            // Vyčištění URL
             window.history.replaceState({}, document.title, window.location.pathname);
         }
     </script>
