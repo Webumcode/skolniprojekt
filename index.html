@@ -1,255 +1,764 @@
 <!DOCTYPE html>
-<html lang="cs" class="scroll-smooth">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doupě géniů | Spojujeme Studenty</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Doupě géniů — Student Community</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Space Grotesk', 'sans-serif'],
-                    },
-                    colors: {
-                        genius: {
-                            black: '#0a0a0a',
-                            dark: '#111111',
-                            green: '#00ff41',
-                            gray: '#1a1a1a',
-                            lightGray: '#888888'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #0a0a0a;
-            color: #ffffff;
+        :root {
+            --bg: #fafafa;
+            --text: #0f0f0f;
+            --text-secondary: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-light: #dbeafe;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
         }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #ffffff 0%, #00ff41 100%);
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 250, 250, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            transition: transform 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+            background: rgba(0,0,0,0.03);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .nav-cta {
+            background: var(--text);
+            color: var(--bg);
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 1.5rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+        }
+
+        .hero-section h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            max-width: 900px;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        .hero-section h1 span {
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        .nav-glass {
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .hero-description {
+            max-width: 640px;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.6s ease 0.2s both;
         }
-        
-        .glow-green {
-            box-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
+
+        .hero-description p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
         }
-        
-        #canvas-bg {
-            position: fixed;
+
+        .hero-description p:last-child {
+            margin-bottom: 0;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            background: var(--surface);
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+
+        .hero-feature:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent-light);
+        }
+
+        .hero-feature::before {
+            content: '✓';
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+            animation: fadeInUp 0.6s ease 0.4s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cta::before {
+            content: '';
+            position: absolute;
             top: 0;
-            left: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            opacity: 0.3;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.23);
+        }
+
+        .hero-cta:hover::before {
+            left: 100%;
+        }
+
+        .hero-cta svg {
+            transition: transform 0.2s ease;
+        }
+
+        .hero-cta:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 1.5rem;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            padding: 3rem 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .footer-brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: 1rem 0;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+            50% { 
+                opacity: 0.8;
+                box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 5rem 1.5rem 2rem;
+                gap: 1rem;
+                transition: right 0.3s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+                align-items: flex-start;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 0.875rem 1rem;
+                font-size: 1rem;
+            }
+
+            .nav-cta {
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+                margin-top: 1rem;
+                padding: 0.875rem;
+            }
+
+            .hero-section {
+                padding: 5rem 1rem 3rem;
+            }
+
+            .hero-features {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .hero-feature {
+                justify-content: center;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .footer-content {
+                gap: 1.5rem;
+            }
+
+            .footer-links {
+                gap: 1rem;
+            }
+        }
+
+        @media (min-width: 640px) and (max-width: 1024px) {
+            .hero-section {
+                padding: 5rem 2rem;
+            }
+
+            .hero-features {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .hero-features {
+                flex-direction: row;
+                justify-content: center;
+                gap: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .footer-divider {
+                display: none;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col">
-
-    <canvas id="canvas-bg"></canvas>
-
-    <!-- Navigation -->
-    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
-        <div class="nav-glass rounded-full px-6 py-4 flex items-center justify-between">
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-genius-green/10 border border-genius-green/30 flex items-center justify-center">
-                    <i class="fa-solid fa-brain text-genius-green text-lg"></i>
-                </div>
-                <span class="font-display font-bold text-lg tracking-wide hidden sm:block">DOUPĚ GÉNIŮ</span>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">◆</div>
+                Doupě géniů
             </a>
-
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center gap-1 bg-white/5 rounded-full p-1">
-                <a href="#uvod" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Úvod</a>
-                <a href="#oprojektu" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">O projektu</a>
-                <a href="#vyhody" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Výhody</a>
-                <a href="#tym" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Tým</a>
-                <a href="#pravidla" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Pravidla</a>
-                <a href="#kontakt" class="px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all">Kontakt</a>
-            </div>
-
-            <!-- CTA Button -->
-            <a href="https://discord.com" target="_blank" class="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-genius-green text-black font-semibold rounded-full hover:scale-105 transition-transform text-sm">
-                <i class="fa-brands fa-discord"></i>
-                <span>Připojit se</span>
-            </a>
-
-            <!-- Mobile Menu Button -->
-            <button id="mobileBtn" class="md:hidden text-white text-xl p-2">
-                <i class="fa-solid fa-bars"></i>
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden mt-2 nav-glass rounded-2xl p-4">
-            <div class="flex flex-col gap-2">
-                <a href="#uvod" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Úvod</a>
-                <a href="#oprojektu" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">O projektu</a>
-                <a href="#vyhody" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Výhody</a>
-                <a href="#tym" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Tým</a>
-                <a href="#pravidla" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Pravidla</a>
-                <a href="#kontakt" class="px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-all">Kontakt</a>
-                <a href="https://discord.com" target="_blank" class="mt-2 px-4 py-3 bg-genius-green text-black font-semibold rounded-xl text-center flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-discord"></i>
-                    <span>Připojit se na Discord</span>
-                </a>
+            <div class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Domů</a></li>
+                    <li><a href="oprojektu.html">O projektu</a></li>
+                    <li><a href="vyhody.html">Výhody</a></li>
+                    <li><a href="tym.html">Tým</a></li>
+                    <li><a href="pravidla.html">Pravidla</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+                <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header id="uvod" class="flex-grow flex items-center justify-center px-6 pt-32 pb-20">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-genius-green/30 bg-genius-green/5 mb-8">
-                <span class="w-2 h-2 rounded-full bg-genius-green"></span>
-                <span class="text-genius-green text-sm font-medium tracking-wide">KOMUNITA STUDENTŮ</span>
-            </div>
-            
-            <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-bold mb-8 tracking-tight">
-                DOUPĚ <span class="gradient-text">GÉNIŮ</span>
+    <main>
+        <div class="hero-section">
+            <div class="hero-bg"></div>
+            <div class="hero-badge">Komunita pro studenty</div>
+            <h1>
+                Místo, kde studenti<br>
+                <span>spojují síly</span>
             </h1>
-            
-            <p class="text-xl md:text-2xl text-genius-lightGray max-w-2xl mx-auto mb-12 leading-relaxed font-light">
-                Místo, kde studenti spojují síly a učí se spolu. Propojujeme mysli, sdílíme znalosti a tvoříme budoucnost.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="https://discord.com" target="_blank" class="group px-8 py-4 bg-genius-green text-black font-semibold rounded-full hover:scale-105 transition-all glow-green flex items-center gap-3">
-                    <i class="fa-brands fa-discord text-xl"></i>
-                    <span>Vstoupit na Discord</span>
-                </a>
-                
-                <a href="#oprojektu" class="px-8 py-4 border border-white/20 text-white rounded-full hover:border-genius-green hover:text-genius-green transition-all flex items-center gap-2">
-                    <span>Prozkoumat více</span>
-                    <i class="fa-solid fa-arrow-down text-sm"></i>
-                </a>
+            <div class="hero-description">
+                <p>
+                    Doupě géniů je školní komunikační server, který propojuje studenty všech škol. 
+                    Vytváříme bezpečné prostředí pro vzájemnou pomoc, sdílení znalostí a spolupráci na projektech.
+                </p>
+                <p>
+                    Věříme, že společně můžeme dosáhnout více. Ať už potřebuješ pomoc s maturitou, 
+                    hledáš parťáky na projekt, nebo chceš sdílet své zkušenosti – jsi tu správně.
+                </p>
             </div>
+            <div class="hero-features">
+                <div class="hero-feature">Pomoc se studiem</div>
+                <div class="hero-feature">Spolupráce na projektech</div>
+                <div class="hero-feature">Přátelská komunita</div>
+            </div>
+            <a href="https://discord.gg/fUKmXtpaE" class="hero-cta" target="_blank" rel="noopener noreferrer">
+                Připojit se na Discord
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
         </div>
-    </header>
 
-    <!-- Footer -->
-    <footer class="border-t border-white/10 py-8 px-6">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <i class="fa-solid fa-brain text-genius-green text-xl"></i>
-                <span class="font-display font-bold tracking-wider">DOUPĚ GÉNIŮ</span>
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Studentů</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Škol</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Podpora</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Zdarma</div>
+                </div>
             </div>
-            <div class="text-genius-lightGray text-sm">
-                © 2024 Doupě géniů. Všechna práva vyhrazena.
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <a href="index.html" class="footer-brand">
+                <div class="footer-brand-icon">◆</div>
+                Doupě géniů
+            </a>
+            <div class="footer-links">
+                <a href="index.html">Domů</a>
+                <a href="oprojektu.html">O projektu</a>
+                <a href="pravidla.html">Pravidla</a>
+                <a href="kontakt.html">Kontakt</a>
+                <a href="https://discord.gg/fUKmXtpaE" target="_blank" rel="noopener noreferrer">Discord</a>
             </div>
-            <div class="flex gap-4">
-                <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-genius-lightGray hover:border-genius-green hover:text-genius-green transition-all">
-                    <i class="fa-brands fa-discord"></i>
-                </a>
-                <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-genius-lightGray hover:border-genius-green hover:text-genius-green transition-all">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-                <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-genius-lightGray hover:border-genius-green hover:text-genius-green transition-all">
-                    <i class="fa-brands fa-github"></i>
-                </a>
-            </div>
+            <div class="footer-divider"></div>
+            <div class="copyright">© 2026 Doupě géniů. Všechna práva vyhrazena.</div>
         </div>
     </footer>
 
     <script>
         // Mobile menu toggle
-        const mobileBtn = document.getElementById('mobileBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
         
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        menuToggle.addEventListener('click', () => {
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+            menuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         });
 
-        // Close mobile menu on link click
-        mobileMenu.querySelectorAll('a').forEach(link => {
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
             });
         });
 
-        // Canvas Background
-        const canvas = document.getElementById('canvas-bg');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                this.size = Math.random() * 1.5;
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('nav') && navMenu.classList.contains('active')) {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
             }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(0, 255, 65, 0.6)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
+        });
 
-        for (let i = 0; i < 50; i++) particles.push(new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
+        // Add scroll effect to nav
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const nav = document.querySelector('nav');
             
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        ctx.strokeStyle = `rgba(0, 255, 65, ${0.08 - dist/1500})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-                particles[i].update();
-                particles[i].draw();
+            if (currentScroll > 100) {
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+            } else {
+                nav.style.boxShadow = 'none';
             }
-            requestAnimationFrame(animate);
-        }
-        animate();
+            
+            lastScroll = currentScroll;
+        });
     </script>
 </body>
 </html>
