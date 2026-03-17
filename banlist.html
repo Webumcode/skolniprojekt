@@ -22,10 +22,8 @@
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
             --radius: 12px;
             --radius-sm: 8px;
-            --warn: #eab308;
-            --mute: #f97316;
-            --ban: #ef4444;
-            --success: #22c55e;
+            --progress-bg: #e2e8f0;
+            --progress-fill: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
         }
 
         * {
@@ -158,6 +156,10 @@
             display: inline-block;
         }
 
+        .dropdown-arrow.rotated {
+            transform: rotate(180deg);
+        }
+
         .dropdown-menu {
             position: absolute;
             top: 100%;
@@ -218,7 +220,7 @@
             box-shadow: var(--shadow);
         }
 
-        /* Mobile Menu Toggle - zachováno z index.html */
+        /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -249,18 +251,29 @@
             transform-origin: center;
         }
 
+        .menu-toggle.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .menu-toggle.active span {
+            background: white;
+        }
+
         .menu-toggle.active span:nth-child(1) {
             transform: translateY(7.5px) rotate(45deg);
         }
 
         .menu-toggle.active span:nth-child(2) {
             opacity: 0;
+            transform: scaleX(0);
         }
 
         .menu-toggle.active span:nth-child(3) {
             transform: translateY(-7.5px) rotate(-45deg);
         }
 
+        /* Mobile Menu Overlay */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -284,205 +297,151 @@
         main {
             flex: 1;
             padding-top: 80px;
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, var(--accent-light) 0%, #ffffff 100%);
-            padding: 3rem 1.5rem;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .page-header h1 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            margin-bottom: 0.5rem;
-        }
-
-        .page-header p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .stats-section {
-            padding: 3rem 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .stat-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 2rem 1.5rem;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow);
-            border-color: var(--accent-light);
-        }
-
-        .stat-card.warn .stat-number { color: var(--warn); }
-        .stat-card.mute .stat-number { color: var(--mute); }
-        .stat-card.ban .stat-number { color: var(--ban); }
-
-        .stat-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .stat-description {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-        }
-
-        /* Table Section */
-        .table-section {
-            max-width: 1200px;
-            margin: 0 auto 4rem;
-            padding: 0 1.5rem;
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-        }
-
-        .section-title h2 {
-            font-size: 1.75rem;
-        }
-
-        .section-title-badge {
-            background: var(--accent);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .table-container {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow-x: auto;
-            box-shadow: var(--shadow);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
-
-        th {
-            background: var(--accent-light);
-            color: var(--text);
-            font-weight: 600;
-            font-size: 0.9rem;
-            padding: 1rem 1.5rem;
-            text-align: left;
-            border-bottom: 2px solid var(--border);
-        }
-
-        td {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-secondary);
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover td {
-            background: rgba(0,0,0,0.01);
-        }
-
-        .action-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.35rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .action-badge.warn {
-            background: #fef9c3;
-            color: #854d0e;
-        }
-
-        .action-badge.mute {
-            background: #ffedd5;
-            color: #9a3412;
-        }
-
-        .action-badge.ban {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .duration {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .user-tag {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 0.8rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Coming Soon Section */
+        .coming-soon-section {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .coming-soon-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        .coming-soon-section h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .coming-soon-section p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            text-align: left;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .progress-label {
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .progress-percentage {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 20px;
+            background: var(--progress-bg);
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: inset var(--shadow-sm);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 65%;
+            background: var(--progress-fill);
+            border-radius: 999px;
+            position: relative;
+            animation: shimmer 2s infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .progress-note {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .progress-note strong {
+            color: var(--accent);
             font-weight: 600;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-secondary);
+        /* Feature Preview */
+        .feature-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
 
-        .empty-state p {
-            margin-top: 1rem;
+        .feature-item {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .feature-item:hover {
+            background: var(--accent-light);
+            transform: translateY(-4px);
+        }
+
+        .feature-item .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .feature-item h3 {
             font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
         /* Footer */
@@ -557,7 +516,17 @@
             text-align: center;
         }
 
-        /* Mobile Responsive */
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Mobile Responsive Design */
         @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
@@ -601,6 +570,29 @@
                 width: 100%;
                 padding: 1rem 1.25rem;
                 font-size: 1.1rem;
+                border-radius: var(--radius-sm);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .nav-links > li > a::after {
+                content: '→';
+                opacity: 0;
+                transform: translateX(-10px);
+                transition: all 0.2s ease;
+                color: var(--accent);
+            }
+
+            .nav-links > li > a:hover::after,
+            .nav-links > li > a.active::after {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-links > li > a.active {
+                background: var(--accent-light);
+                color: var(--accent);
             }
 
             .dropdown-menu {
@@ -619,10 +611,17 @@
                 display: block;
             }
 
+            .dropdown-menu li a {
+                padding: 0.8rem 1.5rem;
+            }
+
             .nav-cta {
                 margin-left: 0;
                 width: 100%;
                 text-align: center;
+                padding: 1rem;
+                font-size: 1rem;
+                border-radius: var(--radius);
                 margin-top: auto;
             }
 
@@ -646,14 +645,13 @@
                 color: var(--text-secondary);
             }
 
-            .stats-grid {
+            .feature-preview {
                 grid-template-columns: 1fr;
+                padding: 1.5rem;
             }
 
-            .section-title {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
+            .coming-soon-icon {
+                font-size: 4rem;
             }
         }
 
@@ -670,6 +668,15 @@
 
             .footer-divider {
                 display: none;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -715,61 +722,42 @@
     </nav>
 
     <main>
-        <div class="page-header">
-            <h1>Banlist & Moderace</h1>
-            <p>Přehled všech moderátorských akcí na serveru</p>
-        </div>
-
-        <!-- Stats Cards -->
-        <section class="stats-section">
-            <div class="stats-grid">
-                <div class="stat-card warn">
-                    <div class="stat-number" id="warnCount">0</div>
-                    <div class="stat-label">Celkem warnů</div>
-                    <div class="stat-description">Napomenutí udělená uživatelům</div>
-                </div>
-                <div class="stat-card mute">
-                    <div class="stat-number" id="muteCount">0</div>
-                    <div class="stat-label">Celkem mute</div>
-                    <div class="stat-description">Dočasná omezení</div>
-                </div>
-                <div class="stat-card ban">
-                    <div class="stat-number" id="banCount">0</div>
-                    <div class="stat-label">Celkem banů</div>
-                    <div class="stat-description">Vyloučení ze serveru</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Moderation Logs Table -->
-        <section class="table-section">
-            <div class="section-title">
-                <h2>Historie moderace</h2>
-                <span class="section-title-badge" id="totalActions">0 akcí</span>
-            </div>
+        <section class="coming-soon-section">
+            <div class="coming-soon-icon">🚧</div>
+            <h1>Banlist se připravuje</h1>
+            <p>
+                Pracujeme na systému, který ti umožní přehledně sledovat všechny moderátorské akce na serveru.
+            </p>
             
-            <div class="table-container">
-                <table id="moderationTable">
-                    <thead>
-                        <tr>
-                            <th>Moderátor</th>
-                            <th>Uživatel</th>
-                            <th>Typ</th>
-                            <th>Důvod</th>
-                            <th>Délka</th>
-                            <th>Datum</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <!-- Data budou vložena JavaScriptem -->
-                        <tr>
-                            <td colspan="6" class="empty-state">
-                                <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
-                                <p>Načítám data z Discord serveru...</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span class="progress-label">Hotovo</span>
+                    <span class="progress-percentage">65 %</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                <div class="progress-note">
+                    <strong>65 % hotovo</strong> — brzy spouštíme!
+                </div>
+            </div>
+
+            <div class="feature-preview">
+                <div class="feature-item">
+                    <span class="emoji">📊</span>
+                    <h3>Statistiky</h3>
+                    <p>Přehled warnů, mute a banů na jednom místě</p>
+                </div>
+                <div class="feature-item">
+                    <span class="emoji">🔍</span>
+                    <h3>Historie</h3>
+                    <p>Kdo, komu, kdy a za co udělil trest</p>
+                </div>
+                <div class="feature-item">
+                    <span class="emoji">⚡</span>
+                    <h3>Live aktualizace</h3>
+                    <p>Data přímo z Discord serveru v reálném čase</p>
+                </div>
             </div>
         </section>
     </main>
@@ -793,7 +781,7 @@
     </footer>
 
     <script>
-        // Mobile menu (stejné jako v index.html)
+        // Mobile menu toggle
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.querySelector('.nav-menu');
         const menuOverlay = document.querySelector('.menu-overlay');
@@ -802,6 +790,7 @@
         function openMenu() {
             menuToggle.classList.add('active');
             menuToggle.setAttribute('aria-expanded', 'true');
+            menuToggle.setAttribute('aria-label', 'Zavřít menu');
             navMenu.classList.add('active');
             menuOverlay.classList.add('active');
             body.style.overflow = 'hidden';
@@ -810,6 +799,7 @@
         function closeMenu() {
             menuToggle.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Otevřít menu');
             navMenu.classList.remove('active');
             menuOverlay.classList.remove('active');
             body.style.overflow = '';
@@ -823,20 +813,22 @@
             }
         });
 
+        // Close menu when clicking overlay
         menuOverlay.addEventListener('click', closeMenu);
 
+        // Close menu when clicking on a link
         document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
 
+        // Close menu on escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (navMenu.classList.contains('active')) closeMenu();
-                if (dropdownMenu.classList.contains('active')) closeDropdown();
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                closeMenu();
             }
         });
 
-        // Dropdown
+        // Dropdown functionality
         const dropdownToggle = document.querySelector('.dropdown-toggle');
         const dropdownMenu = document.querySelector('.dropdown-menu');
         const dropdownArrow = document.querySelector('.dropdown-arrow');
@@ -844,6 +836,7 @@
         function toggleDropdown(e) {
             e.preventDefault();
             e.stopPropagation();
+            
             dropdownMenu.classList.toggle('active');
             dropdownArrow.classList.toggle('rotated');
         }
@@ -855,148 +848,34 @@
 
         dropdownToggle.addEventListener('click', toggleDropdown);
 
+        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
                 closeDropdown();
             }
         });
 
-        // =============================================
-        // NAPOJENÍ NA DISCORD BOTA
-        // =============================================
-        // ZDE JE MÍSTO PRO TVÉHO DISCORD BOTA
-        // Tento kód načítá data z API endpointu
-        
-        const API_URL = 'https://tvej-bot-api.example.com/moderation'; // ZMĚŇ NA SVOU URL
-        
-        async function loadModerationData() {
-            try {
-                // Simulace načítání - pro testování
-                // Tohle nahraď skutečným fetch z tvého Discord bota
-                
-                // Příklad jak by vypadal fetch:
-                /*
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                updateTable(data.actions);
-                updateStats(data.stats);
-                */
-                
-                // Testovací data (odstraň a použij fetch výše)
-                setTimeout(() => {
-                    const mockData = {
-                        actions: [
-                            {
-                                moderator: "Majkl#1234",
-                                moderatorAvatar: "M",
-                                user: "PavelNovák#5678",
-                                userAvatar: "P",
-                                type: "warn",
-                                reason: "Nevhodné chování v chatu",
-                                duration: "do odvolání",
-                                date: "2026-03-15 14:30"
-                            },
-                            {
-                                moderator: "Eliška#9012",
-                                moderatorAvatar: "E",
-                                user: "JanNovotný#3456",
-                                userAvatar: "J",
-                                type: "mute",
-                                reason: "Spamování",
-                                duration: "1 hodina",
-                                date: "2026-03-14 09:15"
-                            },
-                            {
-                                moderator: "Tomáš#7890",
-                                moderatorAvatar: "T",
-                                user: "PetrSvoboda#2345",
-                                userAvatar: "P",
-                                type: "ban",
-                                reason: "Porušování pravidel opakovaně",
-                                duration: "trvalý",
-                                date: "2026-03-10 22:45"
-                            }
-                        ],
-                        stats: {
-                            warns: 1,
-                            mutes: 1,
-                            bans: 1
-                        }
-                    };
-                    
-                    updateTable(mockData.actions);
-                    updateStats(mockData.stats);
-                }, 1000);
-                
-            } catch (error) {
-                console.error('Chyba při načítání dat:', error);
-                document.getElementById('tableBody').innerHTML = `
-                    <tr>
-                        <td colspan="6" class="empty-state">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">❌</div>
-                            <p>Nepodařilo se načíst data. Zkuste to prosím později.</p>
-                        </td>
-                    </tr>
-                `;
+        // Close dropdown on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
+                closeDropdown();
             }
-        }
-        
-        function updateTable(actions) {
-            const tbody = document.getElementById('tableBody');
+        });
+
+        // Add scroll effect to nav
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const nav = document.querySelector('nav');
             
-            if (!actions || actions.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="empty-state">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
-                            <p>Zatím žádné moderátorské akce. Všechno je v pořádku!</p>
-                        </td>
-                    </tr>
-                `;
-                return;
+            if (currentScroll > 100) {
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+            } else {
+                nav.style.boxShadow = 'none';
             }
             
-            let html = '';
-            actions.forEach(action => {
-                html += `
-                    <tr>
-                        <td>
-                            <div class="user-tag">
-                                <div class="user-avatar">${action.moderatorAvatar || action.moderator.charAt(0)}</div>
-                                ${action.moderator}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="user-tag">
-                                <div class="user-avatar">${action.userAvatar || action.user.charAt(0)}</div>
-                                ${action.user}
-                            </div>
-                        </td>
-                        <td>
-                            <span class="action-badge ${action.type}">
-                                ${action.type === 'warn' ? '⚠️' : action.type === 'mute' ? '🔇' : '⛔'}
-                                ${action.type.toUpperCase()}
-                            </span>
-                        </td>
-                        <td>${action.reason}</td>
-                        <td><span class="duration">${action.duration}</span></td>
-                        <td>${action.date}</td>
-                    </tr>
-                `;
-            });
-            
-            tbody.innerHTML = html;
-            document.getElementById('totalActions').textContent = `${actions.length} akcí`;
-        }
-        
-        function updateStats(stats) {
-            document.getElementById('warnCount').textContent = stats.warns || 0;
-            document.getElementById('muteCount').textContent = stats.mutes || 0;
-            document.getElementById('banCount').textContent = stats.bans || 0;
-        }
-        
-        // Spustit načtení dat po načtení stránky
-        document.addEventListener('DOMContentLoaded', loadModerationData);
+            lastScroll = currentScroll;
+        });
     </script>
 </body>
 </html>
