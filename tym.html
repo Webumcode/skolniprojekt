@@ -1,1 +1,938 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Náš tým | Doupě géniů</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --text: #0f0f0f;
+            --text-secondary: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-light: #dbeafe;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        /* Navigation (kopírováno z index.html pro konzistenci) */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 250, 250, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            transition: transform 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+            background: rgba(0,0,0,0.03);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .nav-cta {
+            background: var(--text);
+            color: var(--bg);
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Mobile Menu Toggle (stejné jako v index.html) */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            padding: 0;
+            gap: 5px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .menu-toggle:hover {
+            background: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .menu-toggle span {
+            width: 22px;
+            height: 2.5px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .menu-toggle.active span {
+            background: white;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+        }
+
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Hlavní obsah stránky Tým */
+        .team-section {
+            padding: 8rem 1.5rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .team-header h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .team-header h1 span {
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .team-description {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Vyhledávání */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            background: var(--surface);
+            color: var(--text);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        #searchInput:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-light);
+        }
+
+        #searchInput::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        /* Sekce týmu */
+        .team-category {
+            margin-bottom: 3rem;
+        }
+
+        .category-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: var(--surface);
+            box-shadow: var(--shadow-sm);
+            font-size: 1.2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Karta člena týmu */
+        .team-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .team-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-light);
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            color: var(--accent);
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .role-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            object-fit: contain;
+            background: var(--bg);
+            padding: 4px;
+        }
+
+        .card-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .card-role {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: var(--accent-light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: auto;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            min-width: 0;
+        }
+
+        .btn-discord {
+            background: #5865F2;
+            color: white;
+        }
+
+        .btn-discord:hover {
+            background: #4752c4;
+            transform: translateY(-1px);
+        }
+
+        .btn-contact {
+            background: var(--surface);
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .btn-contact:hover {
+            background: var(--bg);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Footer (stejný jako v index.html) */
+        footer {
+            background: var(--surface);
+            padding: 3rem 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .footer-brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: 1rem 0;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        /* Mobilní responzivita */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 320px;
+                height: 100vh;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 6rem 1.5rem 2rem;
+                gap: 0;
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+                align-items: stretch;
+                z-index: 999;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 1rem 1.25rem;
+                font-size: 1.1rem;
+                border-radius: var(--radius-sm);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .nav-links a::after {
+                content: '→';
+                opacity: 0;
+                transform: translateX(-10px);
+                transition: all 0.2s ease;
+                color: var(--accent);
+            }
+
+            .nav-links a:hover::after,
+            .nav-links a.active::after {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-links a.active {
+                background: var(--accent-light);
+                color: var(--accent);
+            }
+
+            .nav-cta {
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+                padding: 1rem;
+                font-size: 1rem;
+                border-radius: var(--radius);
+                margin-top: auto;
+            }
+
+            .mobile-menu-header {
+                display: block;
+                padding-bottom: 1.5rem;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .mobile-menu-title {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--text);
+                margin-bottom: 0.5rem;
+            }
+
+            .mobile-menu-subtitle {
+                font-size: 0.9rem;
+                color: var(--text-secondary);
+            }
+
+            .team-section {
+                padding: 7rem 1rem 3rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .mobile-menu-header {
+                display: none;
+            }
+
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .footer-divider {
+                display: none;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .hidden-card {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">◆</div>
+                Doupě géniů
+            </a>
+            <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="menu-overlay"></div>
+            <div class="nav-menu">
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-title">Doupě géniů</div>
+                    <div class="mobile-menu-subtitle">Menu</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Domů</a></li>
+                    <li><a href="oprojektu.html">O projektu</a></li>
+                    <li><a href="vyhody.html">Výhody</a></li>
+                    <li><a href="tym.html" class="active">Tým</a></li>
+                    <li><a href="pravidla.html">Pravidla</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+                <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="team-section">
+            <div class="team-header">
+                <h1>Poznej <span>náš tým</span></h1>
+                <p class="team-description">
+                    Každý člen týmu zajišťuje hladký chod serveru a bezpečné prostředí. 
+                    Pokud potřebuješ pomoci, neváhej se na nás obrátit.
+                </p>
+            </div>
+
+            <!-- Vyhledávání -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Hledat člena týmu...">
+            </div>
+
+            <!-- Sekce Vedení -->
+            <div class="team-category" data-category="vedeni">
+                <h2 class="category-title">
+                    <span class="category-icon">👑</span>
+                    Vedení
+                </h2>
+                <div class="team-grid" id="vedeni-grid">
+                    <!-- Karty budou dynamicky generovány JavaScriptem -->
+                </div>
+            </div>
+
+            <!-- Sekce Developeři -->
+            <div class="team-category" data-category="developeri">
+                <h2 class="category-title">
+                    <span class="category-icon">🍀</span>
+                    Developeři
+                </h2>
+                <div class="team-grid" id="developeri-grid"></div>
+            </div>
+
+            <!-- Sekce Administrátoři -->
+            <div class="team-category" data-category="admini">
+                <h2 class="category-title">
+                    <span class="category-icon">🛠</span>
+                    Administrátoři
+                </h2>
+                <div class="team-grid" id="admini-grid"></div>
+            </div>
+
+            <!-- Sekce Moderátoři -->
+            <div class="team-category" data-category="moderatori">
+                <h2 class="category-title">
+                    <span class="category-icon">🛡</span>
+                    Moderátoři
+                </h2>
+                <div class="team-grid" id="moderatori-grid"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <a href="index.html" class="footer-brand">
+                <div class="footer-brand-icon">◆</div>
+                Doupě géniů
+            </a>
+            <div class="footer-links">
+                <a href="index.html">Domů</a>
+                <a href="oprojektu.html">O projektu</a>
+                <a href="pravidla.html">Pravidla</a>
+                <a href="kontakt.html">Kontakt</a>
+                <a href="https://discord.gg/fUKmXtpaE" target="_blank" rel="noopener noreferrer">Discord</a>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="copyright">© 2026 Doupě géniů. Všechna práva vyhrazena.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu (stejné jako v index.html)
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const body = document.body;
+        
+        function openMenu() {
+            menuToggle.classList.add('active');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            menuToggle.setAttribute('aria-label', 'Zavřít menu');
+            navMenu.classList.add('active');
+            menuOverlay.classList.add('active');
+            body.style.overflow = 'hidden';
+        }
+        
+        function closeMenu() {
+            menuToggle.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Otevřít menu');
+            navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            body.style.overflow = '';
+        }
+        
+        menuToggle.addEventListener('click', () => {
+            if (navMenu.classList.contains('active')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        menuOverlay.addEventListener('click', closeMenu);
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Data týmu
+        const teamData = {
+            vedeni: [
+                { name: 'Petr', role: '👑 Majitel projektu', roleIcon: 'https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png', discordId: 'petr123' },
+                { name: 'lenní', role: '🌷 Zástupce', roleIcon: 'https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png', discordId: 'lenni456' }
+            ],
+            developeri: [
+                { name: 'Enemi', role: '🍀 Developer', roleIcon: 'https://i.ibb.co/MD9Pz2Qv/406258-activedev.png', discordId: 'enemi789' },
+                { name: 'Drezyss', role: '🍀 Developer', roleIcon: 'https://i.ibb.co/MD9Pz2Qv/406258-activedev.png', discordId: 'drezyss101' }
+            ],
+            admini: [
+                { name: 'Vojta 0221', role: '🛠 Administrátor', roleIcon: 'https://i.ibb.co/f30LjK5/943769-staff.png', discordId: 'vojta0221' },
+                { name: 'indebixis', role: '🛠 Administrátor', roleIcon: 'https://i.ibb.co/f30LjK5/943769-staff.png', discordId: 'indebixis' }
+            ],
+            moderatori: [
+                { name: 'Josef', role: '🛡 Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'josef' },
+                { name: 'Kralis', role: '🛡 Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'kralis' },
+                { name: 'veru_nkaa', role: '🛡 Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'verunkaa' },
+                { name: 'kribikovas', role: '🛡 Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'kribikovas' },
+                { name: 'zuz._.le', role: '🛡 Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'zuzle' }
+            ]
+        };
+
+        // Funkce pro vytvoření karty
+        function createTeamCard(member, category) {
+            const card = document.createElement('div');
+            card.className = 'team-card';
+            card.setAttribute('data-name', member.name.toLowerCase());
+            card.setAttribute('data-category', category);
+
+            // Získání URL obrázku z parametru (pokud existuje)
+            const urlParams = new URLSearchParams(window.location.search);
+            const imageUrl = urlParams.get(`img_${member.name.replace(/\s+/g, '')}`) || '';
+
+            // Obsah karty
+            card.innerHTML = `
+                <div class="card-image">
+                    ${imageUrl ? `<img src="${imageUrl}" alt="${member.name}">` : `<div class="image-placeholder">👤</div>`}
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <img src="${member.roleIcon}" alt="Role icon" class="role-icon" loading="lazy">
+                        <span class="card-name">${member.name}</span>
+                    </div>
+                    <span class="card-role">${member.role}</span>
+                    <div class="card-actions">
+                        <a href="https://discord.com/users/${member.discordId}" class="btn btn-discord" target="_blank" rel="noopener noreferrer">
+                            Discord
+                        </a>
+                        <a href="kontakt.html?subject=${encodeURIComponent('Zpráva pro ' + member.name)}" class="btn btn-contact">
+                            Zpráva
+                        </a>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        // Načtení všech karet
+        function renderTeam() {
+            for (const [category, members] of Object.entries(teamData)) {
+                const grid = document.getElementById(`${category}-grid`);
+                grid.innerHTML = ''; // Vyčištění
+                members.forEach(member => {
+                    grid.appendChild(createTeamCard(member, category));
+                });
+            }
+        }
+
+        // Vyhledávání
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                const allCards = document.querySelectorAll('.team-card');
+
+                allCards.forEach(card => {
+                    const cardName = card.getAttribute('data-name');
+                    if (searchTerm === '' || cardName.includes(searchTerm)) {
+                        card.classList.remove('hidden-card');
+                    } else {
+                        card.classList.add('hidden-card');
+                    }
+                });
+
+                // Zobrazení/skrytí celých kategorií
+                document.querySelectorAll('.team-category').forEach(category => {
+                    const visibleCards = category.querySelectorAll('.team-card:not(.hidden-card)');
+                    if (visibleCards.length === 0 && searchTerm !== '') {
+                        category.style.display = 'none';
+                    } else {
+                        category.style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        // Inicializace
+        renderTeam();
+        setupSearch();
+
+        // Scroll efekt pro nav (stejný jako v index.html)
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.pageYOffset > 100) {
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
