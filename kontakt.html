@@ -325,29 +325,22 @@
             border: 1px solid var(--border);
         }
 
-        /* Message */
-        .form-message {
+        /* Success Message - upraveno pro FormSubmit */
+        .success-message {
             padding: 1rem 1.5rem;
             border-radius: var(--radius);
             margin-bottom: 2rem;
             text-align: center;
             font-weight: 500;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .form-message.success {
-            display: block;
             background: var(--success-light);
             border: 1px solid var(--success);
             color: var(--success);
+            display: none;
         }
 
-        .form-message.error {
+        .success-message.show {
             display: block;
-            background: var(--error-light);
-            border: 1px solid var(--error);
-            color: var(--error);
+            animation: fadeIn 0.3s ease;
         }
 
         /* Discord Button */
@@ -799,7 +792,9 @@
 
         <section class="contact-section">
             <div class="contact-container">
-                <div class="form-message" id="formMessage"></div>
+                <div class="success-message" id="successMessage">
+                    ✓ Děkujeme za zprávu! Ozveme se vám co nejdříve.
+                </div>
 
                 <div class="discord-support">
                     <h3>Nejrychlejší podpora na Discordu</h3>
@@ -812,22 +807,30 @@
                     </a>
                 </div>
 
-                <form class="contact-form" id="contactForm" method="POST" action="odesli.php">
+                <!-- FormSubmit.co formulář -->
+                <form class="contact-form" action="https://formsubmit.co/webum@post.cz" method="POST">
+                    <!-- FormSubmit.co konfigurace -->
+                    <input type="hidden" name="_next" value="https://skolniprojekt.vercel.app/kontakt.html">
+                    <input type="hidden" name="_subject" value="Nová zpráva z Doupěte géniů!">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_autoresponse" value="Děkujeme za vaši zprávu! Ozveme se vám co nejdříve.">
+                    
                     <div class="form-group">
                         <label for="name">Jméno a příjmení *</label>
-                        <input type="text" id="name" name="name" required placeholder="Jan Novák">
+                        <input type="text" id="name" name="Jméno" required placeholder="Jan Novák">
                     </div>
                     <div class="form-group">
                         <label for="email">E-mail *</label>
-                        <input type="email" id="email" name="email" required placeholder="jan.novak@email.cz">
+                        <input type="email" id="email" name="E-mail" required placeholder="jan.novak@email.cz">
                     </div>
                     <div class="form-group">
                         <label for="subject">Předmět *</label>
-                        <input type="text" id="subject" name="subject" required placeholder="Dotaz k projektu">
+                        <input type="text" id="subject" name="Předmět" required placeholder="Dotaz k projektu">
                     </div>
                     <div class="form-group">
                         <label for="message">Zpráva *</label>
-                        <textarea id="message" name="message" required placeholder="Napište nám, s čím potřebujete pomoci..."></textarea>
+                        <textarea id="message" name="Zpráva" required placeholder="Napište nám, s čím potřebujete pomoci..."></textarea>
                     </div>
                     
                     <button type="submit" class="submit-btn" id="submitBtn">
@@ -980,34 +983,20 @@
             lastScroll = currentScroll;
         });
 
-        // URL parameters for form message
+        // Zobrazení success message po přesměrování zpět
         const urlParams = new URLSearchParams(window.location.search);
-        const status = urlParams.get('status');
-        const message = urlParams.get('message');
-        const formMessage = document.getElementById('formMessage');
+        const successMessage = document.getElementById('successMessage');
         
-        if (status === 'success') {
-            formMessage.textContent = '✓ Děkujeme za zprávu! Ozveme se vám co nejdříve.';
-            formMessage.className = 'form-message success';
+        if (urlParams.has('submit') || document.referrer.includes('formsubmit.co')) {
+            successMessage.classList.add('show');
             
-            // Clear URL parameters without reloading
-            window.history.replaceState({}, document.title, window.location.pathname);
-            
-            // Hide message after 5 seconds
+            // Skrytí po 5 sekundách
             setTimeout(() => {
-                formMessage.className = 'form-message';
+                successMessage.classList.remove('show');
             }, 5000);
-        } else if (status === 'error') {
-            formMessage.textContent = message || '✗ Omlouváme se, ale došlo k chybě. Zkuste to prosím později.';
-            formMessage.className = 'form-message error';
             
-            // Clear URL parameters without reloading
+            // Vyčištění URL
             window.history.replaceState({}, document.title, window.location.pathname);
-            
-            // Hide message after 5 seconds
-            setTimeout(() => {
-                formMessage.className = 'form-message';
-            }, 5000);
         }
     </script>
 </body>
