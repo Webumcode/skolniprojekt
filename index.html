@@ -116,7 +116,11 @@
             align-items: center;
         }
 
-        .nav-links a {
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
             text-decoration: none;
             color: var(--text-secondary);
             font-size: 0.9rem;
@@ -126,16 +130,69 @@
             transition: all 0.2s ease;
             position: relative;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
-        .nav-links a:hover {
+        .nav-links > li > a:hover {
             color: var(--text);
             background: rgba(0,0,0,0.03);
         }
 
-        .nav-links a.active {
+        .nav-links > li > a.active {
             color: var(--accent);
             background: var(--accent-light);
+        }
+
+        .dropdown-arrow {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .dropdown-arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 180px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            list-style: none;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 0.6rem 1.2rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .dropdown-menu li a:hover {
+            background: var(--accent-light);
+            color: var(--accent);
         }
 
         .nav-cta {
@@ -574,7 +631,7 @@
                 width: 100%;
             }
 
-            .nav-links a {
+            .nav-links > li > a {
                 width: 100%;
                 padding: 1rem 1.25rem;
                 font-size: 1.1rem;
@@ -584,7 +641,7 @@
                 justify-content: space-between;
             }
 
-            .nav-links a::after {
+            .nav-links > li > a::after {
                 content: '→';
                 opacity: 0;
                 transform: translateX(-10px);
@@ -592,15 +649,35 @@
                 color: var(--accent);
             }
 
-            .nav-links a:hover::after,
-            .nav-links a.active::after {
+            .nav-links > li > a:hover::after,
+            .nav-links > li > a.active::after {
                 opacity: 1;
                 transform: translateX(0);
             }
 
-            .nav-links a.active {
+            .nav-links > li > a.active {
                 background: var(--accent-light);
                 color: var(--accent);
+            }
+
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: 1px solid var(--border);
+                margin: 0.5rem 0 0.5rem 1rem;
+                min-width: auto;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                display: none;
+            }
+
+            .dropdown-menu.active {
+                display: block;
+            }
+
+            .dropdown-menu li a {
+                padding: 0.8rem 1.5rem;
             }
 
             .nav-cta {
@@ -734,6 +811,15 @@
                     <li><a href="tym.html">Tým</a></li>
                     <li><a href="pravidla.html">Pravidla</a></li>
                     <li><a href="kontakt.html">Kontakt</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            Ostatní
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="banlist.html">Banlist</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
             </div>
@@ -848,7 +934,7 @@
         menuOverlay.addEventListener('click', closeMenu);
 
         // Close menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
+        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
 
@@ -856,6 +942,40 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && navMenu.classList.contains('active')) {
                 closeMenu();
+            }
+        });
+
+        // Dropdown functionality
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        const dropdownArrow = document.querySelector('.dropdown-arrow');
+
+        function toggleDropdown(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            dropdownMenu.classList.toggle('active');
+            dropdownArrow.classList.toggle('rotated');
+        }
+
+        function closeDropdown() {
+            dropdownMenu.classList.remove('active');
+            dropdownArrow.classList.remove('rotated');
+        }
+
+        dropdownToggle.addEventListener('click', toggleDropdown);
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+
+        // Close dropdown on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
+                closeDropdown();
             }
         });
 
