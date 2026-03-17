@@ -52,7 +52,7 @@
             line-height: 1.2;
         }
 
-        /* Navigation (kopírováno z index.html pro konzistenci) */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -158,7 +158,7 @@
             box-shadow: var(--shadow);
         }
 
-        /* Mobile Menu Toggle (stejné jako v index.html) */
+        /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -457,7 +457,7 @@
             color: var(--accent);
         }
 
-        /* Footer (stejný jako v index.html) */
+        /* Footer */
         footer {
             background: var(--surface);
             padding: 3rem 1.5rem;
@@ -719,45 +719,234 @@
 
             <!-- Vyhledávání -->
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Hledat člena týmu...">
+                <input type="text" id="searchInput" placeholder="Hledat člena týmu podle jména...">
             </div>
 
             <!-- Sekce Vedení -->
             <div class="team-category" data-category="vedeni">
                 <h2 class="category-title">
-                    <span class="category-icon"></span>
+                    <span class="category-icon">👑</span>
                     Vedení
                 </h2>
                 <div class="team-grid" id="vedeni-grid">
-                    <!-- Karty budou dynamicky generovány JavaScriptem -->
+                    <!-- Karta Petra -->
+                    <div class="team-card" data-name="petr">
+                        <div class="card-image">
+                            <img src="https://i.ibb.co/Q7sN7mjd/petko.webp" alt="Petr">
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">Petr</span>
+                            </div>
+                            <span class="card-role">👑 Majitel projektu</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/petr123" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20Petr" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Karta lenní (zástupce) - zatím bez vlastního obrázku -->
+                    <div class="team-card" data-name="lenní">
+                        <div class="card-image">
+                            <div class="image-placeholder">👤</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">lenní</span>
+                            </div>
+                            <span class="card-role">🌷 Zástupce</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/lenni456" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20lenní" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Sekce Developeři -->
             <div class="team-category" data-category="developeri">
                 <h2 class="category-title">
-                    <span class="category-icon"></span>
+                    <span class="category-icon">🍀</span>
                     Developeři
                 </h2>
-                <div class="team-grid" id="developeri-grid"></div>
+                <div class="team-grid" id="developeri-grid">
+                    <!-- Karta Drezyss - čekáme na obrázek -->
+                    <div class="team-card" data-name="drezyss">
+                        <div class="card-image">
+                            <div class="image-placeholder">👤</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/MD9Pz2Qv/406258-activedev.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">Drezyss</span>
+                            </div>
+                            <span class="card-role">🍀 Developer</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/drezyss101" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20Drezyss" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Karta Enemi - zatím bez obrázku -->
+                    <div class="team-card" data-name="enemi">
+                        <div class="card-image">
+                            <div class="image-placeholder">👤</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/MD9Pz2Qv/406258-activedev.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">Enemi</span>
+                            </div>
+                            <span class="card-role">🍀 Developer</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/enemi789" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20Enemi" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Sekce Administrátoři -->
             <div class="team-category" data-category="admini">
                 <h2 class="category-title">
-                    <span class="category-icon"></span>
+                    <span class="category-icon">🛠</span>
                     Administrátoři
                 </h2>
-                <div class="team-grid" id="admini-grid"></div>
+                <div class="team-grid" id="admini-grid">
+                    <!-- Karta Vojta 0221 -->
+                    <div class="team-card" data-name="vojta 0221">
+                        <div class="card-image">
+                            <img src="https://i.ibb.co/DHXCMpx7/vojta.webp" alt="Vojta 0221">
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/f30LjK5/943769-staff.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">Vojta 0221</span>
+                            </div>
+                            <span class="card-role">🛠 Administrátor</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/vojta0221" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20Vojta%200221" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Karta indebixis - zatím bez obrázku -->
+                    <div class="team-card" data-name="indebixis">
+                        <div class="card-image">
+                            <div class="image-placeholder">👤</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/f30LjK5/943769-staff.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">indebixis</span>
+                            </div>
+                            <span class="card-role">🛠 Administrátor</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/indebixis" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20indebixis" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Sekce Moderátoři -->
             <div class="team-category" data-category="moderatori">
                 <h2 class="category-title">
-                    <span class="category-icon"></span>
+                    <span class="category-icon">🛡</span>
                     Moderátoři
                 </h2>
-                <div class="team-grid" id="moderatori-grid"></div>
+                <div class="team-grid" id="moderatori-grid">
+                    <!-- Karta Josef - bez obrázku -->
+                    <div class="team-card" data-name="josef">
+                        <div class="card-image">
+                            <div class="image-placeholder">👤</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/7JdcsspS/681304-moderator.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">Josef</span>
+                            </div>
+                            <span class="card-role">🛡 Moderátor</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/josef" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20Josef" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Karta Kralis - bez obrázku -->
+                    <div class="team-card" data-name="kralis">
+                        <div class="card-image">
+                            <div class="image-placeholder">👤</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/7JdcsspS/681304-moderator.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">Kralis</span>
+                            </div>
+                            <span class="card-role">🛡 Moderátor</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/kralis" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20Kralis" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Karta veru_nkaa - bez obrázku -->
+                    <div class="team-card" data-name="veru_nkaa">
+                        <div class="card-image">
+                            <div class="image-placeholder">👤</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/7JdcsspS/681304-moderator.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">veru_nkaa</span>
+                            </div>
+                            <span class="card-role">🛡 Moderátor</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/verunkaa" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20veru_nkaa" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Karta kribikovas - bez obrázku -->
+                    <div class="team-card" data-name="kribikovas">
+                        <div class="card-image">
+                            <div class="image-placeholder">👤</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/7JdcsspS/681304-moderator.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">kribikovas</span>
+                            </div>
+                            <span class="card-role">🛡 Moderátor</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/kribikovas" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20kribikovas" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Karta zuz._.le - bez obrázku -->
+                    <div class="team-card" data-name="zuz._.le">
+                        <div class="card-image">
+                            <div class="image-placeholder">👤</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <img src="https://i.ibb.co/7JdcsspS/681304-moderator.png" alt="Role icon" class="role-icon">
+                                <span class="card-name">zuz._.le</span>
+                            </div>
+                            <span class="card-role">🛡 Moderátor</span>
+                            <div class="card-actions">
+                                <a href="https://discord.com/users/zuzle" class="btn btn-discord" target="_blank">Discord</a>
+                                <a href="kontakt.html?subject=Zpráva%20pro%20zuz._.le" class="btn btn-contact">Zpráva</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -781,7 +970,7 @@
     </footer>
 
     <script>
-        // Mobile menu (stejné jako v index.html)
+        // Mobile menu
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.querySelector('.nav-menu');
         const menuOverlay = document.querySelector('.menu-overlay');
@@ -823,108 +1012,34 @@
             }
         });
 
-        // Data týmu
-        const teamData = {
-            vedeni: [
-                { name: 'Petr', role: ' Majitel projektu', roleIcon: 'https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png', discordId: 'petr123' },
-                { name: 'lenní', role: ' Zástupce', roleIcon: 'https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png', discordId: 'lenni456' }
-            ],
-            developeri: [
-                { name: 'Enemi', role: ' Developer', roleIcon: 'https://i.ibb.co/MD9Pz2Qv/406258-activedev.png', discordId: 'enemi789' },
-                { name: 'Drezyss', role: ' Developer', roleIcon: 'https://i.ibb.co/MD9Pz2Qv/406258-activedev.png', discordId: 'drezyss101' }
-            ],
-            admini: [
-                { name: 'Vojta 0221', role: ' Administrátor', roleIcon: 'https://i.ibb.co/f30LjK5/943769-staff.png', discordId: 'vojta0221' },
-                { name: 'indebixis', role: ' Administrátor', roleIcon: 'https://i.ibb.co/f30LjK5/943769-staff.png', discordId: 'indebixis' }
-            ],
-            moderatori: [
-                { name: 'Josef', role: ' Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'josef' },
-                { name: 'Kralis', role: ' Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'kralis' },
-                { name: 'veru_nkaa', role: ' Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'verunkaa' },
-                { name: 'kribikovas', role: ' Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'kribikovas' },
-                { name: 'zuz._.le', role: ' Moderátor', roleIcon: 'https://i.ibb.co/7JdcsspS/681304-moderator.png', discordId: 'zuzle' }
-            ]
-        };
+        // Vyhledávání podle jména
+        const searchInput = document.getElementById('searchInput');
+        const teamCards = document.querySelectorAll('.team-card');
 
-        // Funkce pro vytvoření karty
-        function createTeamCard(member, category) {
-            const card = document.createElement('div');
-            card.className = 'team-card';
-            card.setAttribute('data-name', member.name.toLowerCase());
-            card.setAttribute('data-category', category);
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
 
-            // Získání URL obrázku z parametru (pokud existuje)
-            const urlParams = new URLSearchParams(window.location.search);
-            const imageUrl = urlParams.get(`img_${member.name.replace(/\s+/g, '')}`) || '';
-
-            // Obsah karty
-            card.innerHTML = `
-                <div class="card-image">
-                    ${imageUrl ? `<img src="${imageUrl}" alt="${member.name}">` : `<div class="image-placeholder">👤</div>`}
-                </div>
-                <div class="card-content">
-                    <div class="card-header">
-                        <img src="${member.roleIcon}" alt="Role icon" class="role-icon" loading="lazy">
-                        <span class="card-name">${member.name}</span>
-                    </div>
-                    <span class="card-role">${member.role}</span>
-                    <div class="card-actions">
-                        <a href="https://discord.com/users/${member.discordId}" class="btn btn-discord" target="_blank" rel="noopener noreferrer">
-                            Discord
-                        </a>
-                        <a href="kontakt.html?subject=${encodeURIComponent('Zpráva pro ' + member.name)}" class="btn btn-contact">
-                            Zpráva
-                        </a>
-                    </div>
-                </div>
-            `;
-            return card;
-        }
-
-        // Načtení všech karet
-        function renderTeam() {
-            for (const [category, members] of Object.entries(teamData)) {
-                const grid = document.getElementById(`${category}-grid`);
-                grid.innerHTML = ''; // Vyčištění
-                members.forEach(member => {
-                    grid.appendChild(createTeamCard(member, category));
-                });
-            }
-        }
-
-        // Vyhledávání
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', function(e) {
-                const searchTerm = e.target.value.toLowerCase().trim();
-                const allCards = document.querySelectorAll('.team-card');
-
-                allCards.forEach(card => {
-                    const cardName = card.getAttribute('data-name');
-                    if (searchTerm === '' || cardName.includes(searchTerm)) {
-                        card.classList.remove('hidden-card');
-                    } else {
-                        card.classList.add('hidden-card');
-                    }
-                });
-
-                // Zobrazení/skrytí celých kategorií
-                document.querySelectorAll('.team-category').forEach(category => {
-                    const visibleCards = category.querySelectorAll('.team-card:not(.hidden-card)');
-                    if (visibleCards.length === 0 && searchTerm !== '') {
-                        category.style.display = 'none';
-                    } else {
-                        category.style.display = 'block';
-                    }
-                });
+            teamCards.forEach(card => {
+                const cardName = card.getAttribute('data-name').toLowerCase();
+                if (cardName.includes(searchTerm) || searchTerm === '') {
+                    card.classList.remove('hidden-card');
+                } else {
+                    card.classList.add('hidden-card');
+                }
             });
-        }
 
-        // Inicializace
-        renderTeam();
-        setupSearch();
+            // Zobrazit/skrýt celé kategorie podle viditelných karet
+            document.querySelectorAll('.team-category').forEach(category => {
+                const visibleCards = category.querySelectorAll('.team-card:not(.hidden-card)');
+                if (visibleCards.length === 0 && searchTerm !== '') {
+                    category.style.display = 'none';
+                } else {
+                    category.style.display = 'block';
+                }
+            });
+        });
 
-        // Scroll efekt pro nav (stejný jako v index.html)
+        // Scroll efekt pro nav
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.pageYOffset > 100) {
