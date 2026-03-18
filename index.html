@@ -2,406 +2,256 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚠️ PŘESTAVBA WEBU - HACKED ⚠️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Nový projekt • loading 20%</title>
     <style>
+        /* === Profesionální černo-zlatý design === */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background: #000;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Courier New', monospace;
-            overflow: hidden;
-            position: relative;
+            background: #0b0b0b; /* jednoduché tmavé pozadí – čisté, profesionální */
+            font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            padding: 20px;
         }
-        /* Matrix pozadí */
-        .matrix-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        /* Hlavní karta – minimalistická, luxusní, s jemnými detaily */
+        .container {
+            max-width: 500px;
             width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(0deg, 
-                rgba(0,255,0,0.03) 0px, 
-                transparent 2px,
-                rgba(0,255,0,0.02) 3px);
-            pointer-events: none;
-            z-index: 0;
-            animation: matrix-fall 20s linear infinite;
-        }
-        @keyframes matrix-fall {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 20px; }
-        }
-        /* Hlavní loading kontejner */
-        .loading-container {
-            position: relative;
-            z-index: 10;
-            width: 90%;
-            max-width: 1200px;
+            background: #111111;
+            border-radius: 48px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.25);
+            padding: 40px 32px 48px 32px;
             text-align: center;
-            padding: 20px;
-            border: 2px solid #0f0;
-            box-shadow: 0 0 50px rgba(0,255,0,0.3);
-            background: rgba(0,0,0,0.9);
-            animation: border-pulse 2s infinite;
+            border: 1px solid #2a2a2a;
+            transition: transform 0.2s ease;
         }
-        @keyframes border-pulse {
-            0%, 100% { border-color: #0f0; box-shadow: 0 0 50px rgba(0,255,0,0.3); }
-            50% { border-color: #f00; box-shadow: 0 0 80px rgba(255,0,0,0.5); }
+
+        /* Jemné zvýraznění při hover (pouze na desktopu) */
+        .container:hover {
+            box-shadow: 0 30px 60px -12px #000, 0 0 0 1px rgba(212, 175, 55, 0.4);
         }
-        /* Hlavní nadpis */
-        .main-title {
-            color: #0f0;
-            font-size: clamp(2rem, 8vw, 5rem);
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px #0f0;
-            animation: glitch 3s infinite;
-            position: relative;
+
+        /* === Logo / postavička – čistě profesionální provedení === */
+        .logo-wrapper {
+            margin: 0 0 24px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        @keyframes glitch {
-            0%, 100% { text-shadow: 2px 0 0 #f00, -2px 0 0 #0ff; }
-            20% { text-shadow: -3px 1px 0 #f00, 3px -1px 0 #0ff; }
-            40% { text-shadow: 3px -1px 0 #f00, -3px 1px 0 #0ff; }
-            60% { text-shadow: 1px 2px 0 #f00, -1px -2px 0 #0ff; }
-            80% { text-shadow: -1px -2px 0 #f00, 1px 2px 0 #0ff; }
-        }
-        /* Progress bar */
-        .progress-container {
-            width: 100%;
-            height: 50px;
-            background: #111;
-            border: 2px solid #0f0;
-            margin: 40px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #0f0, #ff0, #f00, #0ff);
-            background-size: 300% 100%;
-            animation: gradient-shift 3s infinite;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 30px #0f0;
-            position: relative;
-        }
-        @keyframes gradient-shift {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 300% 0%; }
-        }
-        /* Procenta text */
-        .percentage {
-            font-size: clamp(4rem, 15vw, 10rem);
-            color: #fff;
-            text-shadow: 0 0 30px #0f0, 0 0 60px #f00;
-            margin: 20px 0;
-            font-weight: bold;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; text-shadow: 0 0 50px #ff0; }
-        }
-        /* Status text */
-        .status {
-            color: #0ff;
-            font-size: clamp(1.5rem, 5vw, 3rem);
-            margin: 20px 0;
-            text-transform: uppercase;
-            border-right: 3px solid #0ff;
-            white-space: nowrap;
-            overflow: hidden;
-            animation: typing 4s steps(40) infinite;
-            display: inline-block;
-        }
-        @keyframes typing {
-            0%, 100% { width: 0; }
-            30%, 70% { width: 100%; }
-        }
-        /* Hacked zpráva (skrytá na začátku) */
-        .hacked-message {
-            display: none;
-            margin-top: 40px;
-        }
-        .hacked-message.active {
+
+        .logo-wrapper img {
             display: block;
-            animation: fadeIn 1s;
+            width: auto;
+            max-width: 75%;
+            height: auto;
+            max-height: 240px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.7));
+            transition: filter 0.2s ease;
+            /* žádné barevné tónování – originální logo, působí přirozeně a profesionálně */
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+
+        /* I bez zlatého overlay působí logo díky okolním prvkům prémiově */
+
+        /* === Text – čistý, dobře čitelný, s respektem k prostoru === */
+        .project-text {
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            font-weight: 500;
+            line-height: 1.2;
+            color: #ece8e0;       /* světlá, téměř bílá, pro skvělý kontrast */
+            margin: 16px 0 24px 0;
+            letter-spacing: -0.02em;
         }
-        .glitch-text {
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 900;
-            color: #f00;
-            text-shadow: 
-                0.05em 0 0 #0ff,
-                -0.05em -0.025em 0 #ff0,
-                0.025em 0.05em 0 #f0f;
-            animation: glitch-animation 1.5s infinite;
-            margin: 20px 0;
+
+        /* Jednotlivé řádky/text – decentní oddělení */
+        .project-text span {
+            display: inline-block;
+            background: transparent;  /* žádná barevná výplň, pouze text */
+            padding: 0 4px;
+            font-weight: 400;
+        }
+
+        /* První řádek jemně tlustší */
+        .project-text .line1 {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .project-text .line2 {
+            font-weight: 400;
+            color: #d4af37;         /* zlatý akcent pouze na "projektu" – decentní */
+            letter-spacing: -0.01em;
+        }
+
+        /* === Loading sekce – čistá, přesná, profesionální === */
+        .loading-area {
+            margin: 32px 0 16px 0;
+        }
+
+        /* Popisek "PRÁVĚ NAHRÁVÁM" – decentní, uppercase, tracking */
+        .status-label {
+            font-size: 0.8rem;
+            font-weight: 500;
             text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #777777;
+            margin-bottom: 16px;
+            text-align: center;
         }
-        @keyframes glitch-animation {
-            0%, 100% { transform: skew(0deg); opacity: 1; }
-            20% { transform: skew(5deg); text-shadow: -5px 0 #f00, 5px 0 #0ff; }
-            40% { transform: skew(-5deg); text-shadow: 5px 0 #ff0, -5px 0 #f0f; }
-            60% { transform: skew(3deg); }
-            80% { transform: skew(-3deg); }
-        }
-        .sub-glitch {
-            font-size: clamp(2rem, 6vw, 4rem);
-            color: #ff0;
-            margin: 20px 0;
-            animation: blink 0.5s infinite;
-        }
-        /* Loading texty */
-        .loading-text {
-            color: #0f0;
-            font-size: 1.5rem;
-            margin: 10px 0;
-            opacity: 0.8;
-        }
-        /* Náhodné blikání */
-        .random-flash {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        /* Progress bar – velmi čisté provedení */
+        .progress-track {
+            background: #262626;
+            border-radius: 100px;
+            height: 8px;                    /* tenký, moderní */
             width: 100%;
+            margin: 0 auto 20px auto;
+            overflow: hidden;                /* aby se fill pěkně zaoblil */
+            border: none;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.6);
+        }
+
+        .progress-fill {
+            background: #d4af37;             /* jednolitá zlatá – profesionální */
+            width: 20%;
             height: 100%;
-            background: rgba(255,0,0,0.1);
-            pointer-events: none;
-            z-index: 999;
-            opacity: 0;
-            animation: randomFlash 5s infinite;
+            border-radius: 100px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
-        @keyframes randomFlash {
-            0%, 95% { opacity: 0; }
-            96% { opacity: 0.3; }
-            97% { opacity: 0; }
-            98% { opacity: 0.5; }
-            99% { opacity: 0; }
+
+        /* Procenta – čisté, velké, ale ne křiklavé */
+        .percentage {
+            font-size: 3.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1;
+            margin: 18px 0 8px 0;
+            letter-spacing: -1px;
         }
-        /* Command line */
-        .command-line {
-            color: #0f0;
-            text-align: left;
-            font-size: 1.2rem;
-            margin: 20px 0;
-            padding: 20px;
-            background: rgba(0,20,0,0.8);
-            border-left: 4px solid #0f0;
-            font-family: monospace;
+
+        .percentage small {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #888888;
+            margin-left: 4px;
         }
-        .command-line span {
-            color: #ff0;
+
+        /* Doplňková informace – suchá, faktická, bez zbytečných emotikon */
+        .eta-note {
+            font-size: 0.85rem;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 24px;
+            margin-top: 16px;
+            font-weight: 400;
+        }
+
+        /* Velmi malé displeje */
+        @media (max-width: 420px) {
+            .container {
+                padding: 32px 20px 40px 20px;
+                border-radius: 36px;
+            }
+            .logo-wrapper img {
+                max-height: 180px;
+            }
+            .percentage {
+                font-size: 2.8rem;
+            }
+        }
+
+        /* Větší obrazovky – konzistence */
+        @media (min-width: 800px) {
+            .container {
+                max-width: 560px;
+                padding: 48px 40px 56px 40px;
+            }
+        }
+
+        /* Odstranění hover efektů pro dotyk */
+        @media (hover: hover) {
+            .container:hover {
+                transform: translateY(-2px);
+            }
+        }
+        @media (hover: none) {
+            .container:hover {
+                transform: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="matrix-bg"></div>
-    <div class="random-flash"></div>
-
-    <div class="loading-container" id="loadingContainer">
-        <!-- Loading fáze -->
-        <div id="loadingPhase">
-            <h1 class="main-title">🔧 PŘESTAVBA WEBU 🔧</h1>
-            
-            <div class="command-line">
-                C:\WEB_REBUILD> <span id="commandText">INITIALIZING SYSTEM...</span>
-            </div>
-            
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            
-            <div class="percentage" id="percentage">0%</div>
-            
-            <div class="status" id="status">MAŽU STARÝ WEB...</div>
-            
-            <div class="loading-text" id="loadingDetail">Odstraňuji kritiku... █░░░░░░░░░</div>
-            <div class="loading-text" id="loadingDetail2">Přepisuji HTML... ░░░░░░░░░░</div>
+    <div class="container">
+        <!-- Postavička/logo – čistě, bez rušivých efektů, profesionální prezentace -->
+        <div class="logo-wrapper">
+            <img 
+                src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773865360/cat-pc2_llvx7u.png" 
+                alt="Company mascot – cat working on PC"
+                loading="lazy"
+                width="400"
+                height="400"
+            >
         </div>
 
-        <!-- Hacked fáze (skrytá) -->
-        <div class="hacked-message" id="hackedPhase">
-            <div class="glitch-text" data-text="WEB BYL ZNIČEN!">WEB BYL ZNIČEN!</div>
-            <div class="glitch-text" style="font-size: clamp(2.5rem, 8vw, 5rem); color: #ff0;" data-text="KRITICI NEPORAZÍ MŮJ KÓD!">KRITICI NEPORAZÍ MŮJ KÓD!</div>
-            <div class="sub-glitch">⚠️ NOVÝ PROJEKT SPUŠTĚN ⚠️</div>
-            <div class="sub-glitch" style="color: #f0f;">🔴 NA VAŠI KRITIKU KAŠLU! 🔴</div>
-            <div class="command-line" style="margin-top: 40px; font-size: 2rem; text-align: center;">
-                > NOVÝ WEB: HACK THE PLANET! <
+        <!-- Text "pracuji na novém projektu" – decentně, zlatý akcent na "projektu" -->
+        <div class="project-text">
+            <span class="line1">pracuji na novém</span><br>
+            <span class="line2">projektu.</span>
+        </div>
+
+        <!-- Loading 20% – profesionální progress bar a údaje -->
+        <div class="loading-area">
+            <div class="status-label">PRÁVĚ NAHRÁVÁM</div>
+
+            <!-- Progress bar – tenký, přesný, zlatý -->
+            <div class="progress-track" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-fill" style="width: 20%;"></div>
             </div>
-            <div style="color: #0f0; font-size: 1.5rem; margin-top: 30px; animation: blink 1s infinite;">
-                [ SYSTEM REBOOTED - VERZE 2.0 ]
+
+            <!-- Číselná hodnota 20% – čistá a dobře čitelná -->
+            <div class="percentage">
+                20<small>%</small>
             </div>
+        </div>
+
+        <!-- Velmi decentní poznámka – profesionální "zbývá 80 %" bez zbytečných ikon -->
+        <div class="eta-note">
+            Zbývá 80 % • odhadovaný čas: neurčen
         </div>
     </div>
 
+    <!-- Malý skript pro konzistenci (bezpečné nastavení 20%) -->
     <script>
         (function() {
-            let progress = 0;
-            const progressBar = document.getElementById('progressBar');
-            const percentageEl = document.getElementById('percentage');
-            const statusEl = document.getElementById('status');
-            const loadingDetail = document.getElementById('loadingDetail');
-            const loadingDetail2 = document.getElementById('loadingDetail2');
-            const commandText = document.getElementById('commandText');
-            const loadingPhase = document.getElementById('loadingPhase');
-            const hackedPhase = document.getElementById('hackedPhase');
+            // Garance 20% (kdyby někdo omylem měnil)
+            const fill = document.querySelector('.progress-fill');
+            const percentDiv = document.querySelector('.percentage');
+            
+            if (fill) {
+                fill.style.width = '20%';
+            }
+            if (percentDiv) {
+                percentDiv.innerHTML = '20<small>%</small>';
+            }
 
-            // Pole hlášek pro různé fáze
-            const statusMessages = [
-                "MAŽU STARÝ WEB...",
-                "LIKVIDUJI KRITIKU...",
-                "PŘEPISUJI KÓD...",
-                "HACKUJI DATABÁZI...",
-                "IGNORUJI NEGATIVNÍ KOMENTÁŘE...",
-                "VYTVÁŘÍM NOVÝ PROJEKT...",
-                "OPTIMALIZUJI ROZHRANÍ...",
-                "BYPASSUJI FIREWALL...",
-                "INJEKTUJI GLITCH EFEKTY...",
-                "FINÁLNÍ ÚPRAVY..."
-            ];
-
-            const detailMessages = [
-                "Odstraňuji kritiku... █░░░░░░░░░",
-                "Mažu zlé komentáře... ██░░░░░░░░",
-                "Přepisuji HTML... ███░░░░░░░",
-                "Ničím styly kritiků... ████░░░░░░",
-                "Hackuji mysl uživatelů... █████░░░░░",
-                "Vkládám animace... ██████░░░░",
-                "Glitchuji pozadí... ███████░░░",
-                "Přidávám matrix... ████████░░",
-                "Rebootuji systém... █████████░",
-                "HOTOVO! SPOUŠTÍM... ██████████"
-            ];
-
-            const detailMessages2 = [
-                "Připojuji k serveru... ░░░░░░░░░░",
-                "Načítám data... █░░░░░░░░░",
-                "Inicializuji hack... ██░░░░░░░░",
-                "Probíjíš zabezpečení... ███░░░░░░░",
-                "Dekóduji hesla... ████░░░░░░",
-                "Přepisuji DNS... █████░░░░░",
-                "Mažu logy... ██████░░░░",
-                "Skrývám stopy... ███████░░░",
-                "Finalizuji útok... ████████░░",
-                "SYSTEM HACKED! ██████████"
-            ];
-
-            const commands = [
-                "INITIALIZING SYSTEM...",
-                "ACCESSING MAINFRAME...",
-                "BYPASSING SECURITY...",
-                "DELETING OLD FILES...",
-                "REBUILDING CORE...",
-                "INJECTING CODE...",
-                "HACK COMPLETE..."
-            ];
-
-            // Interval pro loading
-            const interval = setInterval(() => {
-                progress += 1;
-                
-                if (progress <= 100) {
-                    // Update progress bar
-                    progressBar.style.width = progress + '%';
-                    percentageEl.textContent = progress + '%';
-                    
-                    // Update status message podle procent
-                    const statusIndex = Math.min(Math.floor(progress / 10), statusMessages.length - 1);
-                    statusEl.textContent = statusMessages[statusIndex];
-                    
-                    // Update detail messages
-                    const detailIndex = Math.min(Math.floor(progress / 10), detailMessages.length - 1);
-                    loadingDetail.textContent = detailMessages[detailIndex];
-                    loadingDetail2.textContent = detailMessages2[detailIndex];
-                    
-                    // Update command
-                    const cmdIndex = Math.min(Math.floor(progress / 15), commands.length - 1);
-                    commandText.textContent = commands[cmdIndex];
-                    
-                    // Náhodný glitch efekt při určitých procentech
-                    if (progress === 33 || progress === 66 || progress === 99) {
-                        document.body.style.backgroundColor = '#f00';
-                        setTimeout(() => {
-                            document.body.style.backgroundColor = '#000';
-                        }, 200);
-                    }
-                    
-                    // Console log pro efekt
-                    if (progress % 10 === 0) {
-                        console.log(`%c[SYSTEM] Přestavba: ${progress}% dokončena`, 'color: #0f0; font-size: 12px;');
-                    }
-                }
-                
-                // Konec loadingu na 100%
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    
-                    // Finální update
-                    progressBar.style.width = '100%';
-                    percentageEl.textContent = '100%';
-                    statusEl.textContent = 'PŘESTAVBA DOKONČENA!';
-                    loadingDetail.textContent = '█ HOTOVO! █';
-                    loadingDetail2.textContent = '█ SPOUŠTÍM NOVÝ WEB! █';
-                    commandText.textContent = 'REBOOTING... 3... 2... 1...';
-                    
-                    // Blikání na konci
-                    let flashCount = 0;
-                    const flashInterval = setInterval(() => {
-                        document.body.style.backgroundColor = '#fff';
-                        setTimeout(() => {
-                            document.body.style.backgroundColor = '#000';
-                        }, 100);
-                        flashCount++;
-                        
-                        if (flashCount >= 5) {
-                            clearInterval(flashInterval);
-                            
-                            // Skryj loading a zobraz hacked zprávu
-                            loadingPhase.style.display = 'none';
-                            hackedPhase.classList.add('active');
-                            
-                            // Finální console.log
-                            console.log('%c🔴🔴🔴 WEB BYL ÚSPĚŠNĚ HACKNUT! 🔴🔴🔴', 'font-size: 30px; color: red; font-weight: bold;');
-                            console.log('%c💀 Kritici byli poraženi! 💀', 'font-size: 25px; color: lime;');
-                            console.log('%c👾 Nový projekt běží na 100%! 👾', 'font-size: 20px; color: yellow;');
-                        }
-                    }, 200);
-                }
-            }, 200); // Rychlost loadingu (200ms = 20s na 100%)
-
-            // Náhodné rušení během loadingu
-            setInterval(() => {
-                if (progress < 100 && Math.random() > 0.7) {
-                    const glitch = document.createElement('div');
-                    glitch.style.position = 'fixed';
-                    glitch.style.top = Math.random() * 100 + '%';
-                    glitch.style.left = Math.random() * 100 + '%';
-                    glitch.style.color = '#f00';
-                    glitch.style.fontSize = '30px';
-                    glitch.style.zIndex = '9999';
-                    glitch.style.pointerEvents = 'none';
-                    glitch.textContent = '⚠️ ERROR ⚠️';
-                    document.body.appendChild(glitch);
-                    
-                    setTimeout(() => {
-                        glitch.remove();
-                    }, 500);
-                }
-            }, 1000);
-
+            // Obrázek – tichý fallback (není potřeba akce)
+            const img = document.querySelector('.logo-wrapper img');
+            if (img) {
+                img.addEventListener('error', () => {});
+            }
         })();
     </script>
 </body>
