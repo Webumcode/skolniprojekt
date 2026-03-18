@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Registrace — Doupě géniů</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/webp" href="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773826365/favicon_l2b9xa.ico">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --text: #0f0f0f;
+            --text-secondary: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-light: #dbeafe;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --nav-bg: rgba(250, 250, 250, 0.8);
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        /* Tmavý režim */
+        [data-theme="dark"] {
+            --bg: #0a0a0a;
+            --text: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent: #60a5fa;
+            --accent-hover: #3b82f6;
+            --accent-light: #1e293b;
+            --border: #262626;
+            --surface: #1a1a1a;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+            --nav-bg: rgba(10, 10, 10, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.2s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        /* Navigation - stejná jako v index.html */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            transition: background-color 0.3s ease, border-color 0.2s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            transition: transform 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links > li > a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links > li > a:hover {
+            color: var(--text);
+            background: rgba(128, 128, 128, 0.1);
+        }
+
+        .nav-links > li > a.active {
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        /* Tlačítko Dark Mode */
+        .theme-toggle {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            transition: all 0.2s ease;
+            color: var(--text);
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            padding: 0;
+            gap: 5px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .menu-toggle:hover {
+            background: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .menu-toggle span {
+            width: 22px;
+            height: 2.5px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+        }
+
+        /* Mobile Menu Overlay */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Hlavní obsah - registrační formulář */
+        .auth-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1.5rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        [data-theme="dark"] .auth-bg {
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(96, 165, 250, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+        }
+
+        .auth-container {
+            max-width: 480px;
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .auth-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .auth-header p a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .auth-header p a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* Formulář */
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group label svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--accent);
+        }
+
+        .form-group input {
+            padding: 0.75rem 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            color: var(--text);
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .password-requirements {
+            background: var(--accent-light);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .password-requirements p {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .requirements-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .requirements-list li {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .requirements-list li::before {
+            content: '○';
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .requirements-list li.valid::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .requirements-list li.invalid::before {
+            content: '✗';
+            color: var(--error);
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .checkbox-group label a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .checkbox-group label a:hover {
+            text-decoration: underline;
+        }
+
+        /* Tlačítka */
+        .auth-button {
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.23);
+        }
+
+        .auth-button:hover::before {
+            left: 100%;
+        }
+
+        .auth-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Divider */
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Sociální přihlášení */
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .social-button:hover {
+            background: var(--surface);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .social-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .social-button.discord svg {
+            color: #5865F2;
+        }
+
+        .social-button.google svg {
+            color: #EA4335;
+        }
+
+        .social-button.github svg {
+            color: var(--text);
+        }
+
+        /* Footer - upravený pro auth stránky */
+        footer {
+            background: var(--surface);
+            padding: 2rem 1.5rem;
+            border-top: 1px solid var(--border);
+            transition: background-color 0.3s ease, border-color 0.2s ease;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .footer-brand-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        /* Animace */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .error-shake {
+            animation: shake 0.5s ease;
+        }
+
+        /* Alert zprávy */
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 320px;
+                height: 100vh;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 6rem 1.5rem 2rem;
+                gap: 0;
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+                align-items: stretch;
+                z-index: 999;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links > li > a {
+                width: 100%;
+                padding: 1rem 1.25rem;
+                font-size: 1.1rem;
+            }
+
+            .theme-toggle {
+                margin: 0 0 1rem 0;
+                width: 100%;
+                height: 48px;
+                border-radius: var(--radius-sm);
+                order: -1;
+            }
+
+            .auth-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .mobile-menu-header {
+                display: block;
+                padding-bottom: 1.5rem;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .mobile-menu-title {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--text);
+                margin-bottom: 0.5rem;
+            }
+
+            .mobile-menu-subtitle {
+                font-size: 0.9rem;
+                color: var(--text-secondary);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-header {
+                display: none;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">◆</div>
+                Doupě géniů
+            </a>
+            <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="menu-overlay"></div>
+            <div class="nav-menu">
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-title">Doupě géniů</div>
+                    <div class="mobile-menu-subtitle">Menu</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Domů</a></li>
+                    <li><a href="oprojektu.html">O projektu</a></li>
+                    <li><a href="vyhody.html">Výhody</a></li>
+                    <li><a href="tym.html">Tým</a></li>
+                    <li><a href="pravidla.html">Pravidla</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                    <li><a href="register.html" class="active">Registrace</a></li>
+                    <li><a href="login.html">Přihlášení</a></li>
+                </ul>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Přepnout tmavý režim">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="auth-section">
+            <div class="auth-bg"></div>
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>Vytvořit účet</h1>
+                    <p>Již máš účet? <a href="login.html">Přihlas se</a></p>
+                </div>
+
+                <!-- Alert pro chybové hlášky (demo účely) -->
+                <div id="error-alert" class="alert alert-error" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span id="error-message"></span>
+                </div>
+
+                <div id="success-alert" class="alert alert-success" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M20 6L9 17L4 12"></path>
+                    </svg>
+                    <span id="success-message"></span>
+                </div>
+
+                <form class="auth-form" id="register-form" novalidate>
+                    <div class="form-group">
+                        <label for="username">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Uživatelské jméno
+                        </label>
+                        <input type="text" id="username" name="username" placeholder="např. jan_novak" required minlength="3" maxlength="30" pattern="[a-zA-Z0-9_]+">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Email
+                        </label>
+                        <input type="email" id="email" name="email" placeholder="jan.novak@skola.cz" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            Heslo
+                        </label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required minlength="8">
+                        
+                        <div class="password-requirements">
+                            <p>Požadavky na heslo:</p>
+                            <ul class="requirements-list" id="password-requirements">
+                                <li id="req-length">Minimálně 8 znaků</li>
+                                <li id="req-number">Alespoň jedno číslo</li>
+                                <li id="req-lowercase">Alespoň jedno malé písmeno</li>
+                                <li id="req-uppercase">Alespoň jedno velké písmeno</li>
+                                <li id="req-special">Alespoň jeden speciální znak (!@#$%^&*)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            Potvrzení hesla
+                        </label>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">
+                            Souhlasím s <a href="pravidla.html">pravidly komunity</a> a <a href="#">zpracováním osobních údajů</a>
+                        </label>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <label for="newsletter">Chci dostávat občasné novinky o dění v komunitě (nepovinné)</label>
+                    </div>
+
+                    <button type="submit" class="auth-button" id="register-button">
+                        Vytvořit účet
+                    </button>
+
+                    <div class="auth-divider">
+                        nebo registruj přes
+                    </div>
+
+                    <div class="social-login">
+                        <a href="#" class="social-button discord" onclick="alert('Demo: Registrace přes Discord')">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515c-.22.396-.49.957-.639 1.4a18.28 18.28 0 0 0-5.485 0 14.144 14.144 0 0 0-.64-1.4 19.735 19.735 0 0 0-4.885 1.515c-2.568 3.854-3.274 7.607-2.928 11.277 1.967 1.456 4.254 2.343 6.698 2.534.556-.745 1.058-1.522 1.46-2.347a13.283 13.283 0 0 1-2.286-1.102c.193-.141.382-.288.565-.437 3.78 1.736 7.9 1.736 11.642 0 .184.149.373.296.565.437-.722.43-1.486.808-2.286 1.102.402.825.904 1.602 1.46 2.347 2.445-.19 4.731-1.078 6.698-2.534.4-4.098-.673-7.81-2.928-11.277zM8.68 14.1c-1.085 0-1.979-.996-1.979-2.22 0-1.224.87-2.22 1.979-2.22 1.109 0 2.004.996 1.979 2.22 0 1.224-.87 2.22-1.979 2.22zm6.64 0c-1.085 0-1.979-.996-1.979-2.22 0-1.224.87-2.22 1.979-2.22 1.109 0 2.004.996 1.979 2.22 0 1.224-.87 2.22-1.979 2.22z"/>
+                            </svg>
+                            Discord
+                        </a>
+                        <a href="#" class="social-button google" onclick="alert('Demo: Registrace přes Google')">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Google
+                        </a>
+                        <a href="#" class="social-button github" onclick="alert('Demo: Registrace přes GitHub')">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025.8-.223 1.65-.334 2.5-.334.85 0 1.7.111 2.5.334 1.91-1.294 2.75-1.025 2.75-1.025.545 1.376.201 2.393.099 2.646.64.698 1.03 1.591 1.03 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                            </svg>
+                            GitHub
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <a href="index.html" class="footer-brand">
+                <div class="footer-brand-icon">◆</div>
+                Doupě géniů
+            </a>
+            <div class="copyright">© 2026 Doupě géniů. Všechna práva vyhrazena.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const body = document.body;
+        
+        function openMenu() {
+            menuToggle.classList.add('active');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            menuToggle.setAttribute('aria-label', 'Zavřít menu');
+            navMenu.classList.add('active');
+            menuOverlay.classList.add('active');
+            body.style.overflow = 'hidden';
+        }
+        
+        function closeMenu() {
+            menuToggle.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Otevřít menu');
+            navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            body.style.overflow = '';
+        }
+        
+        menuToggle.addEventListener('click', () => {
+            if (navMenu.classList.contains('active')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        menuOverlay.addEventListener('click', closeMenu);
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // DARK MODE
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        const htmlElement = document.documentElement;
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.setAttribute('data-theme', 'dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.setAttribute('data-theme', 'light');
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function getPreferredTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) return savedTheme;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        setTheme(getPreferredTheme());
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
+            setTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+
+        // Validace hesla v reálném čase
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirm-password');
+        const reqLength = document.getElementById('req-length');
+        const reqNumber = document.getElementById('req-number');
+        const reqLowercase = document.getElementById('req-lowercase');
+        const reqUppercase = document.getElementById('req-uppercase');
+        const reqSpecial = document.getElementById('req-special');
+
+        function validatePassword() {
+            const password = passwordInput.value;
+            
+            // Délka
+            if (password.length >= 8) {
+                reqLength.classList.add('valid');
+                reqLength.classList.remove('invalid');
+            } else {
+                reqLength.classList.remove('valid');
+                reqLength.classList.add('invalid');
+            }
+            
+            // Číslo
+            if (/\d/.test(password)) {
+                reqNumber.classList.add('valid');
+                reqNumber.classList.remove('invalid');
+            } else {
+                reqNumber.classList.remove('valid');
+                reqNumber.classList.add('invalid');
+            }
+            
+            // Malé písmeno
+            if (/[a-z]/.test(password)) {
+                reqLowercase.classList.add('valid');
+                reqLowercase.classList.remove('invalid');
+            } else {
+                reqLowercase.classList.remove('valid');
+                reqLowercase.classList.add('invalid');
+            }
+            
+            // Velké písmeno
+            if (/[A-Z]/.test(password)) {
+                reqUppercase.classList.add('valid');
+                reqUppercase.classList.remove('invalid');
+            } else {
+                reqUppercase.classList.remove('valid');
+                reqUppercase.classList.add('invalid');
+            }
+            
+            // Speciální znak
+            if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+                reqSpecial.classList.add('valid');
+                reqSpecial.classList.remove('invalid');
+            } else {
+                reqSpecial.classList.remove('valid');
+                reqSpecial.classList.add('invalid');
+            }
+        }
+
+        passwordInput.addEventListener('input', validatePassword);
+
+        // Funkce pro zobrazení alertů
+        function showError(message) {
+            const alert = document.getElementById('error-alert');
+            const messageSpan = document.getElementById('error-message');
+            messageSpan.textContent = message;
+            alert.style.display = 'flex';
+            
+            // Skrýt success alert
+            document.getElementById('success-alert').style.display = 'none';
+            
+            // Odebrat po 5 sekundách
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const alert = document.getElementById('success-alert');
+            const messageSpan = document.getElementById('success-message');
+            messageSpan.textContent = message;
+            alert.style.display = 'flex';
+            
+            // Skrýt error alert
+            document.getElementById('error-alert').style.display = 'none';
+        }
+
+        // Handle registrační formulář
+        const registerForm = document.getElementById('register-form');
+        const registerButton = document.getElementById('register-button');
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Jednoduchá validace
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = passwordInput.value;
+            const confirm = confirmInput.value;
+            const terms = document.getElementById('terms').checked;
+
+            // Validace uživatelského jména
+            if (username.length < 3) {
+                showError('Uživatelské jméno musí mít alespoň 3 znaky.');
+                registerForm.classList.add('error-shake');
+                setTimeout(() => registerForm.classList.remove('error-shake'), 500);
+                return;
+            }
+
+            if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+                showError('Uživatelské jméno může obsahovat pouze písmena, číslice a podtržítka.');
+                registerForm.classList.add('error-shake');
+                setTimeout(() => registerForm.classList.remove('error-shake'), 500);
+                return;
+            }
+
+            // Validace emailu
+            if (!email.includes('@') || !email.includes('.')) {
+                showError('Zadejte platnou emailovou adresu.');
+                registerForm.classList.add('error-shake');
+                setTimeout(() => registerForm.classList.remove('error-shake'), 500);
+                return;
+            }
+
+            // Validace hesla
+            if (password.length < 8) {
+                showError('Heslo musí mít alespoň 8 znaků.');
+                registerForm.classList.add('error-shake');
+                setTimeout(() => registerForm.classList.remove('error-shake'), 500);
+                return;
+            }
+
+            if (!/\d/.test(password) || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+                showError('Heslo nesplňuje všechny požadavky.');
+                registerForm.classList.add('error-shake');
+                setTimeout(() => registerForm.classList.remove('error-shake'), 500);
+                return;
+            }
+
+            if (password !== confirm) {
+                showError('Hesla se neshodují.');
+                registerForm.classList.add('error-shake');
+                setTimeout(() => registerForm.classList.remove('error-shake'), 500);
+                return;
+            }
+
+            if (!terms) {
+                showError('Pro registraci musíte souhlasit s pravidly.');
+                registerForm.classList.add('error-shake');
+                setTimeout(() => registerForm.classList.remove('error-shake'), 500);
+                return;
+            }
+
+            // Simulace odeslání
+            registerButton.disabled = true;
+            registerButton.textContent = 'Vytvářím účet...';
+
+            setTimeout(() => {
+                showSuccess('Registrace byla úspěšná! Brzy budete přesměrováni.');
+                registerButton.disabled = false;
+                registerButton.textContent = 'Vytvořit účet';
+                
+                // Simulace přesměrování
+                setTimeout(() => {
+                    window.location.href = 'login.html?registered=1';
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - Doupě géniů</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* Stejné proměnné jako v index.html */
+        :root {
+            --bg: #fafafa;
+            --text: #0f0f0f;
+            --text-secondary: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-light: #dbeafe;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0a0a0a;
+            --text: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent: #60a5fa;
+            --accent-hover: #3b82f6;
+            --accent-light: #1e293b;
+            --border: #262626;
+            --surface: #1a1a1a;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .profile-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--accent-light) 0%, transparent 100%);
+        }
+
+        .profile-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-header p {
+            color: var(--text-secondary);
+        }
+
+        .profile-content {
+            padding: 2rem;
+        }
+
+        .avatar-section {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 600;
+            border: 3px solid var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .avatar-upload {
+            flex: 1;
+        }
+
+        .avatar-upload label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .avatar-upload input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .background-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .background-section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 1rem;
+        }
+
+        .background-preview {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(45deg, var(--accent-light), var(--surface));
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .ratings-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .ratings-section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 1rem;
+        }
+
+        .ratings-summary {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .average-rating {
+            text-align: center;
+        }
+
+        .average-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .average-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .stars {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .star {
+            color: #fbbf24;
+            font-size: 1.5rem;
+        }
+
+        .star.empty {
+            color: var(--border);
+        }
+
+        .rating-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .rating-content {
+            flex: 1;
+        }
+
+        .rating-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+
+        .rating-name {
+            font-weight: 600;
+        }
+
+        .rating-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .rating-stars {
+            color: #fbbf24;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .rating-comment {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .admin-actions button {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .hide-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .hide-btn:hover {
+            background: #dc2626;
+        }
+
+        .admin-panel {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, transparent 100%);
+            border: 1px solid #ef4444;
+            border-radius: var(--radius);
+        }
+
+        .admin-panel h3 {
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+
+        .admin-password-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-password-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .admin-password-input button {
+            padding: 0.75rem 1.5rem;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .admin-password-input button:hover {
+            background: #dc2626;
+        }
+
+        .notification-badge {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .notifications-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.5rem;
+            background: var(--surface);
+        }
+
+        .notification-item.unread {
+            background: var(--accent-light);
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .logout-btn {
+            margin-top: 1rem;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: var(--bg);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .avatar-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .ratings-summary {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container" id="profile-container">
+        <!-- Profil bude naplněn JavaScriptem -->
+    </div>
+
+    <script>
+        // Supabase připojení
+        const supabaseUrl = 'https://bkngdqwabavxmaecbtpf.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJrbmdkcXdhYmF2eG1hZWNidHBmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzMwNDYsImV4cCI6MjA4OTQwOTA0Nn0.xl0wQdN1VI26bG_4AQtrFND88g_O0zM3jHZ_1xUYYY0';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentUser = null;
+        let userProfile = null;
+        let isAdmin = false;
+        let adminAccess = false;
+
+        // Funkce pro načtení profilu
+        async function loadProfile() {
+            try {
+                // Získání aktuálního uživatele
+                const { data: { user }, error: userError } = await supabase.auth.getUser();
+                
+                if (userError || !user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                currentUser = user;
+
+                // Načtení profilu
+                const { data: profile, error: profileError } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single();
+
+                if (profileError) throw profileError;
+                
+                userProfile = profile;
+                isAdmin = profile.role === 'admin' || profile.role === 'superadmin';
+
+                // Načtení hodnocení
+                const { data: ratings, error: ratingsError } = await supabase
+                    .from('ratings')
+                    .select(`
+                        *,
+                        rated_by:profiles!ratings_rated_by_fkey(username, avatar_url)
+                    `)
+                    .eq('user_id', user.id)
+                    .eq('is_hidden', false)
+                    .order('created_at', { ascending: false });
+
+                // Načtení oznámení
+                const { data: notifications, error: notifError } = await supabase
+                    .from('notifications')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .eq('is_read', false)
+                    .order('created_at', { ascending: false });
+
+                renderProfile(profile, ratings || [], notifications || []);
+            } catch (error) {
+                console.error('Chyba při načítání profilu:', error);
+                showError('Nepodařilo se načíst profil');
+            }
+        }
+
+        // Funkce pro vykreslení profilu
+        function renderProfile(profile, ratings, notifications) {
+            const avgRating = ratings.length > 0 
+                ? (ratings.reduce((acc, r) => acc + r.rating, 0) / ratings.length).toFixed(1)
+                : '0.0';
+
+            const container = document.getElementById('profile-container');
+            
+            container.innerHTML = `
+                <div class="profile-header">
+                    <h2>Můj profil</h2>
+                    <p>Spravuj své osobní údaje a nastavení</p>
+                    ${notifications.length > 0 ? `
+                        <div style="margin-top: 1rem;">
+                            <span class="notification-badge">${notifications.length}</span>
+                            <span style="margin-left: 0.5rem;">nová oznámení</span>
+                        </div>
+                    ` : ''}
+                </div>
+
+                <div class="profile-content">
+                    ${!adminAccess && isAdmin ? `
+                        <div class="admin-panel">
+                            <h3>🔒 Admin přístup</h3>
+                            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Pro správu hodnocení zadej admin heslo</p>
+                            <div class="admin-password-input">
+                                <input type="password" id="admin-password" placeholder="Admin heslo">
+                                <button onclick="verifyAdminPassword()">Odemknout</button>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${adminAccess ? `
+                        <div class="admin-panel" style="border-color: #22c55e; background: rgba(34, 197, 94, 0.1);">
+                            <h3 style="color: #22c55e;">✅ Admin režim aktivní</h3>
+                            <p>Můžeš spravovat hodnocení a uživatele</p>
+                        </div>
+                    ` : ''}
+
+                    <div class="avatar-section">
+                        <div class="avatar-preview">
+                            ${profile.avatar_url ? `<img src="${profile.avatar_url}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` : profile.username?.charAt(0).toUpperCase() || '?'}
+                        </div>
+                        <div class="avatar-upload">
+                            <label>Profilový obrázek (URL)</label>
+                            <input type="text" id="avatar-url" placeholder="https://..." value="${profile.avatar_url || ''}">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Uživatelské jméno</label>
+                            <input type="text" id="username" value="${profile.username || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Celé jméno</label>
+                            <input type="text" id="full-name" value="${profile.full_name || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email" value="${profile.email || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Nové heslo (nech prázdné pro zachování)</label>
+                            <input type="password" id="new-password">
+                        </div>
+                    </div>
+
+                    <div class="background-section">
+                        <h3>Pozadí profilu</h3>
+                        <div class="background-preview" style="background: ${profile.background_url ? `url(${profile.background_url})` : 'linear-gradient(45deg, var(--accent-light), var(--surface))'}; background-size: cover; background-position: center;"></div>
+                        <div class="form-group">
+                            <label>URL pozadí</label>
+                            <input type="text" id="background-url" placeholder="https://..." value="${profile.background_url || ''}">
+                        </div>
+                    </div>
+
+                    <div class="ratings-section">
+                        <h3>Hodnocení</h3>
+                        <div class="ratings-summary">
+                            <div class="average-rating">
+                                <div class="average-number">${avgRating}</div>
+                                <div class="average-label">průměrné hodnocení</div>
+                            </div>
+                            <div class="stars">
+                                ${Array(5).fill().map((_, i) => `
+                                    <span class="star ${i < Math.round(avgRating) ? '' : 'empty'}">★</span>
+                                `).join('')}
+                            </div>
+                            <div>
+                                <strong>${ratings.length}</strong> hodnocení
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <h4>Poslední hodnocení</h4>
+                        </div>
+
+                        ${ratings.slice(0, 3).map(rating => `
+                            <div class="rating-item">
+                                <div class="rating-avatar">
+                                    ${rating.rated_by?.avatar_url ? `<img src="${rating.rated_by.avatar_url}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` : rating.rated_by?.username?.charAt(0).toUpperCase() || '?'}
+                                </div>
+                                <div class="rating-content">
+                                    <div class="rating-header">
+                                        <span class="rating-name">${rating.rated_by?.username || 'Neznámý'}</span>
+                                        <span class="rating-date">${new Date(rating.created_at).toLocaleDateString('cs-CZ')}</span>
+                                    </div>
+                                    <div class="rating-stars">
+                                        ${'★'.repeat(rating.rating)}${'☆'.repeat(5 - rating.rating)}
+                                    </div>
+                                    ${rating.comment ? `<div class="rating-comment">${rating.comment}</div>` : ''}
+                                </div>
+                                ${adminAccess ? `
+                                    <div class="admin-actions">
+                                        <button class="hide-btn" onclick="hideRating('${rating.id}')">Skrýt</button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+
+                        ${ratings.length === 0 ? `
+                            <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+                                Zatím nemáš žádná hodnocení
+                            </p>
+                        ` : ''}
+                    </div>
+
+                    ${notifications.length > 0 ? `
+                        <div class="ratings-section">
+                            <h3>Oznámení</h3>
+                            <div class="notifications-list">
+                                ${notifications.map(notif => `
+                                    <div class="notification-item unread" onclick="markNotificationRead('${notif.id}')">
+                                        <div style="flex: 1;">
+                                            <p><strong>${notif.type}</strong></p>
+                                            <p style="color: var(--text-secondary);">${notif.content}</p>
+                                            <small>${new Date(notif.created_at).toLocaleDateString('cs-CZ')}</small>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <button class="save-btn" onclick="saveProfile()">
+                        Uložit změny
+                    </button>
+
+                    <button class="logout-btn" onclick="logout()">
+                        Odhlásit se
+                    </button>
+                </div>
+            `;
+        }
+
+        // Funkce pro uložení profilu
+        async function saveProfile() {
+            try {
+                const updates = {
+                    username: document.getElementById('username').value,
+                    full_name: document.getElementById('full-name').value,
+                    email: document.getElementById('email').value,
+                    avatar_url: document.getElementById('avatar-url').value,
+                    background_url: document.getElementById('background-url').value,
+                    updated_at: new Date()
+                };
+
+                // Update profilu
+                const { error: updateError } = await supabase
+                    .from('profiles')
+                    .update(updates)
+                    .eq('id', currentUser.id);
+
+                if (updateError) throw updateError;
+
+                // Pokud je nové heslo, změnit ho
+                const newPassword = document.getElementById('new-password').value;
+                if (newPassword) {
+                    const { error: passwordError } = await supabase.auth.updateUser({
+                        password: newPassword
+                    });
+                    
+                    if (passwordError) throw passwordError;
+                }
+
+                alert('Profil byl úspěšně uložen!');
+                loadProfile(); // Znovu načíst profil
+            } catch (error) {
+                console.error('Chyba při ukládání:', error);
+                alert('Nepodařilo se uložit změny');
+            }
+        }
+
+        // Funkce pro ověření admin hesla
+        async function verifyAdminPassword() {
+            const password = document.getElementById('admin-password').value;
+            
+            if (!password) {
+                alert('Zadej admin heslo');
+                return;
+            }
+
+            try {
+                // Ověření admin hesla
+                const { data, error } = await supabase
+                    .from('admin_access')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .eq('admin_password', password)
+                    .single();
+
+                if (error || !data) {
+                    alert('Nesprávné admin heslo');
+                    return;
+                }
+
+                adminAccess = true;
+                loadProfile(); // Znovu načíst profil s admin právy
+            } catch (error) {
+                console.error('Chyba při ověřování:', error);
+                alert('Nepodařilo se ověřit admin heslo');
+            }
+        }
+
+        // Funkce pro skrytí hodnocení (pouze pro adminy)
+        async function hideRating(ratingId) {
+            if (!adminAccess) {
+                alert('Nemáš oprávnění pro tuto akci');
+                return;
+            }
+
+            try {
+                const { error } = await supabase
+                    .from('ratings')
+                    .update({ is_hidden: true })
+                    .eq('id', ratingId);
+
+                if (error) throw error;
+
+                alert('Hodnocení bylo skryto');
+                loadProfile(); // Znovu načíst
+            } catch (error) {
+                console.error('Chyba při skrývání:', error);
+                alert('Nepodařilo se skrýt hodnocení');
+            }
+        }
+
+        // Funkce pro označení oznámení jako přečteného
+        async function markNotificationRead(notificationId) {
+            try {
+                const { error } = await supabase
+                    .from('notifications')
+                    .update({ is_read: true })
+                    .eq('id', notificationId);
+
+                if (error) throw error;
+                
+                loadProfile(); // Znovu načíst
+            } catch (error) {
+                console.error('Chyba při označování:', error);
+            }
+        }
+
+        // Funkce pro odhlášení
+        async function logout() {
+            try {
+                await supabase.auth.signOut();
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Chyba při odhlášení:', error);
+            }
+        }
+
+        function showError(message) {
+            alert(message);
+        }
+
+        // Načtení profilu při startu
+        loadProfile();
+
+        // Sledování změny tématu z index.html
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'theme') {
+                if (e.newValue === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
