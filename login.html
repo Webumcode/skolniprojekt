@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/webp" href="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773826365/favicon_l2b9xa.ico">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --bg: #fafafa;
@@ -24,8 +25,6 @@
             --radius: 12px;
             --radius-sm: 8px;
             --nav-bg: rgba(250, 250, 250, 0.8);
-            --success: #22c55e;
-            --error: #ef4444;
         }
 
         [data-theme="dark"] {
@@ -51,7 +50,6 @@
 
         html {
             font-size: 16px;
-            scroll-behavior: smooth;
         }
 
         body {
@@ -61,11 +59,12 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.2s ease;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            transition: background-color 0.3s ease, color 0.2s ease;
         }
 
         h1, h2, h3 {
@@ -75,10 +74,11 @@
             line-height: 1.2;
         }
 
-        /* Navigation - stejná jako v index.html */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
             background: var(--nav-bg);
             backdrop-filter: blur(20px);
@@ -127,40 +127,7 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 0.25rem;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-links > li > a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 500;
-            padding: 0.5rem 0.75rem;
-            border-radius: var(--radius-sm);
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-
-        .nav-links > li > a:hover {
-            color: var(--text);
-            background: rgba(128, 128, 128, 0.1);
-        }
-
-        .nav-links > li > a.active {
-            color: var(--accent);
-            background: var(--accent-light);
-        }
-
+        /* Tlačítko Dark Mode */
         .theme-toggle {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -171,7 +138,6 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            margin-left: 0.5rem;
             transition: all 0.2s ease;
             color: var(--text);
             font-size: 1.2rem;
@@ -194,116 +160,25 @@
             stroke-linejoin: round;
         }
 
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            padding: 0;
-            gap: 5px;
-            align-items: center;
-            transition: all 0.2s ease;
-        }
-
-        .menu-toggle:hover {
-            background: var(--bg);
-            border-color: var(--accent);
-        }
-
-        .menu-toggle span {
-            width: 22px;
-            height: 2.5px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-            transform-origin: center;
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: translateY(7.5px) rotate(45deg);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-            transform: scaleX(0);
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: translateY(-7.5px) rotate(-45deg);
-        }
-
-        .menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 998;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .menu-overlay.active {
-            display: block;
-            opacity: 1;
-        }
-
-        /* Hlavní obsah - přihlašovací formulář */
-        .auth-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6rem 1.5rem 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .auth-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        [data-theme="dark"] .auth-bg {
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(96, 165, 250, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
-        }
-
-        .auth-container {
-            max-width: 440px;
+        /* Login Container */
+        .login-container {
+            max-width: 420px;
             width: 100%;
             background: var(--surface);
-            border: 1px solid var(--border);
             border-radius: var(--radius);
+            border: 1px solid var(--border);
             box-shadow: var(--shadow-lg);
-            padding: 2.5rem;
-            position: relative;
-            z-index: 1;
+            overflow: hidden;
             animation: fadeInUp 0.6s ease;
+            margin-top: 4rem;
         }
 
-        .auth-header {
+        .login-header {
+            padding: 2rem 2rem 1rem;
             text-align: center;
-            margin-bottom: 2rem;
         }
 
-        .auth-header h1 {
+        .login-header h1 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
@@ -312,87 +187,42 @@
             background-clip: text;
         }
 
-        .auth-header p {
+        .login-header p {
             color: var(--text-secondary);
             font-size: 0.95rem;
         }
 
-        .auth-header p a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s ease;
-        }
-
-        .auth-header p a:hover {
-            color: var(--accent-hover);
-            text-decoration: underline;
-        }
-
-        /* Alert pro úspěšnou registraci */
-        .registration-success {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid var(--success);
-            border-radius: var(--radius-sm);
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--success);
-            font-size: 0.9rem;
-            animation: fadeInUp 0.5s ease;
-        }
-
-        .registration-success svg {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-
-        /* Formulář */
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+        .login-form {
+            padding: 2rem;
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
             font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .form-group label svg {
-            width: 16px;
-            height: 16px;
-            stroke: var(--accent);
         }
 
         .form-group input {
-            padding: 0.75rem 1rem;
-            background: var(--bg);
-            border: 1px solid var(--border);
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid var(--border);
             border-radius: var(--radius-sm);
-            font-size: 1rem;
+            background: var(--bg);
             color: var(--text);
+            font-size: 1rem;
             transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
         }
 
         .form-group input:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-light);
+            box-shadow: 0 0 0 4px var(--accent-light);
         }
 
         .form-group input::placeholder {
@@ -400,18 +230,41 @@
             opacity: 0.5;
         }
 
-        /* Možnosti přihlášení */
-        .login-options {
+        .password-input {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--accent);
+        }
+
+        .form-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
         }
 
         .remember-me {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
             cursor: pointer;
         }
 
@@ -425,6 +278,7 @@
         .forgot-password {
             color: var(--accent);
             text-decoration: none;
+            font-size: 0.9rem;
             font-weight: 500;
             transition: color 0.2s ease;
         }
@@ -434,12 +288,12 @@
             text-decoration: underline;
         }
 
-        /* Tlačítka */
-        .auth-button {
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
             background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
             color: white;
             border: none;
-            padding: 1rem;
             border-radius: var(--radius-sm);
             font-size: 1rem;
             font-weight: 600;
@@ -450,7 +304,7 @@
             overflow: hidden;
         }
 
-        .auth-button::before {
+        .login-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -461,181 +315,140 @@
             transition: left 0.5s;
         }
 
-        .auth-button:hover {
+        .login-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(59, 130, 246, 0.23);
         }
 
-        .auth-button:hover::before {
+        .login-btn:hover::before {
             left: 100%;
         }
 
-        .auth-button:disabled {
-            opacity: 0.6;
+        .login-btn:disabled {
+            opacity: 0.7;
             cursor: not-allowed;
             transform: none;
         }
 
-        .demo-login {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            box-shadow: none;
-            margin-top: -0.5rem;
-        }
-
-        .demo-login:hover {
-            background: var(--surface);
-            border-color: var(--accent);
-            color: var(--text);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow);
-        }
-
-        .demo-login::before {
-            display: none;
-        }
-
-        /* Divider */
-        .auth-divider {
+        .separator {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            text-align: center;
+            margin: 1.5rem 0;
             color: var(--text-secondary);
             font-size: 0.9rem;
-            margin: 0.5rem 0;
         }
 
-        .auth-divider::before,
-        .auth-divider::after {
+        .separator::before,
+        .separator::after {
             content: '';
             flex: 1;
-            height: 1px;
-            background: var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
-        /* Sociální přihlášení */
+        .separator::before {
+            margin-right: 1rem;
+        }
+
+        .separator::after {
+            margin-left: 1rem;
+        }
+
         .social-login {
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .social-button {
+        .social-btn {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
+            gap: 0.5rem;
+            padding: 0.8rem;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             color: var(--text);
-            font-size: 0.95rem;
-            font-weight: 500;
             text-decoration: none;
+            font-weight: 500;
             transition: all 0.2s ease;
         }
 
-        .social-button:hover {
+        .social-btn:hover {
             background: var(--surface);
             border-color: var(--accent);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
             box-shadow: var(--shadow);
         }
 
-        .social-button svg {
+        .social-btn img {
             width: 20px;
             height: 20px;
         }
 
-        .social-button.discord svg {
-            color: #5865F2;
-        }
-
-        .social-button.google svg {
-            color: #EA4335;
-        }
-
-        .social-button.github svg {
-            color: var(--text);
-        }
-
-        /* Alert zprávy */
-        .alert {
-            padding: 1rem;
-            border-radius: var(--radius-sm);
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            animation: fadeInUp 0.5s ease;
-        }
-
-        .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid var(--error);
-            color: var(--error);
-        }
-
-        .alert-success {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid var(--success);
-            color: var(--success);
-        }
-
-        .alert svg {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--surface);
-            padding: 2rem 1.5rem;
-            border-top: 1px solid var(--border);
-            transition: background-color 0.3s ease, border-color 0.2s ease;
-            margin-top: auto;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .footer-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text);
-            text-decoration: none;
-        }
-
-        .footer-brand-icon {
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .copyright {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
+        .register-link {
             text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .register-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .register-link a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #dc2626;
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            border: 1px solid #22c55e;
+            color: #16a34a;
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
         }
 
         @keyframes fadeInUp {
@@ -649,112 +462,29 @@
             }
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-
-        .error-shake {
-            animation: shake 0.5s ease;
-        }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-                z-index: 1001;
-            }
-
-            .nav-menu {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 85%;
-                max-width: 320px;
-                height: 100vh;
-                background: var(--surface);
-                flex-direction: column;
-                padding: 6rem 1.5rem 2rem;
-                gap: 0;
-                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                box-shadow: -10px 0 40px rgba(0,0,0,0.15);
-                align-items: stretch;
-                z-index: 999;
-                overflow-y: auto;
-            }
-
-            .nav-menu.active {
-                right: 0;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                width: 100%;
-                gap: 0.5rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .nav-links li {
-                width: 100%;
-            }
-
-            .nav-links > li > a {
-                width: 100%;
-                padding: 1rem 1.25rem;
-                font-size: 1.1rem;
-            }
-
-            .theme-toggle {
-                margin: 0 0 1rem 0;
-                width: 100%;
-                height: 48px;
-                border-radius: var(--radius-sm);
-                order: -1;
-            }
-
-            .auth-container {
-                padding: 2rem 1.5rem;
-            }
-
-            .mobile-menu-header {
-                display: block;
-                padding-bottom: 1.5rem;
-                margin-bottom: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .mobile-menu-title {
-                font-family: 'Space Grotesk', sans-serif;
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--text);
-                margin-bottom: 0.5rem;
-            }
-
-            .mobile-menu-subtitle {
-                font-size: 0.9rem;
-                color: var(--text-secondary);
-            }
-
-            .login-options {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .mobile-menu-header {
-                display: none;
-            }
-        }
-
+        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .login-container {
+                margin-top: 5rem;
+            }
+            
+            .login-header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .form-options {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
             }
         }
     </style>
@@ -766,201 +496,98 @@
                 <div class="logo-icon">◆</div>
                 Doupě géniů
             </a>
-            <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Přepnout tmavý režim">
+                <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" style="display: none;">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
             </button>
-            <div class="menu-overlay"></div>
-            <div class="nav-menu">
-                <div class="mobile-menu-header">
-                    <div class="mobile-menu-title">Doupě géniů</div>
-                    <div class="mobile-menu-subtitle">Menu</div>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="index.html">Domů</a></li>
-                    <li><a href="oprojektu.html">O projektu</a></li>
-                    <li><a href="vyhody.html">Výhody</a></li>
-                    <li><a href="tym.html">Tým</a></li>
-                    <li><a href="pravidla.html">Pravidla</a></li>
-                    <li><a href="kontakt.html">Kontakt</a></li>
-                    <li><a href="register.html">Registrace</a></li>
-                    <li><a href="login.html" class="active">Přihlášení</a></li>
-                </ul>
-                <button class="theme-toggle" id="theme-toggle" aria-label="Přepnout tmavý režim">
-                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" style="display: none;">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-            </div>
         </div>
     </nav>
 
-    <main>
-        <div class="auth-section">
-            <div class="auth-bg"></div>
-            <div class="auth-container">
-                <!-- Zpráva o úspěšné registraci (zobrazí se pokud je parametr v URL) -->
-                <div id="registration-success" class="registration-success" style="display: none;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M20 6L9 17L4 12"></path>
-                    </svg>
-                    <span>Registrace byla úspěšná! Nyní se můžeš přihlásit.</span>
-                </div>
-
-                <!-- Alert pro chybové hlášky -->
-                <div id="error-alert" class="alert alert-error" style="display: none;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                    <span id="error-message"></span>
-                </div>
-
-                <div class="auth-header">
-                    <h1>Vítej zpět</h1>
-                    <p>Ještě nemáš účet? <a href="register.html">Zaregistruj se</a></p>
-                </div>
-
-                <form class="auth-form" id="login-form" novalidate>
-                    <div class="form-group">
-                        <label for="email">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                            Email nebo uživatelské jméno
-                        </label>
-                        <input type="text" id="email" name="email" placeholder="jan.novak@skola.cz" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
-                            Heslo
-                        </label>
-                        <input type="password" id="password" name="password" placeholder="••••••••" required>
-                    </div>
-
-                    <div class="login-options">
-                        <label class="remember-me">
-                            <input type="checkbox" id="remember" name="remember">
-                            Zapamatovat si mě
-                        </label>
-                        <a href="#" class="forgot-password" onclick="alert('Demo: Funkce obnovení hesla')">Zapomněl jsi heslo?</a>
-                    </div>
-
-                    <button type="submit" class="auth-button" id="login-button">
-                        Přihlásit se
-                    </button>
-
-                    <button type="button" class="auth-button demo-login" id="demo-login">
-                        Pokračovat jako host (demo)
-                    </button>
-
-                    <div class="auth-divider">
-                        nebo pokračuj přes
-                    </div>
-
-                    <div class="social-login">
-                        <a href="#" class="social-button discord" onclick="alert('Demo: Přihlášení přes Discord')">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515c-.22.396-.49.957-.639 1.4a18.28 18.28 0 0 0-5.485 0 14.144 14.144 0 0 0-.64-1.4 19.735 19.735 0 0 0-4.885 1.515c-2.568 3.854-3.274 7.607-2.928 11.277 1.967 1.456 4.254 2.343 6.698 2.534.556-.745 1.058-1.522 1.46-2.347a13.283 13.283 0 0 1-2.286-1.102c.193-.141.382-.288.565-.437 3.78 1.736 7.9 1.736 11.642 0 .184.149.373.296.565.437-.722.43-1.486.808-2.286 1.102.402.825.904 1.602 1.46 2.347 2.445-.19 4.731-1.078 6.698-2.534.4-4.098-.673-7.81-2.928-11.277zM8.68 14.1c-1.085 0-1.979-.996-1.979-2.22 0-1.224.87-2.22 1.979-2.22 1.109 0 2.004.996 1.979 2.22 0 1.224-.87 2.22-1.979 2.22zm6.64 0c-1.085 0-1.979-.996-1.979-2.22 0-1.224.87-2.22 1.979-2.22 1.109 0 2.004.996 1.979 2.22 0 1.224-.87 2.22-1.979 2.22z"/>
-                            </svg>
-                            Discord
-                        </a>
-                        <a href="#" class="social-button google" onclick="alert('Demo: Přihlášení přes Google')">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                            </svg>
-                            Google
-                        </a>
-                        <a href="#" class="social-button github" onclick="alert('Demo: Přihlášení přes GitHub')">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025.8-.223 1.65-.334 2.5-.334.85 0 1.7.111 2.5.334 1.91-1.294 2.75-1.025 2.75-1.025.545 1.376.201 2.393.099 2.646.64.698 1.03 1.591 1.03 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
-                            </svg>
-                            GitHub
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <a href="index.html" class="footer-brand">
-                <div class="footer-brand-icon">◆</div>
-                Doupě géniů
+    <div class="login-container">
+        <div class="login-header">
+            <a href="index.html" class="back-link">
+                ← Zpět na hlavní stránku
             </a>
-            <div class="copyright">© 2026 Doupě géniů. Všechna práva vyhrazena.</div>
+            <h1>Vítej zpět! 👋</h1>
+            <p>Přihlas se a pokračuj v objevování</p>
         </div>
-    </footer>
+
+        <div class="login-form">
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
+
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="tvuj@email.cz" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Heslo</label>
+                    <div class="password-input">
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('password')" tabindex="-1">👁️</button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        Zapamatovat si mě
+                    </label>
+                    <a href="#" class="forgot-password" onclick="handleForgotPassword(event)">Zapomněl jsi heslo?</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="login-btn">
+                    Přihlásit se
+                </button>
+            </form>
+
+            <div class="separator">nebo pokračuj přes</div>
+
+            <div class="social-login">
+                <a href="#" class="social-btn" onclick="handleSocialLogin('google')">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Google
+                </a>
+                <a href="#" class="social-btn" onclick="handleSocialLogin('discord')">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515c-.211.379-.458.887-.628 1.298a18.267 18.267 0 0 0-5.487 0 12.64 12.64 0 0 0-.637-1.298A19.74 19.74 0 0 0 3.67 4.37C1.64 7.257 1.027 10.054 1.332 12.798a19.808 19.808 0 0 0 6.018 2.976c.486-.648.915-1.338 1.287-2.068a12.87 12.87 0 0 1-2.03-.974c.17-.12.337-.247.497-.375a14.55 14.55 0 0 0 12.335 0c.16.128.327.255.497.375a12.87 12.87 0 0 1-2.03.974c.372.73.801 1.42 1.287 2.068a19.808 19.808 0 0 0 6.018-2.976c.368-3.148-.575-5.91-2.352-8.428zM8.496 10.84c-.786 0-1.428-.698-1.428-1.553 0-.856.628-1.554 1.428-1.554.8 0 1.44.698 1.428 1.554 0 .855-.64 1.553-1.428 1.553zm6.344 0c-.786 0-1.428-.698-1.428-1.553 0-.856.628-1.554 1.428-1.554.8 0 1.44.698 1.428 1.554 0 .855-.64 1.553-1.428 1.553z"/>
+                    </svg>
+                    Discord
+                </a>
+            </div>
+
+            <p class="register-link">
+                Ještě nemáš účet? <a href="register.html">Zaregistruj se</a>
+            </p>
+        </div>
+    </div>
 
     <script>
-        // Mobile menu toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navMenu = document.querySelector('.nav-menu');
-        const menuOverlay = document.querySelector('.menu-overlay');
-        const body = document.body;
-        
-        function openMenu() {
-            menuToggle.classList.add('active');
-            menuToggle.setAttribute('aria-expanded', 'true');
-            menuToggle.setAttribute('aria-label', 'Zavřít menu');
-            navMenu.classList.add('active');
-            menuOverlay.classList.add('active');
-            body.style.overflow = 'hidden';
-        }
-        
-        function closeMenu() {
-            menuToggle.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            menuToggle.setAttribute('aria-label', 'Otevřít menu');
-            navMenu.classList.remove('active');
-            menuOverlay.classList.remove('active');
-            body.style.overflow = '';
-        }
-        
-        menuToggle.addEventListener('click', () => {
-            if (navMenu.classList.contains('active')) {
-                closeMenu();
-            } else {
-                openMenu();
-            }
-        });
+        // Supabase připojení
+        const supabaseUrl = 'https://bkngdqwabavxmaecbtpf.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJrbmdkcXdhYmF2eG1hZWNidHBmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzMwNDYsImV4cCI6MjA4OTQwOTA0Nn0.xl0wQdN1VI26bG_4AQtrFND88g_O0zM3jHZ_1xUYYY0';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        menuOverlay.addEventListener('click', closeMenu);
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-                closeMenu();
-            }
-        });
-
-        // DARK MODE
+        // Dark mode
         const themeToggle = document.getElementById('theme-toggle');
         const sunIcon = document.querySelector('.sun-icon');
         const moonIcon = document.querySelector('.moon-icon');
@@ -999,77 +626,116 @@
             }
         });
 
-        // Zobrazení zprávy o úspěšné registraci
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('registered') === '1') {
-            document.getElementById('registration-success').style.display = 'flex';
+        // Funkce pro zobrazení/skrytí hesla
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
         }
 
-        // Funkce pro zobrazení chyby
-        function showError(message) {
-            const alert = document.getElementById('error-alert');
-            const messageSpan = document.getElementById('error-message');
-            messageSpan.textContent = message;
-            alert.style.display = 'flex';
-            
-            // Odebrat po 5 sekundách
-            setTimeout(() => {
-                alert.style.display = 'none';
-            }, 5000);
-        }
-
-        // Handle přihlašovací formulář
-        const loginForm = document.getElementById('login-form');
-        const loginButton = document.getElementById('login-button');
-        const demoButton = document.getElementById('demo-login');
-
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+        // Přihlášení
+        async function handleLogin(event) {
+            event.preventDefault();
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            const loginBtn = document.getElementById('login-btn');
+            const errorDiv = document.getElementById('error-message');
+            const successDiv = document.getElementById('success-message');
 
-            // Jednoduchá validace
-            if (!email.trim()) {
-                showError('Zadejte email nebo uživatelské jméno.');
-                loginForm.classList.add('error-shake');
-                setTimeout(() => loginForm.classList.remove('error-shake'), 500);
+            // Schovat předchozí zprávy
+            errorDiv.classList.remove('show');
+            successDiv.classList.remove('show');
+            
+            // Disable tlačítko
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Přihlašování...';
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                    options: {
+                        shouldRemember: remember
+                    }
+                });
+
+                if (error) throw error;
+
+                // Úspěšné přihlášení
+                successDiv.textContent = 'Přihlášení proběhlo úspěšně! Přesměrovávám...';
+                successDiv.classList.add('show');
+
+                // Přesměrování na hlavní stránku
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error('Chyba při přihlášení:', error);
+                errorDiv.textContent = error.message === 'Invalid login credentials' 
+                    ? 'Nesprávný email nebo heslo' 
+                    : 'Chyba při přihlašování. Zkuste to znovu.';
+                errorDiv.classList.add('show');
+                
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Přihlásit se';
+            }
+        }
+
+        // Zapomenuté heslo
+        async function handleForgotPassword(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            
+            if (!email) {
+                document.getElementById('error-message').textContent = 'Zadejte prosím email pro obnovení hesla';
+                document.getElementById('error-message').classList.add('show');
                 return;
             }
 
-            if (!password) {
-                showError('Zadejte heslo.');
-                loginForm.classList.add('error-shake');
-                setTimeout(() => loginForm.classList.remove('error-shake'), 500);
-                return;
+            try {
+                const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                    redirectTo: window.location.origin + '/reset-password.html',
+                });
+
+                if (error) throw error;
+
+                document.getElementById('success-message').textContent = 'Odkaz pro obnovení hesla byl odeslán na váš email';
+                document.getElementById('success-message').classList.add('show');
+                
+            } catch (error) {
+                console.error('Chyba při obnovení hesla:', error);
+                document.getElementById('error-message').textContent = 'Chyba při odesílání. Zkuste to znovu.';
+                document.getElementById('error-message').classList.add('show');
             }
+        }
 
-            // Simulace přihlášení
-            loginButton.disabled = true;
-            loginButton.textContent = 'Přihlašování...';
+        // Sociální přihlášení (prozatím jen placeholder)
+        async function handleSocialLogin(provider) {
+            try {
+                const { error } = await supabase.auth.signInWithOAuth({
+                    provider: provider,
+                    options: {
+                        redirectTo: window.location.origin + '/index.html'
+                    }
+                });
+                
+                if (error) throw error;
+            } catch (error) {
+                console.error(`Chyba při přihlášení přes ${provider}:`, error);
+                document.getElementById('error-message').textContent = `Chyba při přihlášení přes ${provider}`;
+                document.getElementById('error-message').classList.add('show');
+            }
+        }
 
-            setTimeout(() => {
-                // Demo přihlášení - v reálu by zde byl AJAX požadavek
-                if (email === 'demo@student.cz' && password === 'Demo123!') {
-                    window.location.href = 'index.html?login=success';
-                } else {
-                    showError('Nesprávný email nebo heslo. (Zkus demo@student.cz / Demo123!)');
-                    loginButton.disabled = false;
-                    loginButton.textContent = 'Přihlásit se';
-                    loginForm.classList.add('error-shake');
-                    setTimeout(() => loginForm.classList.remove('error-shake'), 500);
-                }
-            }, 1500);
-        });
-
-        // Demo přihlášení
-        demoButton.addEventListener('click', () => {
-            demoButton.disabled = true;
-            demoButton.textContent = 'Přihlašování...';
-
-            setTimeout(() => {
-                window.location.href = 'index.html?demo=1';
-            }, 1000);
+        // Přesměrování pokud je uživatel už přihlášen
+        supabase.auth.getUser().then(({ data: { user } }) => {
+            if (user) {
+                window.location.href = 'index.html';
+            }
         });
     </script>
 </body>
