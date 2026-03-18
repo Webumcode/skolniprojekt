@@ -1,0 +1,10 @@
+[
+  {
+    "user": "JohnDoe",
+    "moderator": "Admin",
+    "punishment": "Ban",
+    "duration": "Permanent",
+    "endDate": "N/A",
+    "reason": "Spamming"
+  }
+]
