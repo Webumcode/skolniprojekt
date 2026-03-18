@@ -29,6 +29,28 @@
             --error-light: #fee2e2;
             --progress-bg: #e2e8f0;
             --progress-fill: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            --nav-bg: rgba(250, 250, 250, 0.8);
+        }
+
+        /* Tmavý režim */
+        [data-theme="dark"] {
+            --bg: #0a0a0a;
+            --text: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent: #60a5fa;
+            --accent-hover: #3b82f6;
+            --accent-light: #1e293b;
+            --border: #262626;
+            --surface: #1a1a1a;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+            --success: #34d399;
+            --success-light: #064e3b;
+            --error: #f87171;
+            --error-light: #7f1d1d;
+            --progress-bg: #262626;
+            --nav-bg: rgba(10, 10, 10, 0.8);
         }
 
         * {
@@ -53,6 +75,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.3s ease, color 0.2s ease;
         }
 
         h1, h2, h3 {
@@ -67,12 +90,13 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(250, 250, 250, 0.8);
+            background: var(--nav-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
             padding: 0.75rem 1rem;
+            transition: background-color 0.3s ease, border-color 0.2s ease;
         }
 
         .nav-container {
@@ -147,7 +171,7 @@
 
         .nav-links > li > a:hover {
             color: var(--text);
-            background: rgba(0,0,0,0.03);
+            background: rgba(128, 128, 128, 0.1);
         }
 
         .nav-links > li > a.active {
@@ -203,6 +227,40 @@
         .dropdown-menu li a:hover {
             background: var(--accent-light);
             color: var(--accent);
+        }
+
+        /* Tlačítko Dark Mode */
+        .theme-toggle {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            transition: all 0.2s ease;
+            color: var(--text);
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .nav-cta {
@@ -418,6 +476,7 @@
             border: 1px solid var(--border);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
+            transition: background-color 0.3s ease, border-color 0.2s ease;
         }
 
         .feature-item {
@@ -497,6 +556,7 @@
             padding: 3rem 1.5rem;
             border-top: 1px solid var(--border);
             margin-top: auto;
+            transition: background-color 0.3s ease, border-color 0.2s ease;
         }
 
         .footer-content {
@@ -673,6 +733,14 @@
                 padding: 0.8rem 1.5rem;
             }
 
+            .theme-toggle {
+                margin: 0 0 1rem 0;
+                width: 100%;
+                height: 48px;
+                border-radius: var(--radius-sm);
+                order: -1;
+            }
+
             .nav-cta {
                 margin-left: 0;
                 width: 100%;
@@ -774,6 +842,23 @@
                         </ul>
                     </li>
                 </ul>
+                <!-- Tlačítko pro přepínání Dark Mode -->
+                <button class="theme-toggle" id="theme-toggle" aria-label="Přepnout tmavý režim">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
                 <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
             </div>
         </div>
@@ -959,6 +1044,54 @@
             
             window.history.replaceState({}, document.title, window.location.pathname);
         }
+
+        // ========== DARK MODE LOGIKA ==========
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        const htmlElement = document.documentElement;
+
+        // Funkce pro nastavení tématu
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.setAttribute('data-theme', 'dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.setAttribute('data-theme', 'light');
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Zjištění preferovaného tématu
+        function getPreferredTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+            // Pokud není uloženo, zkontrolujeme preferenci systému
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        // Nastavení tématu při načtení stránky
+        setTheme(getPreferredTheme());
+
+        // Přepínání tématu při kliknutí na tlačítko
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+
+        // Sledování změny systémového tématu (pokud není uloženo uživatelské nastavení)
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
     </script>
 </body>
 </html>
