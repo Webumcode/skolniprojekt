@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/webp" href="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773826365/favicon_l2b9xa.ico">
     <style>
-        /* 📌 KOPÍROVANÝ STYL Z INDEX.HTML (BEZ ZMĚNY) */
         :root {
             --bg: #fafafa;
             --text: #0f0f0f;
@@ -24,6 +23,22 @@
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
             --radius: 12px;
             --radius-sm: 8px;
+            --nav-bg: rgba(250, 250, 250, 0.8);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0a0a0a;
+            --text: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent: #60a5fa;
+            --accent-hover: #3b82f6;
+            --accent-light: #1e293b;
+            --border: #262626;
+            --surface: #1a1a1a;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+            --nav-bg: rgba(10, 10, 10, 0.8);
         }
 
         * {
@@ -45,6 +60,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.2s ease;
         }
 
         h1, h2, h3 {
@@ -59,12 +75,13 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(250, 250, 250, 0.8);
+            background: var(--nav-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
             padding: 0.75rem 1rem;
+            transition: background-color 0.3s ease, border-color 0.2s ease;
         }
 
         .nav-container {
@@ -139,7 +156,7 @@
 
         .nav-links > li > a:hover {
             color: var(--text);
-            background: rgba(0,0,0,0.03);
+            background: rgba(128, 128, 128, 0.1);
         }
 
         .nav-links > li > a.active {
@@ -195,6 +212,40 @@
         .dropdown-menu li a:hover {
             background: var(--accent-light);
             color: var(--accent);
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            transition: all 0.2s ease;
+            color: var(--text);
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .nav-cta {
@@ -270,7 +321,6 @@
             transform: translateY(-7.5px) rotate(-45deg);
         }
 
-        /* Mobile Menu Overlay */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -290,11 +340,155 @@
             opacity: 1;
         }
 
+        /* Rules Header */
+        .rules-header {
+            padding: 8rem 1.5rem 3rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--accent-light) 0%, transparent 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .rules-header {
+            background: linear-gradient(180deg, #1e293b 0%, transparent 100%);
+        }
+
+        .rules-header h1 {
+            font-size: clamp(2.8rem, 6vw, 4rem);
+            margin-bottom: 1rem;
+        }
+
+        .rules-header p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+        }
+
+        /* Rules Container */
+        .rules-container {
+            max-width: 1300px;
+            margin: 0 auto 4rem;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .rule-column {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: background-color 0.3s ease, border-color 0.2s ease;
+        }
+
+        .column-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+        }
+
+        .column-header h2 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .column-header h2::before {
+            content: '◆';
+            font-size: 2rem;
+            opacity: 0.9;
+        }
+
+        .rules-list {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .rule-card {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .rule-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rule-title .rule-number {
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .rule-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .rule-card ul, .rule-card ol {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            padding-left: 1.5rem;
+            margin: 0.75rem 0;
+        }
+
+        .rule-card li {
+            margin-bottom: 0.3rem;
+        }
+
+        .rule-highlight {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            margin-top: 0.5rem;
+        }
+
+        /* Special card */
+        .rule-card.special {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        [data-theme="dark"] .rule-card.special {
+            background: #1e293b;
+            border-color: var(--accent);
+        }
+
         /* Footer */
         footer {
             background: var(--surface);
             padding: 3rem 1.5rem;
             border-top: 1px solid var(--border);
+            transition: background-color 0.3s ease, border-color 0.2s ease;
         }
 
         .footer-content {
@@ -362,17 +556,6 @@
         }
 
         /* Animations */
-        @keyframes pulse {
-            0%, 100% { 
-                opacity: 1;
-                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
-            }
-            50% { 
-                opacity: 0.8;
-                box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
-            }
-        }
-
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -384,7 +567,18 @@
             }
         }
 
-        /* Mobile Responsive Design (stejné jako index) */
+        .fade-in {
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .rules-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
@@ -473,6 +667,14 @@
                 padding: 0.8rem 1.5rem;
             }
 
+            .theme-toggle {
+                margin: 0 0 1rem 0;
+                width: 100%;
+                height: 48px;
+                border-radius: var(--radius-sm);
+                order: -1;
+            }
+
             .nav-cta {
                 margin-left: 0;
                 width: 100%;
@@ -503,6 +705,10 @@
                 color: var(--text-secondary);
             }
 
+            .rules-header {
+                padding: 7rem 1rem 2rem;
+            }
+
             .footer-content {
                 gap: 1.5rem;
             }
@@ -528,141 +734,12 @@
             }
         }
 
-        /* 🆕 NOVÉ STYLY POUZE PRO STRÁNKU PRAVIDEL (zachovávají vizuální identitu) */
-        .rules-header {
-            padding: 8rem 1.5rem 3rem;
-            text-align: center;
-            background: linear-gradient(180deg, var(--accent-light) 0%, transparent 100%);
-        }
-
-        .rules-header h1 {
-            font-size: clamp(2.8rem, 6vw, 4rem);
-            margin-bottom: 1rem;
-        }
-
-        .rules-header p {
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto;
-            font-size: 1.2rem;
-        }
-
-        .rules-container {
-            max-width: 1300px;
-            margin: 0 auto 4rem;
-            padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .rule-column {
-            background: var(--surface);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .column-header {
-            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
-            color: white;
-            padding: 1.5rem 2rem;
-        }
-
-        .column-header h2 {
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .column-header h2::before {
-            content: '◆';
-            font-size: 2rem;
-            opacity: 0.9;
-        }
-
-        .rules-list {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        .rule-card {
-            background: var(--bg);
-            border-radius: var(--radius-sm);
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-            transition: all 0.2s;
-        }
-
-        .rule-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-            border-color: var(--accent);
-        }
-
-        .rule-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .rule-title .rule-number {
-            background: var(--accent-light);
-            color: var(--accent);
-            padding: 0.2rem 0.6rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .rule-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .rule-card ul, .rule-card ol {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            padding-left: 1.5rem;
-            margin: 0.75rem 0;
-        }
-
-        .rule-card li {
-            margin-bottom: 0.3rem;
-        }
-
-        .rule-highlight {
-            display: inline-block;
-            background: var(--accent-light);
-            color: var(--accent);
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.2rem 1rem;
-            border-radius: 30px;
-            margin-top: 0.5rem;
-        }
-
-        /* Responzivita pro sloupce */
-        @media (max-width: 900px) {
-            .rules-container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .rules-header {
-                padding: 7rem 1rem 2rem;
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -702,6 +779,22 @@
                         </ul>
                     </li>
                 </ul>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Přepnout tmavý režim">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
                 <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
             </div>
         </div>
@@ -715,7 +808,7 @@
 
         <div class="rules-container">
             <!-- LEVÝ SLOUPEC – DISCORD PRAVIDLA -->
-            <div class="rule-column">
+            <div class="rule-column fade-in">
                 <div class="column-header">
                     <h2>Discord server</h2>
                 </div>
@@ -724,7 +817,7 @@
                     <div class="rule-card">
                         <div class="rule-title"><span class="rule-number">1</span> Respekt především</div>
                         <p>Chovej se slušně ke všem členům. Nadávky, urážky, rasismus nebo jakákoli forma diskriminace nejsou tolerovány.</p>
-                        <span class="rule-highlight">#bezpecí</span>
+                        <span class="rule-highlight">#bezpečí</span>
                     </div>
                     <!-- 2 -->
                     <div class="rule-card">
@@ -783,8 +876,8 @@
                 </div>
             </div>
 
-            <!-- PRAVÝ SLOUPEC – WEBOVÁ PRAVIDLA (podrobněji) -->
-            <div class="rule-column">
+            <!-- PRAVÝ SLOUPEC – WEBOVÁ PRAVIDLA -->
+            <div class="rule-column fade-in">
                 <div class="column-header">
                     <h2>Web a online služby</h2>
                 </div>
@@ -842,8 +935,8 @@
                         <p>Neporušuj bezpečnost webu, nepokoušej se o hacking, DDoS ani automatizované skripty bez povolení. Pokud najdeš chybu, ohlas ji adminům.</p>
                         <p><strong>Automatizace:</strong> Skripty smí přistupovat jen na veřejné API, pokud existuje a je povoleno.</p>
                     </div>
-                    <!-- Shrnutí (volitelné) -->
-                    <div class="rule-card" style="background: var(--accent-light); border-color: var(--accent);">
+                    <!-- Shrnutí -->
+                    <div class="rule-card special">
                         <div class="rule-title">⚠️ Důležité upozornění</div>
                         <p>Porušení pravidel webu může vést k dočasnému nebo trvalému zablokování přístupu. V případě závažných porušení (nelegální obsah) vyhrazujeme právo oznámit věc příslušným orgánům.</p>
                     </div>
@@ -952,10 +1045,73 @@
             }
         });
 
+        // Dark mode
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        const htmlElement = document.documentElement;
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.setAttribute('data-theme', 'dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.setAttribute('data-theme', 'light');
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function getPreferredTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        setTheme(getPreferredTheme());
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+
+        // Scroll effect
         window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
             const nav = document.querySelector('nav');
-            nav.style.boxShadow = currentScroll > 100 ? '0 4px 20px rgba(0,0,0,0.08)' : 'none';
+            nav.style.boxShadow = window.pageYOffset > 100 ? '0 4px 20px rgba(0,0,0,0.08)' : 'none';
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.1s';
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.rule-column').forEach((el) => {
+            observer.observe(el);
         });
     </script>
 </body>
