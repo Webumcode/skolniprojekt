@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" type="image/webp" href="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773826365/favicon_l2b9xa.ico">
     <style>
         :root {
@@ -24,6 +25,12 @@
             --radius: 12px;
             --radius-sm: 8px;
             --nav-bg: rgba(250, 250, 250, 0.8);
+            --positive: #10b981;
+            --positive-light: #d1fae5;
+            --neutral: #6b7280;
+            --neutral-light: #f3f4f6;
+            --negative: #ef4444;
+            --negative-light: #fee2e2;
         }
 
         [data-theme="dark"] {
@@ -39,6 +46,9 @@
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
             --nav-bg: rgba(10, 10, 10, 0.8);
+            --positive-light: #065f46;
+            --neutral-light: #374151;
+            --negative-light: #7f1d1d;
         }
 
         * {
@@ -70,7 +80,7 @@
             line-height: 1.2;
         }
 
-        /* Navigation */
+        /* Navigation (stejné jako původní) */
         nav {
             position: fixed;
             top: 0;
@@ -214,7 +224,6 @@
             color: var(--accent);
         }
 
-        /* Theme toggle button */
         .theme-toggle {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -428,7 +437,7 @@
 
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
 
@@ -442,6 +451,7 @@
             box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .team-card:hover {
@@ -517,6 +527,44 @@
             font-weight: 500;
         }
 
+        /* Statistiky hodnocení */
+        .rating-stats {
+            display: flex;
+            gap: 0.75rem;
+            margin: 1rem 0;
+            padding: 0.5rem;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .stat-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .stat-count {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .stat-positive {
+            color: var(--positive);
+        }
+
+        .stat-neutral {
+            color: var(--neutral);
+        }
+
+        .stat-negative {
+            color: var(--negative);
+        }
+
+        /* Tlačítka v kartě */
         .card-actions {
             display: flex;
             gap: 0.75rem;
@@ -564,7 +612,293 @@
             color: var(--accent);
         }
 
-        /* Footer */
+        .btn-rating {
+            background: var(--surface);
+            color: var(--text);
+            border-color: var(--border);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .team-card:hover .btn-rating {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .btn-rating:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* Modal pro hodnocení */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .rating-options {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            justify-content: center;
+        }
+
+        .rating-option {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--bg);
+        }
+
+        .rating-option:hover {
+            transform: translateY(-2px);
+        }
+
+        .rating-option.selected {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .rating-option i {
+            font-size: 1.5rem;
+        }
+
+        .rating-option.positive:hover,
+        .rating-option.positive.selected {
+            border-color: var(--positive);
+            background: var(--positive-light);
+        }
+
+        .rating-option.positive i {
+            color: var(--positive);
+        }
+
+        .rating-option.neutral:hover,
+        .rating-option.neutral.selected {
+            border-color: var(--neutral);
+            background: var(--neutral-light);
+        }
+
+        .rating-option.neutral i {
+            color: var(--neutral);
+        }
+
+        .rating-option.negative:hover,
+        .rating-option.negative.selected {
+            border-color: var(--negative);
+            background: var(--negative-light);
+        }
+
+        .rating-option.negative i {
+            color: var(--negative);
+        }
+
+        .rating-option span {
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Seznam hodnocení */
+        .ratings-list {
+            margin-top: 2rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+
+        .ratings-list h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .rating-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-type {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+        }
+
+        .rating-type.positive {
+            background: var(--positive-light);
+            color: var(--positive);
+        }
+
+        .rating-type.neutral {
+            background: var(--neutral-light);
+            color: var(--neutral);
+        }
+
+        .rating-type.negative {
+            background: var(--negative-light);
+            color: var(--negative);
+        }
+
+        .rating-date {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .rating-reviewer {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-message {
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .no-ratings {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Footer (stejný jako původní) */
         footer {
             background: var(--surface);
             padding: 3rem 1.5rem;
@@ -655,6 +989,42 @@
 
         .fade-in {
             animation: fadeInUp 0.6s ease both;
+        }
+
+        /* Toast notifikace */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--surface);
+            color: var(--text);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 3000;
+            transition: transform 0.3s ease;
+            max-width: 90%;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            border-color: var(--positive);
+            background: var(--positive-light);
+            color: var(--positive);
+        }
+
+        .toast.error {
+            border-color: var(--negative);
+            background: var(--negative-light);
+            color: var(--negative);
         }
 
         /* Mobilní responzivita */
@@ -792,6 +1162,16 @@
                 grid-template-columns: 1fr;
             }
 
+            .rating-options {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .rating-option {
+                flex-direction: row;
+                justify-content: center;
+            }
+
             .footer-content {
                 gap: 1.5rem;
             }
@@ -903,12 +1283,12 @@
             <!-- Sekce Vedení -->
             <div class="team-category" data-category="vedeni">
                 <h2 class="category-title">
-                <img src="https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png" alt="Role icon" class="role-icon">
+                    <img src="https://i.ibb.co/bM2yx9HP/78868-ownerroleicon.png" alt="Role icon" class="role-icon">
                     Vedení
                 </h2>
                 <div class="team-grid" id="vedeni-grid">
                     <!-- Karta Petra -->
-                    <div class="team-card" data-name="petr">
+                    <div class="team-card" data-name="petr" data-role="Majitel projektu" data-member="Petr">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758183/petko_wsmjbd.webp" alt="Petr">
                         </div>
@@ -918,14 +1298,35 @@
                                 <span class="card-name">Petr</span>
                             </div>
                             <span class="card-role">Majitel projektu</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-petr">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-petr">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-petr">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-petr">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/1323366505068630147" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20Petr" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('Petr', 'Majitel projektu')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Karta lenní (zástupce) -->
-                    <div class="team-card" data-name="lenní">
+                    <div class="team-card" data-name="lenní" data-role="Zástupce" data-member="lenní">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773763719/leni_vnofpq.jpg" alt="lenní">
                         </div>
@@ -935,9 +1336,29 @@
                                 <span class="card-name">lenní</span>
                             </div>
                             <span class="card-role">Zástupce</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-lenní">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-lenní">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-lenní">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-lenní">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/523961093710675969" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20lenní" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('lenní', 'Zástupce')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -947,12 +1368,12 @@
             <!-- Sekce Developeři -->
             <div class="team-category" data-category="developeri">
                 <h2 class="category-title">
-                   <img src="https://i.ibb.co/MD9Pz2Qv/406258-activedev.png" alt="Role icon" class="role-icon">
+                    <img src="https://i.ibb.co/MD9Pz2Qv/406258-activedev.png" alt="Role icon" class="role-icon">
                     Developeři
                 </h2>
                 <div class="team-grid" id="developeri-grid">
                     <!-- Karta Drezyss -->
-                    <div class="team-card" data-name="drezyss">
+                    <div class="team-card" data-name="drezyss" data-role="Developer" data-member="Drezyss">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758255/ja_jh0ozl.jpg" alt="Drezyss">
                         </div>
@@ -962,14 +1383,35 @@
                                 <span class="card-name">Drezyss</span>
                             </div>
                             <span class="card-role">Developer</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-Drezyss">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-Drezyss">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-Drezyss">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-Drezyss">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/1481610001054302319" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20Drezyss" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('Drezyss', 'Developer')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Karta Enemi -->
-                    <div class="team-card" data-name="enemi">
+                    <div class="team-card" data-name="enemi" data-role="Developer" data-member="Enemi">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758223/EnemiLogo_qvpuko.png" alt="Enemi">
                         </div>
@@ -979,9 +1421,29 @@
                                 <span class="card-name">Enemi</span>
                             </div>
                             <span class="card-role">Developer</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-Enemi">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-Enemi">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-Enemi">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-Enemi">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/224625469675405312" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20Enemi" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('Enemi', 'Developer')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -996,7 +1458,7 @@
                 </h2>
                 <div class="team-grid" id="admini-grid">
                     <!-- Karta Vojta 0221 -->
-                    <div class="team-card" data-name="vojta 0221">
+                    <div class="team-card" data-name="vojta 0221" data-role="Administrátor" data-member="Vojta 0221">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758294/vojta_lpulez.webp" alt="Vojta 0221">
                         </div>
@@ -1006,14 +1468,35 @@
                                 <span class="card-name">Vojta 0221</span>
                             </div>
                             <span class="card-role">Administrátor</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-Vojta 0221">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-Vojta 0221">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-Vojta 0221">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-Vojta 0221">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/886251571443302470" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20Vojta%200221" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('Vojta 0221', 'Administrátor')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Karta indebixis -->
-                    <div class="team-card" data-name="indebixis">
+                    <div class="team-card" data-name="indebixis" data-role="Administrátor" data-member="indexbicis">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773778031/index_owemru.webp" alt="indebixis">
                         </div>
@@ -1023,9 +1506,29 @@
                                 <span class="card-name">indexbicis</span>
                             </div>
                             <span class="card-role">Administrátor</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-indexbicis">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-indexbicis">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-indexbicis">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-indexbicis">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/397381920255770636" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20indebixis" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('indexbicis', 'Administrátor')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1040,7 +1543,7 @@
                 </h2>
                 <div class="team-grid" id="moderatori-grid">
                     <!-- Karta Michal__482 -->
-                    <div class="team-card" data-name="Michal__482">
+                    <div class="team-card" data-name="Michal__482" data-role="Moderátor" data-member="Michal__482">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773782860/michal_mzviva.webp" alt="Michal__482">
                         </div>
@@ -1050,14 +1553,35 @@
                                 <span class="card-name">Michal__482</span>
                             </div>
                             <span class="card-role">Moderátor</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-Michal__482">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-Michal__482">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-Michal__482">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-Michal__482">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/1282039101788393483" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20Michal__482" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('Michal__482', 'Moderátor')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <!-- Karta Kralis -->
-                    <div class="team-card" data-name="klaris">
+                    
+                    <!-- Karta Klaris -->
+                    <div class="team-card" data-name="klaris" data-role="Moderátor" data-member="Klaris">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758339/klaris_zql44h.jpg" alt="Klaris">
                         </div>
@@ -1067,14 +1591,35 @@
                                 <span class="card-name">Klaris</span>
                             </div>
                             <span class="card-role">Moderátor</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-Klaris">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-Klaris">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-Klaris">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-Klaris">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/1310763461315133460" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20Klaris" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('Klaris', 'Moderátor')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Karta veru_nkaa -->
-                    <div class="team-card" data-name="veru_nkaa">
+                    <div class="team-card" data-name="veru_nkaa" data-role="Moderátor" data-member="veru_nkaa">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773777452/veru_pnftsg.webp" alt="veru_nkaa">
                         </div>
@@ -1084,14 +1629,35 @@
                                 <span class="card-name">veru_nkaa</span>
                             </div>
                             <span class="card-role">Moderátor</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-veru_nkaa">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-veru_nkaa">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-veru_nkaa">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-veru_nkaa">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/773576607411077130" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20veru_nkaa" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('veru_nkaa', 'Moderátor')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Karta kribikovas -->
-                    <div class="team-card" data-name="kribikovas">
+                    <div class="team-card" data-name="kribikovas" data-role="Moderátor" data-member="kribikovas">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758075/kirbi_kjiy2a.webp" alt="kribikovas">
                         </div>
@@ -1101,14 +1667,35 @@
                                 <span class="card-name">kribikovas</span>
                             </div>
                             <span class="card-role">Moderátor</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-kribikovas">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-kribikovas">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-kribikovas">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-kribikovas">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/1053676916844019873" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20kribikovas" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('kribikovas', 'Moderátor')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Karta zuz._.le -->
-                    <div class="team-card" data-name="zuz._.le">
+                    <div class="team-card" data-name="zuz._.le" data-role="Moderátor" data-member="zuz._.le">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773769731/zuzu_shxwtx.webp" alt="zuz._.le">
                         </div>
@@ -1118,14 +1705,35 @@
                                 <span class="card-name">zuz._.le</span>
                             </div>
                             <span class="card-role">Moderátor</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-zuz._.le">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-zuz._.le">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-zuz._.le">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-zuz._.le">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/1317204843257135104" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20zuz._.le" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('zuz._.le', 'Moderátor')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Karta Kikuskaa -->
-                    <div class="team-card" data-name="kikuskaa">
+                    <div class="team-card" data-name="kikuskaa" data-role="Moderátor" data-member="Kikuskaa">
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773823592/kikus_dmqckm.webp" alt="Kikuskaa">
                         </div>
@@ -1135,9 +1743,29 @@
                                 <span class="card-name">Kikuskaa</span>
                             </div>
                             <span class="card-role">Moderátor</span>
+                            
+                            <!-- Statistiky hodnocení -->
+                            <div class="rating-stats" id="stats-Kikuskaa">
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-up stat-positive"></i>
+                                    <span class="stat-count stat-positive" id="positive-Kikuskaa">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-minus-square stat-neutral"></i>
+                                    <span class="stat-count stat-neutral" id="neutral-Kikuskaa">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-thumbs-down stat-negative"></i>
+                                    <span class="stat-count stat-negative" id="negative-Kikuskaa">0</span>
+                                </div>
+                            </div>
+                            
                             <div class="card-actions">
                                 <a href="https://discord.com/users/1344826926140756002" class="btn btn-discord" target="_blank">Discord</a>
                                 <a href="kontakt.html?subject=Zpráva%20pro%20Kikuskaa" class="btn btn-contact">Zpráva</a>
+                                <button class="btn btn-rating" onclick="openRatingModal('Kikuskaa', 'Moderátor')">
+                                    <i class="fas fa-star"></i> Ohodnotit
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1145,6 +1773,63 @@
             </div>
         </section>
     </main>
+
+    <!-- Modal pro hodnocení -->
+    <div class="modal" id="ratingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Ohodnotit člena týmu</h2>
+                <button class="modal-close" onclick="closeRatingModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 1rem; padding: 0.5rem; background: var(--accent-light); border-radius: var(--radius-sm);">
+                    <strong id="modalMemberName"></strong> - <span id="modalMemberRole"></span>
+                </div>
+                
+                <div class="rating-options">
+                    <div class="rating-option positive" onclick="selectRating('positive')" id="ratingPositive">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span>Pozitivní</span>
+                    </div>
+                    <div class="rating-option neutral" onclick="selectRating('neutral')" id="ratingNeutral">
+                        <i class="fas fa-minus-square"></i>
+                        <span>Neutrální</span>
+                    </div>
+                    <div class="rating-option negative" onclick="selectRating('negative')" id="ratingNegative">
+                        <i class="fas fa-thumbs-down"></i>
+                        <span>Negativní</span>
+                    </div>
+                </div>
+                
+                <input type="hidden" id="selectedRating" value="">
+                <input type="hidden" id="currentMember" value="">
+                <input type="hidden" id="currentRole" value="">
+                
+                <div class="form-group">
+                    <label for="reviewerName">Tvé jméno (nepovinné)</label>
+                    <input type="text" id="reviewerName" placeholder="Např. Jan Novák">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ratingMessage">Zpráva (nepovinná)</label>
+                    <textarea id="ratingMessage" placeholder="Napiš své hodnocení..."></textarea>
+                </div>
+                
+                <button class="btn-submit" onclick="submitRating()" id="submitRatingBtn">
+                    <i class="fas fa-paper-plane"></i> Odeslat hodnocení
+                </button>
+                
+                <!-- Seznam hodnocení -->
+                <div class="ratings-list" id="ratingsList">
+                    <h3>Hodnocení tohoto člena</h3>
+                    <div id="ratingsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notifikace -->
+    <div class="toast" id="toast"></div>
 
     <footer>
         <div class="footer-content">
@@ -1165,7 +1850,11 @@
     </footer>
 
     <script>
-        // Mobile menu
+        // Supabase konfigurace
+        const SUPABASE_URL = 'https://rgifzfbgazqzbhbelssm.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnaWZ6ZmJnYXpxemJoYmVsc3NtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MjI2NTgsImV4cCI6MjA4OTM5ODY1OH0.1OaEfeDNe4O5PVRH2p1cnNTOFRpFm6VBqgwmk3MMYVA';
+
+        // Mobile menu (stejný jako původní)
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.querySelector('.nav-menu');
         const menuOverlay = document.querySelector('.menu-overlay');
@@ -1221,21 +1910,18 @@
             dropdownToggle.addEventListener('click', toggleDropdown);
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (dropdownToggle && !dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
                 closeDropdown();
             }
         });
 
-        // Close dropdown on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
                 closeDropdown();
             }
         });
 
-        // Close menu when clicking on a link (except dropdown toggle)
         document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
@@ -1288,6 +1974,16 @@
             }
         });
 
+        // Scroll efekt pro nav
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.pageYOffset > 100) {
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
+        });
+
         // Vyhledávání podle jména
         const searchInput = document.getElementById('searchInput');
         const teamCards = document.querySelectorAll('.team-card');
@@ -1304,7 +2000,6 @@
                 }
             });
 
-            // Zobrazit/skrýt celé kategorie podle viditelných karet
             document.querySelectorAll('.team-category').forEach(category => {
                 const visibleCards = category.querySelectorAll('.team-card:not(.hidden-card)');
                 if (visibleCards.length === 0 && searchTerm !== '') {
@@ -1313,16 +2008,6 @@
                     category.style.display = 'block';
                 }
             });
-        });
-
-        // Scroll efekt pro nav
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.pageYOffset > 100) {
-                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
-            } else {
-                nav.style.boxShadow = 'none';
-            }
         });
 
         // Intersection Observer for fade-in animations
@@ -1345,6 +2030,260 @@
         document.querySelectorAll('.team-card, .team-header').forEach((el) => {
             observer.observe(el);
         });
+
+        // Funkce pro hodnocení
+        const modal = document.getElementById('ratingModal');
+        let currentMember = '';
+        let currentRole = '';
+
+        function openRatingModal(memberName, memberRole) {
+            currentMember = memberName;
+            currentRole = memberRole;
+            
+            document.getElementById('modalMemberName').textContent = memberName;
+            document.getElementById('modalMemberRole').textContent = memberRole;
+            document.getElementById('currentMember').value = memberName;
+            document.getElementById('currentRole').value = memberRole;
+            document.getElementById('selectedRating').value = '';
+            document.getElementById('reviewerName').value = '';
+            document.getElementById('ratingMessage').value = '';
+            
+            // Reset výběru hodnocení
+            document.querySelectorAll('.rating-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            modal.classList.add('active');
+            body.style.overflow = 'hidden';
+            
+            // Načíst hodnocení pro tohoto člena
+            loadRatings(memberName);
+        }
+
+        function closeRatingModal() {
+            modal.classList.remove('active');
+            body.style.overflow = '';
+        }
+
+        function selectRating(type) {
+            document.getElementById('selectedRating').value = type;
+            
+            document.querySelectorAll('.rating-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            document.getElementById(`rating${type.charAt(0).toUpperCase() + type.slice(1)}`).classList.add('selected');
+        }
+
+        async function loadRatings(memberName) {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/team_ratings?member_name=eq.${encodeURIComponent(memberName)}&order=created_at.desc`, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    }
+                });
+                
+                if (!response.ok) throw new Error('Chyba při načítání hodnocení');
+                
+                const ratings = await response.json();
+                displayRatings(ratings);
+                updateStats(memberName, ratings);
+                
+            } catch (error) {
+                console.error('Chyba při načítání hodnocení:', error);
+                showToast('Nepodařilo se načíst hodnocení', 'error');
+            }
+        }
+
+        function displayRatings(ratings) {
+            const container = document.getElementById('ratingsContainer');
+            
+            if (!ratings || ratings.length === 0) {
+                container.innerHTML = '<div class="no-ratings">Zatím žádná hodnocení</div>';
+                return;
+            }
+            
+            container.innerHTML = ratings.map(r => {
+                const date = new Date(r.created_at).toLocaleString('cs-CZ', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const typeClass = {
+                    'positive': 'positive',
+                    'neutral': 'neutral',
+                    'negative': 'negative'
+                }[r.rating_type];
+                
+                const typeIcon = {
+                    'positive': 'fa-thumbs-up',
+                    'neutral': 'fa-minus-square',
+                    'negative': 'fa-thumbs-down'
+                }[r.rating_type];
+                
+                return `
+                    <div class="rating-item">
+                        <div class="rating-header">
+                            <span class="rating-type ${typeClass}">
+                                <i class="fas ${typeIcon}"></i>
+                                ${r.rating_type === 'positive' ? 'Pozitivní' : r.rating_type === 'neutral' ? 'Neutrální' : 'Negativní'}
+                            </span>
+                            <span class="rating-date">${date}</span>
+                        </div>
+                        ${r.reviewer_name ? `<div class="rating-reviewer">Od: ${r.reviewer_name}</div>` : ''}
+                        ${r.message ? `<div class="rating-message">${r.message}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateStats(memberName, ratings) {
+            const stats = {
+                positive: ratings.filter(r => r.rating_type === 'positive').length,
+                neutral: ratings.filter(r => r.rating_type === 'neutral').length,
+                negative: ratings.filter(r => r.rating_type === 'negative').length
+            };
+            
+            // Aktualizovat statistiky v kartě
+            const memberId = memberName.replace(/[^a-zA-Z0-9]/g, '');
+            
+            const positiveEl = document.getElementById(`positive-${memberId}`);
+            const neutralEl = document.getElementById(`neutral-${memberId}`);
+            const negativeEl = document.getElementById(`negative-${memberId}`);
+            
+            if (positiveEl) positiveEl.textContent = stats.positive;
+            if (neutralEl) neutralEl.textContent = stats.neutral;
+            if (negativeEl) negativeEl.textContent = stats.negative;
+        }
+
+        async function submitRating() {
+            const ratingType = document.getElementById('selectedRating').value;
+            const memberName = document.getElementById('currentMember').value;
+            const memberRole = document.getElementById('currentRole').value;
+            const reviewerName = document.getElementById('reviewerName').value.trim() || null;
+            const message = document.getElementById('ratingMessage').value.trim() || null;
+            
+            if (!ratingType) {
+                showToast('Vyber prosím typ hodnocení', 'error');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitRatingBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Odesílám...';
+            
+            try {
+                const ratingData = {
+                    member_name: memberName,
+                    member_role: memberRole,
+                    rating_type: ratingType,
+                    reviewer_name: reviewerName,
+                    message: message,
+                    ip_address: 'anon',
+                    user_agent: navigator.userAgent
+                };
+                
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/team_ratings`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(ratingData)
+                });
+                
+                if (!response.ok) throw new Error('Chyba při ukládání hodnocení');
+                
+                showToast('Hodnocení bylo úspěšně uloženo', 'success');
+                
+                // Znovu načíst hodnocení
+                await loadRatings(memberName);
+                
+                // Reset formuláře
+                document.getElementById('selectedRating').value = '';
+                document.querySelectorAll('.rating-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                document.getElementById('reviewerName').value = '';
+                document.getElementById('ratingMessage').value = '';
+                
+            } catch (error) {
+                console.error('Chyba při ukládání hodnocení:', error);
+                showToast('Nepodařilo se uložit hodnocení', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Odeslat hodnocení';
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast show ${type}`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Načíst všechna hodnocení při startu
+        async function loadAllRatings() {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/team_ratings`, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    }
+                });
+                
+                if (!response.ok) throw new Error('Chyba při načítání hodnocení');
+                
+                const ratings = await response.json();
+                
+                // Seskupit hodnocení podle člena
+                const ratingsByMember = {};
+                ratings.forEach(r => {
+                    if (!ratingsByMember[r.member_name]) {
+                        ratingsByMember[r.member_name] = [];
+                    }
+                    ratingsByMember[r.member_name].push(r);
+                });
+                
+                // Aktualizovat statistiky pro každého člena
+                Object.keys(ratingsByMember).forEach(memberName => {
+                    updateStats(memberName, ratingsByMember[memberName]);
+                });
+                
+            } catch (error) {
+                console.error('Chyba při načítání hodnocení:', error);
+            }
+        }
+
+        // Zavřít modal při kliknutí mimo něj
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeRatingModal();
+            }
+        });
+
+        // ESC pro zavření modalu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeRatingModal();
+            }
+        });
+
+        // Načíst všechna hodnocení při startu
+        loadAllRatings();
+
+        // Pravidelná aktualizace hodnocení každých 30 sekund
+        setInterval(loadAllRatings, 30000);
     </script>
 </body>
 </html>
