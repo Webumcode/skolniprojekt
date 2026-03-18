@@ -801,15 +801,15 @@
                 </h1>
                 <div class="banlist-stats">
                     <div class="stat-card ban">
-                        <div class="number" id="totalBans">4</div>
+                        <div class="number" id="totalBans">0</div>
                         <div class="label">Celkem banů</div>
                     </div>
                     <div class="stat-card warn">
-                        <div class="number" id="totalWarns">7</div>
+                        <div class="number" id="totalWarns">0</div>
                         <div class="label">Celkem warnů</div>
                     </div>
                     <div class="stat-card mute">
-                        <div class="number" id="totalMutes">3</div>
+                        <div class="number" id="totalMutes">0</div>
                         <div class="label">Celkem mute</div>
                     </div>
                 </div>
@@ -829,7 +829,7 @@
                 </div>
             </div>
 
-            <!-- TABULKA S TRESTY -->
+            <!-- TABULKA S TRESTY (PRÁZDNÁ, PŘIPRAVENÁ K NAPOJENÍ) -->
             <div class="table-wrapper">
                 <table class="banlist-table">
                     <thead>
@@ -843,13 +843,16 @@
                         </tr>
                     </thead>
                     <tbody id="punishmentTableBody">
-                        <!-- zde se dynamicky vypisují řádky (JS) -->
+                        <!-- Prázdný stav – zobrazí se, dokud se nenačtou data -->
+                        <tr>
+                            <td colspan="6" class="empty-message">
+                                ⏳ Seznam trestů se načítá...<br>
+                                <span style="font-size: 0.9rem;">(Pokud se nic nezobrazuje, zatím nebyly uděleny žádné tresty.)</span>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-
-            <!-- MALÝ POPISEK PRO PŘÍPAD ŽÁDNÝCH VÝSLEDKŮ (fallback) -->
-            <p style="text-align: center; color: var(--text-secondary);" id="noResultsMsg"></p>
         </div>
     </main>
 
@@ -959,23 +962,22 @@
             if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light');
         });
 
-        // ---------- DATA PRO BANLIST ----------
-        const punishments = [
-            { id: 1, to: 'HonzaNovák', by: 'KarelMod', type: 'ban', duration: '7 dní', end: '2026-04-01', reason: 'Opakované porušování pravidel (spam)' },
-            { id: 2, to: 'EmaS', by: 'KarelMod', type: 'warn', duration: 'doživotní záznam', end: '—', reason: 'Nevhodný profilový obrázek' },
-            { id: 3, to: 'Petr787', by: 'AdamAdmin', type: 'mute', duration: '24 hodin', end: '2026-03-19 18:00', reason: 'Hádka ve voice channelu' },
-            { id: 4, to: 'LucieK', by: 'JanaHelper', type: 'warn', duration: '30 dní', end: '2026-04-10', reason: 'Nerespektování moderátora' },
-            { id: 5, to: 'TomášM', by: 'KarelMod', type: 'ban', duration: 'trvalý', end: '—', reason: 'Sdílení nevhodného obsahu' },
-            { id: 6, to: 'AnnaB', by: 'JanaHelper', type: 'warn', duration: '14 dní', end: '2026-03-28', reason: 'Nahlašování bezdůvodně' },
-            { id: 7, to: 'MartinD', by: 'AdamAdmin', type: 'mute', duration: '6 hodin', end: '2026-03-18 22:00', reason: 'Spamování emoji' },
-            { id: 8, to: 'KájaV', by: 'KarelMod', type: 'warn', duration: '7 dní', end: '2026-03-24', reason: 'Nevhodná přezdívka' },
-            { id: 9, to: 'JirkaP', by: 'AdamAdmin', type: 'ban', duration: '3 dny', end: '2026-03-21', reason: 'Ignorování varování (NSFW odkaz)' },
-            { id: 10, to: 'MonikaS', by: 'JanaHelper', type: 'warn', duration: '—', end: '—', reason: 'Mírný spoiler (neoznačený)' },
-            { id: 11, to: 'RadekN', by: 'KarelMod', type: 'warn', duration: '30 dní', end: '2026-04-12', reason: 'Provokování v chatu' },
-            { id: 12, to: 'VeraM', by: 'AdamAdmin', type: 'mute', duration: '12 hodin', end: '2026-03-19 10:00', reason: 'Opakovaný OT (off-topic)' }
-        ];
+        // ---------- BANLIST LOGIKA (PRÁZDNÁ, PŘIPRAVENÁ K NAPOJENÍ) ----------
+        const tbody = document.getElementById('punishmentTableBody');
+        const totalBansSpan = document.getElementById('totalBans');
+        const totalWarnsSpan = document.getElementById('totalWarns');
+        const totalMutesSpan = document.getElementById('totalMutes');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearch');
+        const filterTabs = document.querySelectorAll('.filter-tab');
 
-        // Funkce pro překlad typu trestu + badge
+        // Zde bude později pole trestů z API/databáze
+        let punishments = []; // Prázdné pole – žádná data
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // Funkce pro překlad typu trestu + badge (zůstává pro budoucí použití)
         function getBadgeHtml(type) {
             const baseClass = 'punishment-badge';
             if (type === 'ban') return `<span class="${baseClass} badge-ban">Ban</span>`;
@@ -984,19 +986,7 @@
             return `<span class="${baseClass}">${type}</span>`;
         }
 
-        // Zobrazení tabulky podle filtrů
-        const tbody = document.getElementById('punishmentTableBody');
-        const totalBansSpan = document.getElementById('totalBans');
-        const totalWarnsSpan = document.getElementById('totalWarns');
-        const totalMutesSpan = document.getElementById('totalMutes');
-        const searchInput = document.getElementById('searchInput');
-        const clearSearchBtn = document.getElementById('clearSearch');
-        const filterTabs = document.querySelectorAll('.filter-tab');
-        const noResultsMsg = document.getElementById('noResultsMsg');
-
-        let currentFilter = 'all';
-        let currentSearch = '';
-
+        // Aktualizace statistik (vše na 0, protože pole je prázdné)
         function updateStats() {
             const bans = punishments.filter(p => p.type === 'ban').length;
             const warns = punishments.filter(p => p.type === 'warn').length;
@@ -1005,8 +995,9 @@
             totalWarnsSpan.innerText = warns;
             totalMutesSpan.innerText = mutes;
         }
-        updateStats(); // načti statistiky
+        updateStats(); // nastaví 0, 0, 0
 
+        // Vykreslení tabulky (nyní prázdné, zobrazí hlášku)
         function renderTable() {
             let filtered = punishments;
 
@@ -1019,20 +1010,22 @@
             if (currentSearch.trim() !== '') {
                 const searchLower = currentSearch.toLowerCase();
                 filtered = filtered.filter(p => 
-                    p.to.toLowerCase().includes(searchLower) || 
-                    p.by.toLowerCase().includes(searchLower) ||
-                    p.reason.toLowerCase().includes(searchLower)
+                    (p.to && p.to.toLowerCase().includes(searchLower)) || 
+                    (p.by && p.by.toLowerCase().includes(searchLower)) ||
+                    (p.reason && p.reason.toLowerCase().includes(searchLower))
                 );
             }
 
-            // Pokud není výsledek
+            // Pokud je pole prázdné, zobrazíme vhodnou hlášku
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="empty-message">Žádné záznamy neodpovídají zadaným kritériím.</td></tr>`;
-                noResultsMsg.innerText = '';
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-message">
+                    📭 Žádné tresty k zobrazení.<br>
+                    <span style="font-size: 0.9rem;">Až budou uděleny první tresty, objeví se zde.</span>
+                </td></tr>`;
                 return;
             }
 
-            // Sestavení řádků
+            // Sestavení řádků (tento kód se spustí, až budou data)
             let rows = '';
             filtered.forEach(p => {
                 rows += `<tr>
@@ -1045,7 +1038,6 @@
                 </tr>`;
             });
             tbody.innerHTML = rows;
-            noResultsMsg.innerText = '';
         }
 
         // Ovládání filtrů
@@ -1070,19 +1062,28 @@
             renderTable();
         });
 
-        // Počáteční render
+        // Počáteční render (ukáže prázdnou hlášku)
         renderTable();
 
-        // Vychytávka: Počet aktivních banů dnes? Můžeme do statistik doplnit malý text, ale to už je hotové.
-        // Jiná vychytávka: Zvýraznění končících trestů (např. do 2 dnů) - bonus
-        function highlightEndingSoon() {
-            // Toto by mohlo být další vylepšení: podbarvení řádků, kde trest končí brzy.
-            // Ale pro jednoduchost necháme jen výše uvedené.
+        // --- TOTO JE MÍSTO PRO NAPOJENÍ NA BACKEND ---
+        // Příklad: Funkce pro načtení dat z API
+        /*
+        async function loadPunishments() {
+            try {
+                const response = await fetch('https://tvoje-api.cz/tresty');
+                const data = await response.json();
+                punishments = data;  // Nahraje data do pole
+                updateStats();       // Přepočítá statistiky
+                renderTable();       // Znovu vykreslí tabulku
+            } catch (error) {
+                console.error('Chyba při načítání trestů:', error);
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-message">
+                    ❌ Nepodařilo se načíst data. Zkuste to prosím později.
+                </td></tr>`;
+            }
         }
-        // Můžeme přidat tooltip nebo něco, ale je to nad rámec. 
-
-        // Zbývá jen, aby při kliknutí na "ostatní" v menu zůstal banlist aktivní.
-        // Aktivní třída už je v HTML nastevena.
+        // loadPunishments();  // Odkomentuj, až bude API hotové
+        */
     </script>
 </body>
 </html>
