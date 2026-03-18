@@ -31,6 +31,21 @@
             --negative-light: #fee2e2;
         }
 
+        /* Dark mode */
+        [data-theme="dark"] {
+            --bg: #0f0f0f;
+            --text: #fafafa;
+            --text-secondary: #94a3b8;
+            --accent: #60a5fa;
+            --accent-hover: #3b82f6;
+            --accent-light: #1e3a8a;
+            --border: #1e293b;
+            --surface: #1a1a1a;
+            --positive-light: #065f46;
+            --neutral-light: #374151;
+            --negative-light: #7f1d1d;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -50,6 +65,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         h1, h2, h3 {
@@ -59,12 +75,39 @@
             line-height: 1.2;
         }
 
+        /* Theme toggle */
+        .theme-toggle {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.25rem;
+            display: flex;
+            gap: 0.25rem;
+            margin-right: 0.5rem;
+        }
+
+        .theme-btn {
+            background: none;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .theme-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
         /* Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(250, 250, 250, 0.8);
+            background: rgba(var(--bg-rgb), 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
@@ -145,6 +188,10 @@
         .nav-links > li > a:hover {
             color: var(--text);
             background: rgba(0,0,0,0.03);
+        }
+
+        [data-theme="dark"] .nav-links > li > a:hover {
+            background: rgba(255,255,255,0.03);
         }
 
         .nav-links > li > a.active {
@@ -555,6 +602,12 @@
             transform: scale(1.05);
         }
 
+        .rating-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .rating-btn i {
             font-size: 1.2rem;
         }
@@ -716,60 +769,124 @@
             margin-bottom: 1rem;
         }
 
-        /* Hodnotící tlačítka */
-        .rating-buttons {
-            display: flex;
-            gap: 1rem;
+        /* Nový design pro hodnocení */
+        .rating-form {
+            background: var(--bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .rating-btn-large {
+        .rating-form-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating-type-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-type-btn {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
-            padding: 1rem;
+            gap: 0.5rem;
+            padding: 0.75rem;
             border: 2px solid transparent;
             border-radius: var(--radius);
             font-weight: 600;
-            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.2s ease;
-            background: var(--bg);
+            background: var(--surface);
+            color: var(--text-secondary);
         }
 
-        .rating-btn-large.positive {
+        .rating-type-btn.selected {
+            border-color: currentColor;
+            transform: scale(1.02);
+        }
+
+        .rating-type-btn.positive.selected {
+            background: var(--positive-light);
             color: var(--positive);
-            border-color: var(--positive-light);
         }
 
-        .rating-btn-large.positive:hover {
-            background: var(--positive);
-            color: white;
-            border-color: var(--positive);
-        }
-
-        .rating-btn-large.neutral {
+        .rating-type-btn.neutral.selected {
+            background: var(--neutral-light);
             color: var(--neutral);
-            border-color: var(--neutral-light);
         }
 
-        .rating-btn-large.neutral:hover {
-            background: var(--neutral);
-            color: white;
-            border-color: var(--neutral);
-        }
-
-        .rating-btn-large.negative {
+        .rating-type-btn.negative.selected {
+            background: var(--negative-light);
             color: var(--negative);
-            border-color: var(--negative-light);
         }
 
-        .rating-btn-large.negative:hover {
-            background: var(--negative);
+        .rating-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .rating-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-light);
+        }
+
+        .rating-submit {
+            background: var(--accent);
             color: white;
-            border-color: var(--negative);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .rating-submit:hover:not(:disabled) {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .rating-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .rating-cooldown {
+            text-align: center;
+            padding: 1rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .rating-cooldown span {
+            color: var(--accent);
+            font-weight: 600;
         }
 
         /* Statistiky */
@@ -843,12 +960,12 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--accent-light);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: var(--accent);
+            color: white;
             flex-shrink: 0;
         }
 
@@ -861,6 +978,7 @@
             align-items: center;
             gap: 0.75rem;
             margin-bottom: 0.25rem;
+            flex-wrap: wrap;
         }
 
         .rating-item-author {
@@ -898,6 +1016,7 @@
             color: var(--text);
             font-size: 0.95rem;
             line-height: 1.5;
+            word-break: break-word;
         }
 
         /* Stránkování */
@@ -917,6 +1036,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-weight: 500;
+            color: var(--text);
         }
 
         .pagination-btn:hover:not(:disabled) {
@@ -933,6 +1053,21 @@
         .pagination-info {
             padding: 0.5rem 1rem;
             color: var(--text-secondary);
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Footer */
@@ -1144,7 +1279,7 @@
                 gap: 1rem;
             }
 
-            .rating-buttons {
+            .rating-type-buttons {
                 flex-direction: column;
             }
 
@@ -1197,11 +1332,18 @@
                 <div class="logo-icon">◆</div>
                 Doupě géniů
             </a>
-            <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <div style="display: flex; align-items: center;">
+                <!-- Theme toggle -->
+                <div class="theme-toggle">
+                    <button class="theme-btn active" onclick="setTheme('light')">Světlý</button>
+                    <button class="theme-btn" onclick="setTheme('dark')">Tmavý</button>
+                </div>
+                <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
             <div class="menu-overlay"></div>
             <div class="nav-menu">
                 <div class="mobile-menu-header">
@@ -1257,7 +1399,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758183/petko_wsmjbd.webp" alt="Petr">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('1323366505068630147')">
+                                <button class="rating-btn" onclick="openRatingModal('1323366505068630147')" id="rating-btn-1323366505068630147">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1284,7 +1426,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773763719/leni_vnofpq.jpg" alt="lenní">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('523961093710675969')">
+                                <button class="rating-btn" onclick="openRatingModal('523961093710675969')" id="rating-btn-523961093710675969">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1321,7 +1463,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758255/ja_jh0ozl.jpg" alt="Drezyss">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('1481610001054302319')">
+                                <button class="rating-btn" onclick="openRatingModal('1481610001054302319')" id="rating-btn-1481610001054302319">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1348,7 +1490,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758223/EnemiLogo_qvpuko.png" alt="Enemi">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('224625469675405312')">
+                                <button class="rating-btn" onclick="openRatingModal('224625469675405312')" id="rating-btn-224625469675405312">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1385,7 +1527,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758294/vojta_lpulez.webp" alt="Vojta 0221">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('886251571443302470')">
+                                <button class="rating-btn" onclick="openRatingModal('886251571443302470')" id="rating-btn-886251571443302470">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1412,7 +1554,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773778031/index_owemru.webp" alt="indebixis">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('397381920255770636')">
+                                <button class="rating-btn" onclick="openRatingModal('397381920255770636')" id="rating-btn-397381920255770636">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1449,7 +1591,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773782860/michal_mzviva.webp" alt="Michal__482">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('1282039101788393483')">
+                                <button class="rating-btn" onclick="openRatingModal('1282039101788393483')" id="rating-btn-1282039101788393483">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1476,7 +1618,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758339/klaris_zql44h.jpg" alt="Klaris">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('1310763461315133460')">
+                                <button class="rating-btn" onclick="openRatingModal('1310763461315133460')" id="rating-btn-1310763461315133460">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1503,7 +1645,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773777452/veru_pnftsg.webp" alt="veru_nkaa">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('773576607411077130')">
+                                <button class="rating-btn" onclick="openRatingModal('773576607411077130')" id="rating-btn-773576607411077130">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1530,7 +1672,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773758075/kirbi_kjiy2a.webp" alt="kribikovas">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('1053676916844019873')">
+                                <button class="rating-btn" onclick="openRatingModal('1053676916844019873')" id="rating-btn-1053676916844019873">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1557,7 +1699,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773769731/zuzu_shxwtx.webp" alt="zuz._.le">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('1317204843257135104')">
+                                <button class="rating-btn" onclick="openRatingModal('1317204843257135104')" id="rating-btn-1317204843257135104">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1584,7 +1726,7 @@
                         <div class="card-image">
                             <img src="https://res.cloudinary.com/dvhvgspqm/image/upload/v1773823592/kikus_dmqckm.webp" alt="Kikuskaa">
                             <div class="rating-btn-container">
-                                <button class="rating-btn" onclick="openRatingModal('1344826926140756002')">
+                                <button class="rating-btn" onclick="openRatingModal('1344826926140756002')" id="rating-btn-1344826926140756002">
                                     <span>⭐</span> Ohodnotit
                                 </button>
                             </div>
@@ -1623,6 +1765,10 @@
             </div>
             <div class="modal-body" id="modalBody">
                 <!-- Obsah se naplní JavaScriptem -->
+                <div style="text-align: center; padding: 2rem;">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">Načítání...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -1645,8 +1791,36 @@
         </div>
     </footer>
 
+    <!-- Připojení Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-        // Mobile menu
+        // ========== KONFIGURACE SUPABASE ==========
+        // TODO: Nahraď svými údaji ze Supabase
+        const SUPABASE_URL = 'https://rgifzfbgazqzbhbelssm.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_DwQqCZEhAbuuxIZL8bnOJg_PCR3tfx1';
+        
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ========== SPRÁVA TÉMATU ==========
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            // Aktualizace tlačítek
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase() === theme) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Načtení uloženého tématu
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        // ========== MOBILE MENU ==========
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.querySelector('.nav-menu');
         const menuOverlay = document.querySelector('.menu-overlay');
@@ -1680,7 +1854,7 @@
 
         menuOverlay.addEventListener('click', closeMenu);
         
-        // Dropdown functionality
+        // ========== DROPDOWN ==========
         const dropdownToggle = document.querySelector('.dropdown-toggle');
         const dropdownMenu = document.querySelector('.dropdown-menu');
         const dropdownArrow = document.querySelector('.dropdown-arrow');
@@ -1702,21 +1876,18 @@
             dropdownToggle.addEventListener('click', toggleDropdown);
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (dropdownToggle && !dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
                 closeDropdown();
             }
         });
 
-        // Close dropdown on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
                 closeDropdown();
             }
         });
 
-        // Close menu when clicking on a link (except dropdown toggle)
         document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
@@ -1727,7 +1898,7 @@
             }
         });
 
-        // Vyhledávání podle jména
+        // ========== VYHLEDÁVÁNÍ ==========
         const searchInput = document.getElementById('searchInput');
         const teamCards = document.querySelectorAll('.team-card');
 
@@ -1743,7 +1914,6 @@
                 }
             });
 
-            // Zobrazit/skrýt celé kategorie podle viditelných karet
             document.querySelectorAll('.team-category').forEach(category => {
                 const visibleCards = category.querySelectorAll('.team-card:not(.hidden-card)');
                 if (visibleCards.length === 0 && searchTerm !== '') {
@@ -1754,7 +1924,7 @@
             });
         });
 
-        // Scroll efekt pro nav
+        // ========== SCROLL EFEKT ==========
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.pageYOffset > 100) {
@@ -1764,89 +1934,149 @@
             }
         });
 
-        // ========== SYSTÉM HODNOCENÍ ==========
+        // ========== SYSTÉM HODNOCENÍ S SUPABASE ==========
         
-        // Klíč pro localStorage
-        const STORAGE_KEY = 'team_ratings';
-        
-        // Data pro aktuálně zobrazeného uživatele v modalu
+        // Generování nebo načtení ID zařízení
+        let deviceId = localStorage.getItem('device_id');
+        if (!deviceId) {
+            deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('device_id', deviceId);
+        }
+
+        // Proměnné pro aktuální modal
         let currentUserId = null;
-        let currentRatings = [];
         let currentPage = 1;
+        let selectedRatingType = null;
         const ITEMS_PER_PAGE = 5;
-        
-        // Inicializace hodnocení z localStorage
-        let ratings = loadRatings();
-        
-        // Načtení hodnocení z localStorage
-        function loadRatings() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                try {
-                    return JSON.parse(stored);
-                } catch (e) {
-                    console.error('Chyba při načítání hodnocení:', e);
-                    return {};
+
+        // Načtení hodnocení z databáze
+        async function loadRatings(userId) {
+            try {
+                const { data, error } = await supabase
+                    .from('ratings')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                return data || [];
+            } catch (error) {
+                console.error('Chyba při načítání hodnocení:', error);
+                return [];
+            }
+        }
+
+        // Kontrola, zda může uživatel hodnotit (24h cooldown)
+        async function canRate(userId) {
+            try {
+                const { data, error } = await supabase
+                    .from('ratings')
+                    .select('created_at')
+                    .eq('user_id', userId)
+                    .eq('device_id', deviceId)
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    const lastRating = new Date(data[0].created_at);
+                    const now = new Date();
+                    const hoursDiff = (now - lastRating) / (1000 * 60 * 60);
+                    return hoursDiff >= 24;
                 }
+
+                return true; // Žádné předchozí hodnocení
+            } catch (error) {
+                console.error('Chyba při kontrole cooldownu:', error);
+                return false;
             }
-            return {};
         }
-        
-        // Uložení hodnocení do localStorage
-        function saveRatings() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(ratings));
-        }
-        
-        // Získání hodnocení pro uživatele
-        function getUserRatings(userId) {
-            if (!ratings[userId]) {
-                ratings[userId] = [];
+
+        // Získání času do konce cooldownu
+        async function getCooldownTime(userId) {
+            try {
+                const { data, error } = await supabase
+                    .from('ratings')
+                    .select('created_at')
+                    .eq('user_id', userId)
+                    .eq('device_id', deviceId)
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    const lastRating = new Date(data[0].created_at);
+                    const nextAllowed = new Date(lastRating.getTime() + 24 * 60 * 60 * 1000);
+                    const now = new Date();
+                    
+                    if (nextAllowed > now) {
+                        const diffMs = nextAllowed - now;
+                        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+                        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                        return { hours, minutes };
+                    }
+                }
+
+                return null;
+            } catch (error) {
+                console.error('Chyba při získávání cooldownu:', error);
+                return null;
             }
-            return ratings[userId];
         }
-        
+
         // Přidání hodnocení
-        function addRating(userId, type, text) {
+        async function addRating(userId, type, text) {
             if (!userId || !type) return false;
-            
-            if (!ratings[userId]) {
-                ratings[userId] = [];
+
+            try {
+                // Kontrola cooldownu
+                const canUserRate = await canRate(userId);
+                if (!canUserRate) {
+                    alert('Již jste hodnotili tohoto člena v posledních 24 hodinách. Počkejte prosím.');
+                    return false;
+                }
+
+                const { error } = await supabase
+                    .from('ratings')
+                    .insert([
+                        {
+                            user_id: userId,
+                            rating_type: type,
+                            rating_text: text || '',
+                            device_id: deviceId
+                        }
+                    ]);
+
+                if (error) throw error;
+
+                // Aktualizace zobrazení
+                if (currentUserId === userId) {
+                    renderModalContent(userId);
+                }
+                
+                // Aktualizace statistik na kartě
+                await updateCardStats(userId);
+
+                return true;
+            } catch (error) {
+                console.error('Chyba při přidávání hodnocení:', error);
+                alert('Nepodařilo se přidat hodnocení. Zkuste to prosím později.');
+                return false;
             }
-            
-            // Vytvoření nového hodnocení
-            const newRating = {
-                id: Date.now() + Math.random().toString(36).substr(2, 9),
-                author: 'Anonymous', // Zjednodušeně, později by se dalo načítat z přihlášení
-                authorId: 'anonymous',
-                type: type, // 'positive', 'neutral', 'negative'
-                text: text || '',
-                date: new Date().toISOString()
-            };
-            
-            ratings[userId].push(newRating);
-            saveRatings();
-            
-            // Aktualizace statistik na kartě
-            updateCardStats(userId);
-            
-            // Pokud je otevřený modal pro tohoto uživatele, aktualizujeme zobrazení
-            if (currentUserId === userId) {
-                renderModalContent(userId);
-            }
-            
-            return true;
         }
-        
+
         // Aktualizace statistik na kartě
-        function updateCardStats(userId) {
+        async function updateCardStats(userId) {
             const statsElement = document.getElementById(`stats-${userId}`);
             if (!statsElement) return;
+
+            const ratings = await loadRatings(userId);
             
-            const userRatings = getUserRatings(userId);
-            
-            const positive = userRatings.filter(r => r.type === 'positive').length;
-            const neutral = userRatings.filter(r => r.type === 'neutral').length;
-            const negative = userRatings.filter(r => r.type === 'negative').length;
+            const positive = ratings.filter(r => r.rating_type === 'positive').length;
+            const neutral = ratings.filter(r => r.rating_type === 'neutral').length;
+            const negative = ratings.filter(r => r.rating_type === 'negative').length;
             
             statsElement.innerHTML = `
                 <span class="rating-stat positive">👍 ${positive}</span>
@@ -1854,90 +2084,100 @@
                 <span class="rating-stat negative">👎 ${negative}</span>
             `;
         }
-        
-        // Aktualizace všech statistik na stránce
-        function updateAllStats() {
+
+        // Aktualizace všech statistik
+        async function updateAllStats() {
+            const promises = [];
             document.querySelectorAll('[id^="stats-"]').forEach(element => {
                 const userId = element.id.replace('stats-', '');
-                updateCardStats(userId);
+                promises.push(updateCardStats(userId));
             });
+            await Promise.all(promises);
         }
-        
-        // Otevření modálního okna pro hodnocení
-        function openRatingModal(userId) {
+
+        // Otevření modalu
+        async function openRatingModal(userId) {
             const card = document.querySelector(`[data-userid="${userId}"]`);
             if (!card) return;
-            
+
             currentUserId = userId;
             currentPage = 1;
-            
-            renderModalContent(userId);
-            
+            selectedRatingType = null;
+
+            // Zobrazíme loading
             document.getElementById('ratingModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+
+            await renderModalContent(userId);
         }
-        
+
         // Vykreslení obsahu modalu
-        function renderModalContent(userId) {
+        async function renderModalContent(userId) {
             const card = document.querySelector(`[data-userid="${userId}"]`);
             if (!card) return;
-            
+
             const name = card.querySelector('.card-name').textContent;
             const role = card.getAttribute('data-role') || card.querySelector('.card-role').textContent;
             const imgSrc = card.querySelector('.card-image img').src;
+
+            // Načtení hodnocení
+            const ratings = await loadRatings(userId);
             
-            const userRatings = getUserRatings(userId);
-            
-            const positive = userRatings.filter(r => r.type === 'positive').length;
-            const neutral = userRatings.filter(r => r.type === 'neutral').length;
-            const negative = userRatings.filter(r => r.type === 'negative').length;
-            
+            const positive = ratings.filter(r => r.rating_type === 'positive').length;
+            const neutral = ratings.filter(r => r.rating_type === 'neutral').length;
+            const negative = ratings.filter(r => r.rating_type === 'negative').length;
+
+            // Kontrola cooldownu
+            const cooldown = await getCooldownTime(userId);
+            const canUserRate = cooldown === null;
+
             // Stránkování
-            const totalPages = Math.ceil(userRatings.length / ITEMS_PER_PAGE) || 1;
+            const totalPages = Math.ceil(ratings.length / ITEMS_PER_PAGE) || 1;
             const start = (currentPage - 1) * ITEMS_PER_PAGE;
             const end = start + ITEMS_PER_PAGE;
-            const paginatedRatings = userRatings.slice(start, end);
-            
+            const paginatedRatings = ratings.slice(start, end);
+
+            // Formátování hodnocení
             let ratingsHtml = '';
-            
-            if (userRatings.length === 0) {
+
+            if (ratings.length === 0) {
                 ratingsHtml = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">Zatím žádná hodnocení. Buďte první!</p>';
             } else {
                 paginatedRatings.forEach(rating => {
-                    const date = new Date(rating.date).toLocaleDateString('cs-CZ');
+                    const date = new Date(rating.created_at).toLocaleDateString('cs-CZ');
                     let typeClass = '';
                     let typeText = '';
                     
-                    if (rating.type === 'positive') {
+                    if (rating.rating_type === 'positive') {
                         typeClass = 'positive';
                         typeText = 'Pozitivní';
-                    } else if (rating.type === 'neutral') {
+                    } else if (rating.rating_type === 'neutral') {
                         typeClass = 'neutral';
                         typeText = 'Neutrální';
-                    } else if (rating.type === 'negative') {
+                    } else if (rating.rating_type === 'negative') {
                         typeClass = 'negative';
                         typeText = 'Negativní';
                     }
                     
                     ratingsHtml += `
                         <div class="rating-item">
-                            <div class="rating-item-avatar">${rating.author.charAt(0)}</div>
+                            <div class="rating-item-avatar">${rating.device_id === deviceId ? 'Já' : 'U'}</div>
                             <div class="rating-item-content">
                                 <div class="rating-item-header">
-                                    <span class="rating-item-author">${rating.author}</span>
+                                    <span class="rating-item-author">${rating.device_id === deviceId ? 'Já' : 'Uživatel'}</span>
                                     <span class="rating-item-type ${typeClass}">${typeText}</span>
                                     <span class="rating-item-date">${date}</span>
                                 </div>
-                                ${rating.text ? `<div class="rating-item-text">${rating.text}</div>` : ''}
+                                ${rating.rating_text ? `<div class="rating-item-text">${rating.rating_text}</div>` : ''}
                             </div>
                         </div>
                     `;
                 });
             }
-            
-            // Stránkovací tlačítka
+
+            // Stránkování
             let paginationHtml = '';
-            if (userRatings.length > ITEMS_PER_PAGE) {
+            if (ratings.length > ITEMS_PER_PAGE) {
                 paginationHtml = `
                     <div class="pagination">
                         <button class="pagination-btn" onclick="changePage(-1)" ${currentPage === 1 ? 'disabled' : ''}>Předchozí</button>
@@ -1946,7 +2186,40 @@
                     </div>
                 `;
             }
-            
+
+            // Formulář pro hodnocení (pouze pokud může hodnotit)
+            let ratingFormHtml = '';
+            if (canUserRate) {
+                ratingFormHtml = `
+                    <div class="rating-form">
+                        <div class="rating-form-title">
+                            <span>✍️</span> Napsat hodnocení
+                        </div>
+                        <div class="rating-type-buttons">
+                            <button class="rating-type-btn positive" onclick="selectRatingType('positive')" id="rating-type-positive">
+                                <span>👍</span> Pozitivní
+                            </button>
+                            <button class="rating-type-btn neutral" onclick="selectRatingType('neutral')" id="rating-type-neutral">
+                                <span>😐</span> Neutrální
+                            </button>
+                            <button class="rating-type-btn negative" onclick="selectRatingType('negative')" id="rating-type-negative">
+                                <span>👎</span> Negativní
+                            </button>
+                        </div>
+                        <textarea class="rating-textarea" id="ratingText" placeholder="Napište své hodnocení (nepovinné)..."></textarea>
+                        <button class="rating-submit" onclick="submitRating()" id="submitRatingBtn" disabled>
+                            Odeslat hodnocení
+                        </button>
+                    </div>
+                `;
+            } else if (cooldown) {
+                ratingFormHtml = `
+                    <div class="rating-cooldown">
+                        ⏳ Další hodnocení můžete přidat za <span>${cooldown.hours}h ${cooldown.minutes}m</span>
+                    </div>
+                `;
+            }
+
             const modalBody = document.getElementById('modalBody');
             modalBody.innerHTML = `
                 <div class="rating-profile">
@@ -1959,17 +2232,7 @@
                     </div>
                 </div>
                 
-                <div class="rating-buttons">
-                    <button class="rating-btn-large positive" onclick="submitRating('positive')">
-                        <span>👍</span> Pozitivní
-                    </button>
-                    <button class="rating-btn-large neutral" onclick="submitRating('neutral')">
-                        <span>😐</span> Neutrální
-                    </button>
-                    <button class="rating-btn-large negative" onclick="submitRating('negative')">
-                        <span>👎</span> Negativní
-                    </button>
-                </div>
+                ${ratingFormHtml}
                 
                 <div class="rating-stats-large">
                     <div class="rating-stat-large positive">
@@ -1987,61 +2250,87 @@
                 </div>
                 
                 <div class="ratings-list">
-                    <h4>Hodnocení <span>(${userRatings.length})</span></h4>
+                    <h4>Hodnocení <span>(${ratings.length})</span></h4>
                     ${ratingsHtml}
                     ${paginationHtml}
                 </div>
             `;
         }
-        
-        // Změna stránky v hodnoceních
-        function changePage(direction) {
+
+        // Výběr typu hodnocení
+        function selectRatingType(type) {
+            selectedRatingType = type;
+            
+            // Aktualizace tlačítek
+            document.querySelectorAll('.rating-type-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.getElementById(`rating-type-${type}`).classList.add('selected');
+            
+            // Povolení tlačítka pro odeslání
+            document.getElementById('submitRatingBtn').disabled = false;
+        }
+
+        // Odeslání hodnocení
+        async function submitRating() {
+            if (!currentUserId || !selectedRatingType) return;
+
+            const text = document.getElementById('ratingText')?.value || '';
+            
+            const success = await addRating(currentUserId, selectedRatingType, text);
+            
+            if (success) {
+                // Reset výběru
+                selectedRatingType = null;
+                document.querySelectorAll('.rating-type-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                document.getElementById('submitRatingBtn').disabled = true;
+                if (document.getElementById('ratingText')) {
+                    document.getElementById('ratingText').value = '';
+                }
+            }
+        }
+
+        // Změna stránky
+        async function changePage(direction) {
             if (!currentUserId) return;
-            
-            const userRatings = getUserRatings(currentUserId);
-            const totalPages = Math.ceil(userRatings.length / ITEMS_PER_PAGE) || 1;
-            
+
+            const ratings = await loadRatings(currentUserId);
+            const totalPages = Math.ceil(ratings.length / ITEMS_PER_PAGE) || 1;
+
             currentPage += direction;
-            
+
             if (currentPage < 1) currentPage = 1;
             if (currentPage > totalPages) currentPage = totalPages;
-            
-            renderModalContent(currentUserId);
+
+            await renderModalContent(currentUserId);
         }
-        
-        // Odeslání hodnocení
-        function submitRating(type) {
-            if (!currentUserId) return;
-            
-            // Zde by se dala přidat možnost napsat text hodnocení
-            const text = prompt('Napište své hodnocení (nepovinné):');
-            
-            addRating(currentUserId, type, text || '');
-        }
-        
-        // Zavření modálního okna
+
+        // Zavření modalu
         function closeRatingModal() {
             document.getElementById('ratingModal').classList.remove('active');
             document.body.style.overflow = '';
             currentUserId = null;
             currentPage = 1;
+            selectedRatingType = null;
         }
-        
-        // Zavření modalu při kliknutí na overlay
+
+        // Kliknutí na overlay
         document.getElementById('ratingModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeRatingModal();
             }
         });
-        
-        // Zavření modalu klávesou Escape
+
+        // ESC pro zavření
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && document.getElementById('ratingModal').classList.contains('active')) {
                 closeRatingModal();
             }
         });
-        
-        // Inicializace statistik při načtení stránky
+
+        // Inicializace při načtení stránky
         document.addEventListener('DOMContentLoaded', function() {
             updateAllStats();
         });
