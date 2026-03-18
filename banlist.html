@@ -1085,5 +1085,29 @@
         // loadPunishments();  // Odkomentuj, až bude API hotové
         */
     </script>
+    <script>
+  async function loadBanlist() {
+    const response = await fetch('https://raw.githubusercontent.com/TVŮJ_UŽIVATEL/TVŮJ_REPO/main/banlist.json');
+    const data = await response.json();
+    
+    const tableBody = document.getElementById('punishmentTableBody');
+    tableBody.innerHTML = '';  // Vyčistit staré data
+
+    data.forEach(ban => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${ban.user}</td>
+        <td>${ban.moderator}</td>
+        <td>${ban.punishment}</td>
+        <td>${ban.duration}</td>
+        <td>${ban.endDate}</td>
+        <td>${ban.reason}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  window.onload = loadBanlist;
+</script>
 </body>
 </html>
