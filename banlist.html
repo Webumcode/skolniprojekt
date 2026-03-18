@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Banlist | Doupě géniů</title>
+    <title>Banlist · Doupě géniů</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,8 +24,12 @@
             --radius: 12px;
             --radius-sm: 8px;
             --nav-bg: rgba(250, 250, 250, 0.8);
-            --progress-bg: #e2e8f0;
-            --progress-fill: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            --warn-bg: #fef9c3;
+            --warn-text: #854d0e;
+            --mute-bg: #fed7aa;
+            --mute-text: #9a3412;
+            --ban-bg: #fee2e2;
+            --ban-text: #b91c1c;
         }
 
         [data-theme="dark"] {
@@ -41,7 +45,12 @@
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
             --nav-bg: rgba(10, 10, 10, 0.8);
-            --progress-bg: #262626;
+            --warn-bg: #422006;
+            --warn-text: #fde047;
+            --mute-bg: #431407;
+            --mute-text: #fdba74;
+            --ban-bg: #3f0e0e;
+            --ban-text: #fca5a5;
         }
 
         * {
@@ -63,9 +72,6 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
             transition: background-color 0.3s ease, color 0.2s ease;
         }
 
@@ -76,7 +82,7 @@
             line-height: 1.2;
         }
 
-        /* Navigation */
+        /* Navigation (stejné jako v indexu) */
         nav {
             position: fixed;
             top: 0;
@@ -220,7 +226,6 @@
             color: var(--accent);
         }
 
-        /* Theme toggle button */
         .theme-toggle {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -274,7 +279,6 @@
             box-shadow: var(--shadow);
         }
 
-        /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -327,7 +331,6 @@
             transform: translateY(-7.5px) rotate(-45deg);
         }
 
-        /* Mobile Menu Overlay */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -347,164 +350,238 @@
             opacity: 1;
         }
 
-        /* Main Content */
-        main {
-            flex: 1;
-            padding-top: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: calc(100vh - 80px);
+        /* Hlavní obsah banlistu */
+        .banlist-main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+            min-height: 100vh;
         }
 
-        /* Coming Soon Section */
-        .coming-soon-section {
-            width: 100%;
-            max-width: 800px;
+        .banlist-container {
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 2rem 1.5rem;
-            text-align: center;
+            padding: 0 1.5rem;
         }
 
-        .coming-soon-icon {
-            font-size: 5rem;
-            margin-bottom: 1.5rem;
-            animation: float 3s ease-in-out infinite;
-            display: inline-block;
+        /* Header */
+        .banlist-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
-        .coming-soon-section h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 1rem;
+        .banlist-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .banlist-title span {
             background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .coming-soon-section p {
-            font-size: 1.2rem;
+        .banlist-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .stat-card .number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-card .label {
             color: var(--text-secondary);
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            max-width: 500px;
-            margin: 0 auto 2rem;
-            text-align: left;
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 500;
         }
 
-        .progress-label {
-            color: var(--text);
-            font-size: 1rem;
+        .stat-card.ban .number { color: var(--ban-text); }
+        .stat-card.warn .number { color: #eab308; }
+        .stat-card.mute .number { color: #f97316; }
+
+        /* Ovládací prvky */
+        .banlist-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .progress-percentage {
-            color: var(--accent);
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-
-        .progress-bar-bg {
-            width: 100%;
-            height: 20px;
-            background: var(--progress-bg);
-            border-radius: 999px;
-            overflow: hidden;
-            box-shadow: inset var(--shadow-sm);
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            width: 65%;
-            background: var(--progress-fill);
-            border-radius: 999px;
-            position: relative;
-            animation: shimmer 2s infinite;
-            background-size: 200% 100%;
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: 200% 0;
-            }
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        .progress-note {
-            text-align: center;
-            margin-top: 1rem;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .progress-note strong {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        /* Feature Preview */
-        .feature-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-            padding: 2rem;
+        .search-box {
+            flex: 1 1 300px;
+            display: flex;
+            align-items: center;
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: background-color 0.3s ease, border-color 0.2s ease;
-        }
-
-        .feature-item {
-            text-align: center;
-            padding: 1.5rem 1rem;
-            border-radius: var(--radius-sm);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
             transition: all 0.2s ease;
         }
 
-        .feature-item:hover {
-            background: var(--accent-light);
-            transform: translateY(-4px);
+        .search-box:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
         }
 
-        .feature-item .emoji {
-            font-size: 2.5rem;
-            margin-bottom: 0.75rem;
-            display: block;
-        }
-
-        .feature-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
             color: var(--text);
+            font-size: 0.95rem;
+            padding: 0.3rem 0;
         }
 
-        .feature-item p {
-            font-size: 0.9rem;
+        .search-box input::placeholder {
             color: var(--text-secondary);
         }
 
-        /* Footer */
+        .search-box button {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+
+        .search-box button:hover {
+            color: var(--accent);
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-tab {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .filter-tab:hover {
+            background: var(--accent-light);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .filter-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* Tabulka */
+        .table-wrapper {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow-x: auto;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+        }
+
+        .banlist-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+            font-size: 0.95rem;
+        }
+
+        .banlist-table th {
+            text-align: left;
+            padding: 1.2rem 1rem;
+            background: var(--bg);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .banlist-table td {
+            padding: 1rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .banlist-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .banlist-table tbody tr:hover {
+            background: var(--bg);
+            transition: background 0.15s;
+        }
+
+        .punishment-badge {
+            display: inline-block;
+            padding: 0.25rem 0.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .badge-ban {
+            background: var(--ban-bg);
+            color: var(--ban-text);
+        }
+
+        .badge-warn {
+            background: var(--warn-bg);
+            color: var(--warn-text);
+        }
+
+        .badge-mute {
+            background: var(--mute-bg);
+            color: var(--mute-text);
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 4rem 2rem !important;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Footer (stejný) */
         footer {
             background: var(--surface);
             padding: 3rem 1.5rem;
             border-top: 1px solid var(--border);
-            margin-top: auto;
             transition: background-color 0.3s ease, border-color 0.2s ease;
         }
 
@@ -572,32 +649,7 @@
             text-align: center;
         }
 
-        /* Animations */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeInUp 0.6s ease both;
-        }
-
-        /* Mobile Responsive Design */
+        /* Vylepšení pro mobil */
         @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
@@ -641,29 +693,6 @@
                 width: 100%;
                 padding: 1rem 1.25rem;
                 font-size: 1.1rem;
-                border-radius: var(--radius-sm);
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .nav-links > li > a::after {
-                content: '→';
-                opacity: 0;
-                transform: translateX(-10px);
-                transition: all 0.2s ease;
-                color: var(--accent);
-            }
-
-            .nav-links > li > a:hover::after,
-            .nav-links > li > a.active::after {
-                opacity: 1;
-                transform: translateX(0);
-            }
-
-            .nav-links > li > a.active {
-                background: var(--accent-light);
-                color: var(--accent);
             }
 
             .dropdown-menu {
@@ -682,55 +711,13 @@
                 display: block;
             }
 
-            .dropdown-menu li a {
-                padding: 0.8rem 1.5rem;
+            .banlist-controls {
+                flex-direction: column;
+                align-items: stretch;
             }
-
-            .theme-toggle {
-                margin: 0 0 1rem 0;
-                width: 100%;
-                height: 48px;
-                border-radius: var(--radius-sm);
-                order: -1;
-            }
-
-            .nav-cta {
-                margin-left: 0;
-                width: 100%;
-                text-align: center;
-                padding: 1rem;
-                font-size: 1rem;
-                border-radius: var(--radius);
-                margin-top: auto;
-            }
-
-            .mobile-menu-header {
-                display: block;
-                padding-bottom: 1.5rem;
-                margin-bottom: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .mobile-menu-title {
-                font-family: 'Space Grotesk', sans-serif;
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--text);
-                margin-bottom: 0.5rem;
-            }
-
-            .mobile-menu-subtitle {
-                font-size: 0.9rem;
-                color: var(--text-secondary);
-            }
-
-            .feature-preview {
-                grid-template-columns: 1fr;
-                padding: 1.5rem;
-            }
-
-            .coming-soon-icon {
-                font-size: 4rem;
+            
+            .filter-tabs {
+                justify-content: center;
             }
         }
 
@@ -738,24 +725,13 @@
             .mobile-menu-header {
                 display: none;
             }
-
             .footer-content {
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
             }
-
             .footer-divider {
                 display: none;
-            }
-        }
-
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -786,7 +762,7 @@
                     <li><a href="pravidla.html">Pravidla</a></li>
                     <li><a href="kontakt.html">Kontakt</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">
+                        <a href="#" class="dropdown-toggle active">
                             Ostatní
                             <span class="dropdown-arrow">▼</span>
                         </a>
@@ -816,45 +792,65 @@
         </div>
     </nav>
 
-    <main>
-        <section class="coming-soon-section">
-            <div class="coming-soon-icon">🚧</div>
-            <h1>Banlist se připravuje</h1>
-            <p>
-                Pracujeme na systému, který ti umožní přehledně sledovat všechny moderátorské akce na serveru.
-            </p>
-            
-            <div class="progress-container">
-                <div class="progress-header">
-                    <span class="progress-label">Hotovo</span>
-                    <span class="progress-percentage">65 %</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill"></div>
-                </div>
-                <div class="progress-note">
-                    <strong>65 % hotovo</strong> — brzy spouštíme!
+    <main class="banlist-main">
+        <div class="banlist-container">
+            <!-- HLAVIČKA S TŘEMI STATISTIKAMI -->
+            <div class="banlist-header">
+                <h1 class="banlist-title">
+                    Přehled <span>trestů</span>
+                </h1>
+                <div class="banlist-stats">
+                    <div class="stat-card ban">
+                        <div class="number" id="totalBans">4</div>
+                        <div class="label">Celkem banů</div>
+                    </div>
+                    <div class="stat-card warn">
+                        <div class="number" id="totalWarns">7</div>
+                        <div class="label">Celkem warnů</div>
+                    </div>
+                    <div class="stat-card mute">
+                        <div class="number" id="totalMutes">3</div>
+                        <div class="label">Celkem mute</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="feature-preview">
-                <div class="feature-item">
-                    <span class="emoji">📊</span>
-                    <h3>Statistiky</h3>
-                    <p>Přehled warnů, mute a banů na jednom místě</p>
+            <!-- OVLÁDACÍ PRVKY (vyhledávání + filtr) -->
+            <div class="banlist-controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Hledat uživatele nebo moderátora...">
+                    <button id="clearSearch" title="Vymazat">✕</button>
                 </div>
-                <div class="feature-item">
-                    <span class="emoji">🔍</span>
-                    <h3>Historie</h3>
-                    <p>Kdo, komu, kdy a za co udělil trest</p>
-                </div>
-                <div class="feature-item">
-                    <span class="emoji">⚡</span>
-                    <h3>Live aktualizace</h3>
-                    <p>Data přímo z Discord serveru v reálném čase</p>
+                <div class="filter-tabs">
+                    <span class="filter-tab active" data-filter="all">Vše</span>
+                    <span class="filter-tab" data-filter="ban">Bany</span>
+                    <span class="filter-tab" data-filter="warn">Warny</span>
+                    <span class="filter-tab" data-filter="mute">Mute</span>
                 </div>
             </div>
-        </section>
+
+            <!-- TABULKA S TRESTY -->
+            <div class="table-wrapper">
+                <table class="banlist-table">
+                    <thead>
+                        <tr>
+                            <th>Komu</th>
+                            <th>Kdo udělil</th>
+                            <th>Trest</th>
+                            <th>Délka trvání</th>
+                            <th>Konec trestu</th>
+                            <th>Důvod / Poznámka</th>
+                        </tr>
+                    </thead>
+                    <tbody id="punishmentTableBody">
+                        <!-- zde se dynamicky vypisují řádky (JS) -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- MALÝ POPISEK PRO PŘÍPAD ŽÁDNÝCH VÝSLEDKŮ (fallback) -->
+            <p style="text-align: center; color: var(--text-secondary);" id="noResultsMsg"></p>
+        </div>
     </main>
 
     <footer>
@@ -876,12 +872,12 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
+        // ---------- FUNKCE COPY/PASTE Z INDEXU (menu, dropdown, theme) ----------
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.querySelector('.nav-menu');
         const menuOverlay = document.querySelector('.menu-overlay');
         const body = document.body;
-        
+
         function openMenu() {
             menuToggle.classList.add('active');
             menuToggle.setAttribute('aria-expanded', 'true');
@@ -890,7 +886,6 @@
             menuOverlay.classList.add('active');
             body.style.overflow = 'hidden';
         }
-        
         function closeMenu() {
             menuToggle.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
@@ -899,62 +894,37 @@
             menuOverlay.classList.remove('active');
             body.style.overflow = '';
         }
-        
         menuToggle.addEventListener('click', () => {
-            if (navMenu.classList.contains('active')) {
-                closeMenu();
-            } else {
-                openMenu();
-            }
+            navMenu.classList.contains('active') ? closeMenu() : openMenu();
+        });
+        menuOverlay.addEventListener('click', closeMenu);
+        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) closeMenu();
         });
 
-        menuOverlay.addEventListener('click', closeMenu);
-        
-        // Dropdown functionality
+        // Dropdown
         const dropdownToggle = document.querySelector('.dropdown-toggle');
         const dropdownMenu = document.querySelector('.dropdown-menu');
         const dropdownArrow = document.querySelector('.dropdown-arrow');
-
         function toggleDropdown(e) {
             e.preventDefault();
             e.stopPropagation();
-            
             dropdownMenu.classList.toggle('active');
             dropdownArrow.classList.toggle('rotated');
         }
-
         function closeDropdown() {
             dropdownMenu.classList.remove('active');
             dropdownArrow.classList.remove('rotated');
         }
-
-        if (dropdownToggle) {
-            dropdownToggle.addEventListener('click', toggleDropdown);
-        }
-
-        // Close dropdown when clicking outside
+        dropdownToggle.addEventListener('click', toggleDropdown);
         document.addEventListener('click', (e) => {
-            if (dropdownToggle && !dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                closeDropdown();
-            }
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) closeDropdown();
         });
-
-        // Close dropdown on escape
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
-                closeDropdown();
-            }
-        });
-
-        // Close menu when clicking on a link (except dropdown toggle)
-        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-                closeMenu();
-            }
+            if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) closeDropdown();
         });
 
         // Dark mode
@@ -962,7 +932,6 @@
         const sunIcon = document.querySelector('.sun-icon');
         const moonIcon = document.querySelector('.moon-icon');
         const htmlElement = document.documentElement;
-
         function setTheme(theme) {
             if (theme === 'dark') {
                 htmlElement.setAttribute('data-theme', 'dark');
@@ -976,55 +945,144 @@
                 localStorage.setItem('theme', 'light');
             }
         }
-
         function getPreferredTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                return savedTheme;
-            }
+            const saved = localStorage.getItem('theme');
+            if (saved) return saved;
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
-
         setTheme(getPreferredTheme());
-
         themeToggle.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            setTheme(newTheme);
+            const current = htmlElement.getAttribute('data-theme') || 'light';
+            setTheme(current === 'light' ? 'dark' : 'light');
         });
-
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (!localStorage.getItem('theme')) {
-                setTheme(e.matches ? 'dark' : 'light');
+            if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light');
+        });
+
+        // ---------- DATA PRO BANLIST ----------
+        const punishments = [
+            { id: 1, to: 'HonzaNovák', by: 'KarelMod', type: 'ban', duration: '7 dní', end: '2026-04-01', reason: 'Opakované porušování pravidel (spam)' },
+            { id: 2, to: 'EmaS', by: 'KarelMod', type: 'warn', duration: 'doživotní záznam', end: '—', reason: 'Nevhodný profilový obrázek' },
+            { id: 3, to: 'Petr787', by: 'AdamAdmin', type: 'mute', duration: '24 hodin', end: '2026-03-19 18:00', reason: 'Hádka ve voice channelu' },
+            { id: 4, to: 'LucieK', by: 'JanaHelper', type: 'warn', duration: '30 dní', end: '2026-04-10', reason: 'Nerespektování moderátora' },
+            { id: 5, to: 'TomášM', by: 'KarelMod', type: 'ban', duration: 'trvalý', end: '—', reason: 'Sdílení nevhodného obsahu' },
+            { id: 6, to: 'AnnaB', by: 'JanaHelper', type: 'warn', duration: '14 dní', end: '2026-03-28', reason: 'Nahlašování bezdůvodně' },
+            { id: 7, to: 'MartinD', by: 'AdamAdmin', type: 'mute', duration: '6 hodin', end: '2026-03-18 22:00', reason: 'Spamování emoji' },
+            { id: 8, to: 'KájaV', by: 'KarelMod', type: 'warn', duration: '7 dní', end: '2026-03-24', reason: 'Nevhodná přezdívka' },
+            { id: 9, to: 'JirkaP', by: 'AdamAdmin', type: 'ban', duration: '3 dny', end: '2026-03-21', reason: 'Ignorování varování (NSFW odkaz)' },
+            { id: 10, to: 'MonikaS', by: 'JanaHelper', type: 'warn', duration: '—', end: '—', reason: 'Mírný spoiler (neoznačený)' },
+            { id: 11, to: 'RadekN', by: 'KarelMod', type: 'warn', duration: '30 dní', end: '2026-04-12', reason: 'Provokování v chatu' },
+            { id: 12, to: 'VeraM', by: 'AdamAdmin', type: 'mute', duration: '12 hodin', end: '2026-03-19 10:00', reason: 'Opakovaný OT (off-topic)' }
+        ];
+
+        // Funkce pro překlad typu trestu + badge
+        function getBadgeHtml(type) {
+            const baseClass = 'punishment-badge';
+            if (type === 'ban') return `<span class="${baseClass} badge-ban">Ban</span>`;
+            if (type === 'warn') return `<span class="${baseClass} badge-warn">Warn</span>`;
+            if (type === 'mute') return `<span class="${baseClass} badge-mute">Mute</span>`;
+            return `<span class="${baseClass}">${type}</span>`;
+        }
+
+        // Zobrazení tabulky podle filtrů
+        const tbody = document.getElementById('punishmentTableBody');
+        const totalBansSpan = document.getElementById('totalBans');
+        const totalWarnsSpan = document.getElementById('totalWarns');
+        const totalMutesSpan = document.getElementById('totalMutes');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearch');
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const noResultsMsg = document.getElementById('noResultsMsg');
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function updateStats() {
+            const bans = punishments.filter(p => p.type === 'ban').length;
+            const warns = punishments.filter(p => p.type === 'warn').length;
+            const mutes = punishments.filter(p => p.type === 'mute').length;
+            totalBansSpan.innerText = bans;
+            totalWarnsSpan.innerText = warns;
+            totalMutesSpan.innerText = mutes;
+        }
+        updateStats(); // načti statistiky
+
+        function renderTable() {
+            let filtered = punishments;
+
+            // Filtr podle typu
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(p => p.type === currentFilter);
             }
-        });
 
-        // Scroll effect
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            nav.style.boxShadow = window.pageYOffset > 100 ? '0 4px 20px rgba(0,0,0,0.08)' : 'none';
-        });
+            // Filtr podle vyhledávání (case-insensitive)
+            if (currentSearch.trim() !== '') {
+                const searchLower = currentSearch.toLowerCase();
+                filtered = filtered.filter(p => 
+                    p.to.toLowerCase().includes(searchLower) || 
+                    p.by.toLowerCase().includes(searchLower) ||
+                    p.reason.toLowerCase().includes(searchLower)
+                );
+            }
 
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+            // Pokud není výsledek
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-message">Žádné záznamy neodpovídají zadaným kritériím.</td></tr>`;
+                noResultsMsg.innerText = '';
+                return;
+            }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationDelay = '0.1s';
-                    entry.target.classList.add('fade-in');
-                    observer.unobserve(entry.target);
-                }
+            // Sestavení řádků
+            let rows = '';
+            filtered.forEach(p => {
+                rows += `<tr>
+                    <td><strong>${p.to}</strong></td>
+                    <td>${p.by}</td>
+                    <td>${getBadgeHtml(p.type)}</td>
+                    <td>${p.duration}</td>
+                    <td>${p.end}</td>
+                    <td style="color: var(--text-secondary); max-width: 250px;">${p.reason}</td>
+                </tr>`;
             });
-        }, observerOptions);
+            tbody.innerHTML = rows;
+            noResultsMsg.innerText = '';
+        }
 
-        document.querySelectorAll('.coming-soon-section, .feature-preview').forEach((el) => {
-            observer.observe(el);
+        // Ovládání filtrů
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentFilter = tab.dataset.filter;
+                renderTable();
+            });
         });
+
+        // Vyhledávání
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderTable();
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            currentSearch = '';
+            renderTable();
+        });
+
+        // Počáteční render
+        renderTable();
+
+        // Vychytávka: Počet aktivních banů dnes? Můžeme do statistik doplnit malý text, ale to už je hotové.
+        // Jiná vychytávka: Zvýraznění končících trestů (např. do 2 dnů) - bonus
+        function highlightEndingSoon() {
+            // Toto by mohlo být další vylepšení: podbarvení řádků, kde trest končí brzy.
+            // Ale pro jednoduchost necháme jen výše uvedené.
+        }
+        // Můžeme přidat tooltip nebo něco, ale je to nad rámec. 
+
+        // Zbývá jen, aby při kliknutí na "ostatní" v menu zůstal banlist aktivní.
+        // Aktivní třída už je v HTML nastevena.
     </script>
 </body>
 </html>
