@@ -269,6 +269,49 @@
             box-shadow: var(--shadow);
         }
 
+        /* Auth Buttons */
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 0.5rem;
+        }
+
+        .auth-btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .login-btn {
+            color: var(--text);
+            background: transparent;
+            border: 1px solid var(--border);
+        }
+
+        .login-btn:hover {
+            background: var(--surface);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .register-btn {
+            color: white;
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+            border: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .register-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
         /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
@@ -750,6 +793,21 @@
                 order: -1;
             }
 
+            .auth-buttons {
+                margin: 0 0 1rem 0;
+                width: 100%;
+                flex-direction: column;
+                gap: 0.75rem;
+                order: 1;
+            }
+
+            .auth-btn {
+                width: 100%;
+                text-align: center;
+                padding: 1rem;
+                font-size: 1rem;
+            }
+
             .nav-cta {
                 margin-left: 0;
                 width: 100%;
@@ -758,6 +816,7 @@
                 font-size: 1rem;
                 border-radius: var(--radius);
                 margin-top: auto;
+                order: 2;
             }
 
             .mobile-menu-header {
@@ -908,6 +967,10 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
                 </button>
+                <div class="auth-buttons">
+                    <a href="login.html" class="auth-btn login-btn">Přihlásit</a>
+                    <a href="register.html" class="auth-btn register-btn">Registrovat</a>
+                </div>
                 <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
             </div>
         </div>
