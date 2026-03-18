@@ -23,6 +23,22 @@
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
             --radius: 12px;
             --radius-sm: 8px;
+            --nav-bg: rgba(250, 250, 250, 0.8);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0a0a0a;
+            --text: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent: #60a5fa;
+            --accent-hover: #3b82f6;
+            --accent-light: #1e293b;
+            --border: #262626;
+            --surface: #1a1a1a;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+            --nav-bg: rgba(10, 10, 10, 0.8);
         }
 
         * {
@@ -44,6 +60,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.2s ease;
         }
 
         h1, h2, h3 {
@@ -58,12 +75,13 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(250, 250, 250, 0.8);
+            background: var(--nav-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
             padding: 0.75rem 1rem;
+            transition: background-color 0.3s ease, border-color 0.2s ease;
         }
 
         .nav-container {
@@ -138,7 +156,7 @@
 
         .nav-links > li > a:hover {
             color: var(--text);
-            background: rgba(0,0,0,0.03);
+            background: rgba(128, 128, 128, 0.1);
         }
 
         .nav-links > li > a.active {
@@ -194,6 +212,40 @@
         .dropdown-menu li a:hover {
             background: var(--accent-light);
             color: var(--accent);
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            transition: all 0.2s ease;
+            color: var(--text);
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .nav-cta {
@@ -308,6 +360,12 @@
                 radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
             pointer-events: none;
+        }
+
+        [data-theme="dark"] .page-header-bg {
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
         }
 
         .page-header-content {
@@ -528,6 +586,7 @@
             background: var(--surface);
             padding: 3rem 1.5rem;
             border-top: 1px solid var(--border);
+            transition: background-color 0.3s ease, border-color 0.2s ease;
         }
 
         .footer-content {
@@ -610,7 +669,7 @@
             animation: fadeInUp 0.6s ease both;
         }
 
-        /* Mobile Responsive Design */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
@@ -699,6 +758,14 @@
                 padding: 0.8rem 1.5rem;
             }
 
+            .theme-toggle {
+                margin: 0 0 1rem 0;
+                width: 100%;
+                height: 48px;
+                border-radius: var(--radius-sm);
+                order: -1;
+            }
+
             .nav-cta {
                 margin-left: 0;
                 width: 100%;
@@ -784,7 +851,6 @@
             }
         }
 
-        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -829,6 +895,22 @@
                         </ul>
                     </li>
                 </ul>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Přepnout tmavý režim">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
                 <a href="https://discord.gg/fUKmXtpaE" class="nav-cta" target="_blank" rel="noopener noreferrer">Připojit se</a>
             </div>
         </div>
@@ -921,7 +1003,7 @@
                         </div>
                     </div>
                     <div class="timeline-item">
-                        <div class="timeline-date">Leden 2026</div>
+                        <div class="timeline-date">Leden 2027</div>
                         <div class="timeline-content">
                             <h3>Nová éra</h3>
                             <p>Spuštění webových stránek a expanze na 500+ členů</p>
@@ -1007,15 +1089,12 @@
             }
         });
 
-        // Close menu when clicking overlay
         menuOverlay.addEventListener('click', closeMenu);
 
-        // Close menu when clicking on a link (except dropdown toggle)
         document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
 
-        // Close menu on escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && navMenu.classList.contains('active')) {
                 closeMenu();
@@ -1030,7 +1109,6 @@
         function toggleDropdown(e) {
             e.preventDefault();
             e.stopPropagation();
-            
             dropdownMenu.classList.toggle('active');
             dropdownArrow.classList.toggle('rotated');
         }
@@ -1044,21 +1122,19 @@
             dropdownToggle.addEventListener('click', toggleDropdown);
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (dropdownToggle && !dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
                 closeDropdown();
             }
         });
 
-        // Close dropdown on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && dropdownMenu.classList.contains('active')) {
                 closeDropdown();
             }
         });
 
-        // Add scroll effect to nav
+        // Scroll effect
         let lastScroll = 0;
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
@@ -1073,7 +1149,49 @@
             lastScroll = currentScroll;
         });
 
-        // Intersection Observer for fade-in animations
+        // Dark mode
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        const htmlElement = document.documentElement;
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.setAttribute('data-theme', 'dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.setAttribute('data-theme', 'light');
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function getPreferredTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        setTheme(getPreferredTheme());
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+
+        // Intersection Observer for animations
         const observerOptions = {
             root: null,
             rootMargin: '0px',
